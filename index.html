@@ -604,6 +604,7 @@
     <div style="text-align:right">
       <div class="progress-pct" id="pct-display">0%</div>
       <div style="font-size:10px;color:var(--muted)" id="count-display">0 / 980</div>
+      <div id="sync-status" style="margin-top:2px"></div>
     </div>
   </div>
   <div class="progress-wrap">
@@ -867,23 +868,102 @@ const DB = {
 
 // ─── STATE ──────────────────────────────────────────────────
 const TOTAL = 980;
-let state = {}; // {id: 'none'|'have'|'trade'}
-let dupes = {}; // {id: count}
-let purchases = []; // [{qty, price, date}]
+// ─── SUPABASE CONFIG ─────────────────────────────────────────
+const SB_URL = 'https://vmowvyfxbuwigzolojyp.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtb3d2eWZ4YnV3aWd6b2xvanlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NzkzNzEsImV4cCI6MjA5MzM1NTM3MX0.7XNT1GGqtnAzU__rGvEXeuiCzPDF5nmiP-laT8h8hk0';
+
+let state = {};
+let dupes = {};
+let purchases = [];
 let activeModal = null;
 let holdTimer = null;
+let syncTimer = null;
+let syncPending = false;
 
-function loadState() {
+// ─── SYNC STATUS UI ──────────────────────────────────────────
+function setSyncStatus(status) {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  const map = {
+    ok:      { icon: '☁️', text: 'Sincronizado',  color: 'var(--green)' },
+    saving:  { icon: '⏫', text: 'Guardando…',    color: 'var(--accent)' },
+    loading: { icon: '⏬', text: 'Cargando…',     color: 'var(--accent2)' },
+    error:   { icon: '⚠️', text: 'Sin conexión',  color: 'var(--red)' },
+    offline: { icon: '💾', text: 'Local',          color: 'var(--muted)' },
+  };
+  const s = map[status] || map.offline;
+  el.innerHTML = `<span style="color:${s.color};font-size:11px">${s.icon} ${s.text}</span>`;
+}
+
+// ─── SUPABASE HELPERS ────────────────────────────────────────
+async function sbFetch(method, body) {
+  const res = await fetch(`${SB_URL}/rest/v1/panini_state?id=eq.main`, {
+    method,
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': `Bearer ${SB_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'PATCH' ? 'return=minimal' : 'return=representation'
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return method === 'PATCH' ? null : res.json();
+}
+
+async function loadState() {
+  // Always load localStorage first so UI is instant
   try {
-    state = JSON.parse(localStorage.getItem('panini26_state') || '{}');
-    dupes = JSON.parse(localStorage.getItem('panini26_dupes') || '{}');
+    state     = JSON.parse(localStorage.getItem('panini26_state')     || '{}');
+    dupes     = JSON.parse(localStorage.getItem('panini26_dupes')     || '{}');
     purchases = JSON.parse(localStorage.getItem('panini26_purchases') || '[]');
   } catch(e) {}
+
+  // Then try Supabase
+  setSyncStatus('loading');
+  try {
+    const rows = await sbFetch('GET');
+    if (rows && rows.length > 0) {
+      const row = rows[0];
+      // Use cloud data (it's the source of truth)
+      state     = row.state     || {};
+      dupes     = row.dupes     || {};
+      purchases = row.purchases || [];
+      // Persist locally too
+      saveLocal();
+    }
+    setSyncStatus('ok');
+  } catch(e) {
+    setSyncStatus('offline');
+  }
 }
-function saveState() {
-  localStorage.setItem('panini26_state', JSON.stringify(state));
-  localStorage.setItem('panini26_dupes', JSON.stringify(dupes));
+
+function saveLocal() {
+  localStorage.setItem('panini26_state',     JSON.stringify(state));
+  localStorage.setItem('panini26_dupes',     JSON.stringify(dupes));
   localStorage.setItem('panini26_purchases', JSON.stringify(purchases));
+}
+
+function saveState() {
+  saveLocal();
+  // Debounce cloud save: wait 1.5s after last change
+  syncPending = true;
+  setSyncStatus('saving');
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(pushToCloud, 1500);
+}
+
+async function pushToCloud() {
+  if (!syncPending) return;
+  try {
+    await sbFetch('PATCH', { state, dupes, purchases, updated_at: new Date().toISOString() });
+    syncPending = false;
+    setSyncStatus('ok');
+  } catch(e) {
+    setSyncStatus('error');
+    // Retry in 10s
+    syncTimer = setTimeout(pushToCloud, 10000);
+  }
 }
 
 // ─── GETTERS ─────────────────────────────────────────────────
@@ -1323,11 +1403,17 @@ function buildGroupTabs() {
 }
 
 // ─── INIT ────────────────────────────────────────────────────
-loadState();
-buildGroupTabs();
-renderAlbum();
-updateGlobal();
-calcProb();
+async function init() {
+  buildGroupTabs();
+  renderAlbum();       // render empty shell instantly
+  updateGlobal();
+  calcProb();
+  await loadState();   // load from cloud (updates state vars)
+  renderAlbum();       // re-render with real data
+  updateGlobal();
+  calcProb();
+}
+init();
 </script>
 </body>
 </html>
