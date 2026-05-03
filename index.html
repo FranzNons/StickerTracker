@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Álbum Panini Mundial 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --border: #1e2d45;
+    --accent: #e8b84b;
+    --accent2: #3b82f6;
+    --red: #ef4444;
+    --green: #22c55e;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --trade: #a855f7;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #0d1b2e 0%, #1a2d4a 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .header-subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    background: var(--border);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .progress-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .progress-pct {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 13px;
+  }
+
+  /* ── NAV TABS ── */
+  .nav {
+    display: flex;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 116px;
+    z-index: 90;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex: none;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── VIEWS ── */
+  .view { display: none; padding: 16px; }
+  .view.active { display: block; }
+
+  /* ── SECTION CARD ── */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    margin-top: 16px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  /* ── TEAM CARD ── */
+  .team-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .team-card.complete { border-color: var(--green); }
+  .team-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .team-flag { font-size: 22px; line-height: 1; }
+  .team-name { font-weight: 600; font-size: 14px; flex: 1; }
+  .team-group {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: var(--surface2);
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .team-count {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .team-count.done { color: var(--green); }
+  .team-mini-bar {
+    height: 3px;
+    background: var(--border);
+  }
+  .team-mini-fill {
+    height: 100%;
+    background: var(--accent2);
+    transition: width 0.3s;
+  }
+  .team-mini-fill.full { background: var(--green); }
+
+  /* ── STICKER GRID ── */
+  .sticker-grid {
+    display: none;
+    padding: 10px 14px 14px;
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 6px;
+  }
+  .sticker-grid.open { display: grid; }
+
+  .sticker {
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    padding: 7px 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    min-height: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .sticker.have {
+    background: #0f2d1a;
+    border-color: var(--green);
+  }
+  .sticker.trade {
+    background: #1e0a33;
+    border-color: var(--trade);
+  }
+  .sticker-id {
+    font-size: 9px;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .sticker-name {
+    font-size: 9px;
+    color: var(--text);
+    line-height: 1.2;
+    word-break: break-word;
+  }
+  .sticker.have .sticker-name { color: #86efac; }
+  .sticker.trade .sticker-name { color: #d8b4fe; }
+  .sticker-badge {
+    font-size: 10px;
+    position: absolute;
+    top: 3px;
+    right: 4px;
+  }
+  .sticker-dupes {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--accent);
+    position: absolute;
+    bottom: 3px;
+    right: 5px;
+  }
+
+  /* ── LONG PRESS HINT ── */
+  .hint {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 14px;
+  }
+  .search-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px 10px 36px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+  }
+  .search-input:focus { border-color: var(--accent2); }
+  .search-icon {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* ── FILTERS ── */
+  .filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .filter-btn.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+
+  /* ── INVESTMENT VIEW ── */
+  .invest-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .invest-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .invest-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+  .invest-sub { font-size: 12px; color: var(--muted); }
+
+  .input-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    align-items: flex-end;
+  }
+  .input-group { flex: 1; }
+  .input-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    display: block;
+  }
+  .input-field {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+  }
+  .input-field:focus { border-color: var(--accent2); }
+  .btn-add {
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    color: #000;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .purchase-list { margin-top: 12px; }
+  .purchase-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .purchase-item:last-child { border-bottom: none; }
+  .purchase-date { color: var(--muted); font-size: 11px; }
+  .purchase-del {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px 6px;
+  }
+
+  /* ── PROBABILITY VIEW ── */
+  .prob-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .prob-slider-wrap {
+    margin: 16px 0;
+  }
+  .prob-slider {
+    width: 100%;
+    accent-color: var(--accent);
+    height: 4px;
+    cursor: pointer;
+  }
+  .prob-result {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    margin-top: 12px;
+  }
+  .prob-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .prob-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .prob-breakdown {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .prob-stat {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+  }
+  .prob-stat-val {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+  }
+  .prob-stat-lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  /* ── DUPLICATES VIEW ── */
+  .dupes-list { }
+  .dupe-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+  }
+  .dupe-info { flex: 1; }
+  .dupe-id { font-size: 11px; color: var(--muted); }
+  .dupe-name { font-size: 13px; font-weight: 500; }
+  .dupe-ctrl {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dupe-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--accent);
+    min-width: 24px;
+    text-align: center;
+  }
+  .dupe-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 16px 16px 0 0;
+    padding: 20px;
+    width: 100%;
+    max-width: 480px;
+    border-top: 2px solid var(--accent);
+  }
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .modal-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .modal-opt {
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    padding: 14px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--surface2);
+  }
+  .modal-opt:hover { border-color: var(--accent2); }
+  .modal-opt.selected { border-color: var(--accent); background: #1a1400; }
+  .modal-opt-icon { font-size: 22px; margin-bottom: 4px; }
+  .modal-opt-label { font-size: 11px; font-weight: 600; color: var(--text); }
+  .modal-opt-desc { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .modal-close {
+    width: 100%;
+    padding: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  /* ── STATS GRID ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .stat-card.accent { border-color: var(--accent); }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-lbl { font-size: 10px; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── GROUP TABS ── */
+  .group-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .group-tab {
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .group-tab.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+  .group-tab.done { border-color: var(--green); color: var(--green); }
+
+  /* ── EMPTY STATE ── */
+  .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .empty-icon { font-size: 40px; margin-bottom: 10px; }
+  .empty-text { font-size: 14px; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">⚽ Álbum Panini 2026</div>
+      <div class="header-subtitle">FIFA World Cup · 48 Selecciones</div>
+    </div>
+    <div style="text-align:right">
+      <div class="progress-pct" id="pct-display">0%</div>
+      <div style="font-size:10px;color:var(--muted)" id="count-display">0 / 980</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar" id="global-bar" style="width:0%"></div>
+  </div>
+  <div class="progress-stats">
+    <span id="have-count">0 pegadas</span>
+    <span id="missing-count">980 faltantes</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn active" onclick="switchView('album')">Álbum</button>
+  <button class="nav-btn" onclick="switchView('faltantes')">Faltantes</button>
+  <button class="nav-btn" onclick="switchView('repetidas')">Repetidas</button>
+  <button class="nav-btn" onclick="switchView('inversion')">Inversión</button>
+  <button class="nav-btn" onclick="switchView('probabilidad')">Probabilidad</button>
+</div>
+
+<!-- ===== VIEW: ÁLBUM ===== -->
+<div class="view active" id="view-album">
+  <div class="hint">Toca para marcar · Mantén pulsado para opciones</div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="search" placeholder="Buscar jugador o selección..." id="search-input" oninput="filterAlbum()">
+  </div>
+
+  <div class="group-tabs" id="group-tabs">
+    <button class="group-tab active" onclick="selectGroup('all', this)">Todos</button>
+  </div>
+
+  <div id="album-list"></div>
+</div>
+
+<!-- ===== VIEW: FALTANTES ===== -->
+<div class="view" id="view-faltantes">
+  <div class="filters" id="missing-filters">
+    <button class="filter-btn active" onclick="filterMissing('all', this)">Todas</button>
+    <button class="filter-btn" onclick="filterMissing('A', this)">Grupo A</button>
+    <button class="filter-btn" onclick="filterMissing('B', this)">Grupo B</button>
+    <button class="filter-btn" onclick="filterMissing('C', this)">Grupo C</button>
+    <button class="filter-btn" onclick="filterMissing('D', this)">Grupo D</button>
+    <button class="filter-btn" onclick="filterMissing('E', this)">Grupo E</button>
+    <button class="filter-btn" onclick="filterMissing('F', this)">Grupo F</button>
+    <button class="filter-btn" onclick="filterMissing('G', this)">Grupo G</button>
+    <button class="filter-btn" onclick="filterMissing('H', this)">Grupo H</button>
+    <button class="filter-btn" onclick="filterMissing('I', this)">Grupo I</button>
+    <button class="filter-btn" onclick="filterMissing('J', this)">Grupo J</button>
+    <button class="filter-btn" onclick="filterMissing('K', this)">Grupo K</button>
+    <button class="filter-btn" onclick="filterMissing('L', this)">Grupo L</button>
+  </div>
+  <div id="missing-list"></div>
+</div>
+
+<!-- ===== VIEW: REPETIDAS ===== -->
+<div class="view" id="view-repetidas">
+  <div class="stats-grid" style="margin-bottom:16px">
+    <div class="stat-card">
+      <div class="stat-val" id="dupe-total">0</div>
+      <div class="stat-lbl">Repetidas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="dupe-unique">0</div>
+      <div class="stat-lbl">Estampas distintas</div>
+    </div>
+  </div>
+  <div id="dupes-list"></div>
+</div>
+
+<!-- ===== VIEW: INVERSIÓN ===== -->
+<div class="view" id="view-inversion">
+  <div class="stats-grid">
+    <div class="stat-card accent">
+      <div class="stat-val" id="invest-total">$0</div>
+      <div class="stat-lbl">Total invertido</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="invest-per">$0</div>
+      <div class="stat-lbl">Por estampa</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="invest-packs">0</div>
+      <div class="stat-lbl">Sobres comprados</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="invest-projected">$0</div>
+      <div class="stat-lbl">Proy. completar</div>
+    </div>
+  </div>
+
+  <div class="invest-card">
+    <div class="invest-title">Registrar compra</div>
+    <div class="input-row">
+      <div class="input-group">
+        <label class="input-label">Cantidad de sobres</label>
+        <input class="input-field" type="number" id="inv-qty" placeholder="ej. 10" min="1">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Precio por sobre ($)</label>
+        <input class="input-field" type="number" id="inv-price" placeholder="ej. 15" step="0.5">
+      </div>
+      <button class="btn-add" onclick="addPurchase()">+</button>
+    </div>
+  </div>
+
+  <div class="section-label">Historial de compras</div>
+  <div id="purchase-list"></div>
+</div>
+
+<!-- ===== VIEW: PROBABILIDAD ===== -->
+<div class="view" id="view-probabilidad">
+  <div class="prob-card">
+    <div style="font-size:13px;font-weight:600;margin-bottom:4px">¿Cuántos sobres quiero comprar?</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px">7 estampas por sobre</div>
+    <div class="prob-slider-wrap">
+      <input type="range" class="prob-slider" id="prob-slider" min="1" max="200" value="10" oninput="calcProb()">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px">
+        <span>1</span><span id="slider-val" style="color:var(--accent);font-weight:700">10 sobres</span><span>200</span>
+      </div>
+    </div>
+
+    <div class="prob-result">
+      <div class="prob-number" id="prob-new">0</div>
+      <div class="prob-label">estampas nuevas esperadas</div>
+    </div>
+
+    <div class="prob-breakdown">
+      <div class="prob-stat">
+        <div class="prob-stat-val" id="prob-stickers">70</div>
+        <div class="prob-stat-lbl">Estampas totales</div>
+      </div>
+      <div class="prob-stat">
+        <div class="prob-stat-val" id="prob-pct-miss">100%</div>
+        <div class="prob-stat-lbl">Prob. carta nueva</div>
+      </div>
+      <div class="prob-stat">
+        <div class="prob-stat-val" id="prob-expected-dupes">0</div>
+        <div class="prob-stat-lbl">Repetidas esperadas</div>
+      </div>
+      <div class="prob-stat">
+        <div class="prob-stat-val" id="prob-to-finish">-</div>
+        <div class="prob-stat-lbl">Sobres p/ completar</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="invest-card" style="font-size:12px;color:var(--muted);line-height:1.6">
+    <b style="color:var(--text)">¿Cómo se calcula?</b><br>
+    Usamos el modelo del "cupón del coleccionista": cada sobre tiene 7 estampas aleatorias de 980 posibles. La probabilidad de que cada estampa sea nueva depende de cuántas ya tienes. El resultado es el valor esperado acumulado de estampas únicas nuevas.
+  </div>
+</div>
+
+<!-- MODAL (opciones de estampa) -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Estampa</div>
+    <div class="modal-sub" id="modal-sub"></div>
+    <div class="modal-options">
+      <div class="modal-opt" id="opt-none" onclick="setSticker('none')">
+        <div class="modal-opt-icon">📭</div>
+        <div class="modal-opt-label">No tengo</div>
+        <div class="modal-opt-desc">Faltante</div>
+      </div>
+      <div class="modal-opt" id="opt-have" onclick="setSticker('have')">
+        <div class="modal-opt-icon">✅</div>
+        <div class="modal-opt-label">La tengo</div>
+        <div class="modal-opt-desc">Pegada</div>
+      </div>
+      <div class="modal-opt" id="opt-trade" onclick="setSticker('trade')">
+        <div class="modal-opt-icon">🔄</div>
+        <div class="modal-opt-label">Trueque</div>
+        <div class="modal-opt-desc">Intercambio</div>
+      </div>
+    </div>
+    <button class="modal-close" onclick="closeModal()">Cancelar</button>
+  </div>
+</div>
+
+<script>
+// ─── DATABASE ──────────────────────────────────────────────
+const DB = {
+  groups: {
+    A:["MEX","RSA","KOR","CZE"],B:["CAN","BIH","QAT","SUI"],
+    C:["BRA","MAR","HAI","SCO"],D:["USA","PAR","AUS","TUR"],
+    E:["GER","CUW","CIV","ECU"],F:["NED","JPN","SWE","TUN"],
+    G:["BEL","EGY","IRN","NZL"],H:["ESP","CPV","KSA","URU"],
+    I:["FRA","SEN","IRQ","NOR"],J:["ARG","ALG","AUT","JOR"],
+    K:["POR","COD","UZB","COL"],L:["ENG","CRO","GHA","PAN"]
+  },
+  teams:{
+    ALG:{name:"Algeria",flag:"🇩🇿",stickers:[{id:"ALG-1",name:"Escudo"},{id:"ALG-2",name:"Alexis Guendouz"},{id:"ALG-3",name:"Ramy Bensebaini"},{id:"ALG-4",name:"Youcef Atal"},{id:"ALG-5",name:"Rayan Aït-Nouri"},{id:"ALG-6",name:"M.A. Tougai"},{id:"ALG-7",name:"Aïssa Mandi"},{id:"ALG-8",name:"Ismael Bennacer"},{id:"ALG-9",name:"Houssem Aquar"},{id:"ALG-10",name:"H. Boudaoui"},{id:"ALG-11",name:"R. Zerrouki"},{id:"ALG-12",name:"N. Bentalab"},{id:"ALG-13",name:"Foto Equipo"},{id:"ALG-14",name:"Farés Chaibi"},{id:"ALG-15",name:"Riyad Mahrez"},{id:"ALG-16",name:"Said Benrhama"},{id:"ALG-17",name:"A.H. Moussa"},{id:"ALG-18",name:"Amine Gouiri"},{id:"ALG-19",name:"B. Bounedjah"},{id:"ALG-20",name:"M. Amoura"}]},
+    ARG:{name:"Argentina",flag:"🇦🇷",stickers:[{id:"ARG-1",name:"Escudo"},{id:"ARG-2",name:"E. Martínez"},{id:"ARG-3",name:"N. Molina"},{id:"ARG-4",name:"C. Romero"},{id:"ARG-5",name:"N. Otamendi"},{id:"ARG-6",name:"N. Tagliafico"},{id:"ARG-7",name:"L. Balerdi"},{id:"ARG-8",name:"Enzo Fernández"},{id:"ARG-9",name:"Mac Allister"},{id:"ARG-10",name:"De Paul"},{id:"ARG-11",name:"E. Palacios"},{id:"ARG-12",name:"L. Paredes"},{id:"ARG-13",name:"Foto Equipo"},{id:"ARG-14",name:"Nico Paz"},{id:"ARG-15",name:"Mastantuono"},{id:"ARG-16",name:"Nico González"},{id:"ARG-17",name:"Lionel Messi"},{id:"ARG-18",name:"L. Martínez"},{id:"ARG-19",name:"J. Álvarez"},{id:"ARG-20",name:"G. Simeone"}]},
+    AUS:{name:"Australia",flag:"🇦🇺",stickers:[{id:"AUS-1",name:"Escudo"},{id:"AUS-2",name:"Mathew Ryan"},{id:"AUS-3",name:"Joe Gauci"},{id:"AUS-4",name:"H. Souttar"},{id:"AUS-5",name:"A. Circati"},{id:"AUS-6",name:"Jordan Bos"},{id:"AUS-7",name:"A. Behich"},{id:"AUS-8",name:"C. Burgess"},{id:"AUS-9",name:"Lewis Miller"},{id:"AUS-10",name:"M. Degenek"},{id:"AUS-11",name:"J. Irvine"},{id:"AUS-12",name:"Riley McGree"},{id:"AUS-13",name:"Foto Equipo"},{id:"AUS-14",name:"Aiden O'Neill"},{id:"AUS-15",name:"C. Metcalfe"},{id:"AUS-16",name:"P. Yazbek"},{id:"AUS-17",name:"C. Goodwin"},{id:"AUS-18",name:"K. Vengi"},{id:"AUS-19",name:"N. Irankunda"},{id:"AUS-20",name:"M. Touré"}]},
+    AUT:{name:"Austria",flag:"🇦🇹",stickers:[{id:"AUT-1",name:"Escudo"},{id:"AUT-2",name:"A. Schlager"},{id:"AUT-3",name:"P. Pentz"},{id:"AUT-4",name:"David Alaba"},{id:"AUT-5",name:"K. Danso"},{id:"AUT-6",name:"P. Lienhart"},{id:"AUT-7",name:"S. Bosch"},{id:"AUT-8",name:"Ph. Mwene"},{id:"AUT-9",name:"A. Prass"},{id:"AUT-10",name:"X. Schlager"},{id:"AUT-11",name:"M. Sabitzer"},{id:"AUT-12",name:"K. Laimer"},{id:"AUT-13",name:"Foto Equipo"},{id:"AUT-14",name:"F. Grillitsch"},{id:"AUT-15",name:"N. Seiwald"},{id:"AUT-16",name:"R. Schmid"},{id:"AUT-17",name:"P. Wimmer"},{id:"AUT-18",name:"C. Baumgartner"},{id:"AUT-19",name:"M. Gregoritsch"},{id:"AUT-20",name:"M. Arnautović"}]},
+    BEL:{name:"Bélgica",flag:"🇧🇪",stickers:[{id:"BEL-1",name:"Escudo"},{id:"BEL-2",name:"T. Courtois"},{id:"BEL-3",name:"A. Theate"},{id:"BEL-4",name:"T. Castagne"},{id:"BEL-5",name:"Z. Debast"},{id:"BEL-6",name:"B. Mechele"},{id:"BEL-7",name:"M. De Cuyper"},{id:"BEL-8",name:"T. Meunier"},{id:"BEL-9",name:"Y. Tielemans"},{id:"BEL-10",name:"A. Onana"},{id:"BEL-11",name:"N. Raskin"},{id:"BEL-12",name:"A. Saelemaekers"},{id:"BEL-13",name:"Foto Equipo"},{id:"BEL-14",name:"H. Vanaken"},{id:"BEL-15",name:"De Bruyne"},{id:"BEL-16",name:"J. Doku"},{id:"BEL-17",name:"De Ketelaere"},{id:"BEL-18",name:"L. Trossard"},{id:"BEL-19",name:"Loïs Openda"},{id:"BEL-20",name:"R. Lukaku"}]},
+    BIH:{name:"Bosnia",flag:"🇧🇦",stickers:[{id:"BIH-1",name:"Escudo"},{id:"BIH-2",name:"N. Vasilj"},{id:"BIH-3",name:"A. Dedic"},{id:"BIH-4",name:"S. Kolasinac"},{id:"BIH-5",name:"T. Muharemovic"},{id:"BIH-6",name:"N. Mujakic"},{id:"BIH-7",name:"N. Katic"},{id:"BIH-8",name:"A. Hadziahmetovic"},{id:"BIH-9",name:"B. Tahirovic"},{id:"BIH-10",name:"A. Gigovic"},{id:"BIH-11",name:"I. Sunjic"},{id:"BIH-12",name:"I. Basic"},{id:"BIH-13",name:"Foto Equipo"},{id:"BIH-14",name:"D. Burnic"},{id:"BIH-15",name:"E. Bajraktarevic"},{id:"BIH-16",name:"A. Memic"},{id:"BIH-17",name:"E. Demirovic"},{id:"BIH-18",name:"Edin Dzeko"},{id:"BIH-19",name:"S. Bazdar"},{id:"BIH-20",name:"H. Tabakovic"}]},
+    BRA:{name:"Brasil",flag:"🇧🇷",stickers:[{id:"BRA-1",name:"Escudo"},{id:"BRA-2",name:"Alisson"},{id:"BRA-3",name:"Bento"},{id:"BRA-4",name:"Marquinhos"},{id:"BRA-5",name:"Éder Militão"},{id:"BRA-6",name:"G. Magalhães"},{id:"BRA-7",name:"Danilo"},{id:"BRA-8",name:"Wesley"},{id:"BRA-9",name:"L. Paquetá"},{id:"BRA-10",name:"Casemiro"},{id:"BRA-11",name:"B. Guimarães"},{id:"BRA-12",name:"L. Henrique"},{id:"BRA-13",name:"Foto Equipo"},{id:"BRA-14",name:"Vinícius Jr."},{id:"BRA-15",name:"Rodrygo"},{id:"BRA-16",name:"João Pedro"},{id:"BRA-17",name:"M. Cunha"},{id:"BRA-18",name:"G. Martinelli"},{id:"BRA-19",name:"Raphinha"},{id:"BRA-20",name:"Estévão"}]},
+    CAN:{name:"Canadá",flag:"🇨🇦",stickers:[{id:"CAN-1",name:"Escudo"},{id:"CAN-2",name:"D. St.Clair"},{id:"CAN-3",name:"A. Davies"},{id:"CAN-4",name:"A. Johnston"},{id:"CAN-5",name:"S. Adekugbe"},{id:"CAN-6",name:"R. Larvea"},{id:"CAN-7",name:"D. Cornelius"},{id:"CAN-8",name:"M. Bombito"},{id:"CAN-9",name:"K. Miller"},{id:"CAN-10",name:"S. Eustáquio"},{id:"CAN-11",name:"I. Koné"},{id:"CAN-12",name:"J. Osorio"},{id:"CAN-13",name:"Foto Equipo"},{id:"CAN-14",name:"J. Shaffelburg"},{id:"CAN-15",name:"M. Choinière"},{id:"CAN-16",name:"N. Sigur"},{id:"CAN-17",name:"T. Buchanan"},{id:"CAN-18",name:"L. Millar"},{id:"CAN-19",name:"C. Larin"},{id:"CAN-20",name:"J. David"}]},
+    CIV:{name:"Costa de Marfil",flag:"🇨🇮",stickers:[{id:"CIV-1",name:"Escudo"},{id:"CIV-2",name:"Y. Fofana"},{id:"CIV-3",name:"G. Konan"},{id:"CIV-4",name:"W. Singo"},{id:"CIV-5",name:"O. Kossounou"},{id:"CIV-6",name:"E. Ndicka"},{id:"CIV-7",name:"W. Boly"},{id:"CIV-8",name:"E. Agbadou"},{id:"CIV-9",name:"O. Diomande"},{id:"CIV-10",name:"F. Kessie"},{id:"CIV-11",name:"S. Fofana"},{id:"CIV-12",name:"I. Sangare"},{id:"CIV-13",name:"Foto Equipo"},{id:"CIV-14",name:"JP. Gbamin"},{id:"CIV-15",name:"Amad Diallo"},{id:"CIV-16",name:"S. Haller"},{id:"CIV-17",name:"S. Adringa"},{id:"CIV-18",name:"Y. Diomande"},{id:"CIV-19",name:"E. Guessand"},{id:"CIV-20",name:"O. Diakite"}]},
+    COD:{name:"Congo RD",flag:"🇨🇩",stickers:[{id:"COD-1",name:"Escudo"},{id:"COD-2",name:"L. Mpasi"},{id:"COD-3",name:"Wan-Bissaka"},{id:"COD-4",name:"A. Tuanzebe"},{id:"COD-5",name:"A. Masuaku"},{id:"COD-6",name:"C. Mbemba"},{id:"COD-7",name:"J. Kayembe"},{id:"COD-8",name:"C. Pickel"},{id:"COD-9",name:"Ngal'ayel Mukau"},{id:"COD-10",name:"E. Kayembe"},{id:"COD-11",name:"S. Moutoussamy"},{id:"COD-12",name:"N. Sadiki"},{id:"COD-13",name:"Foto Equipo"},{id:"COD-14",name:"T. Bongonda"},{id:"COD-15",name:"M. Elia"},{id:"COD-16",name:"Y. Wissa"},{id:"COD-17",name:"B. Cipenga"},{id:"COD-18",name:"F. Mayele"},{id:"COD-19",name:"C. Bakambu"},{id:"COD-20",name:"N. Mbuku"}]},
+    COL:{name:"Colombia",flag:"🇨🇴",stickers:[{id:"COL-1",name:"Escudo"},{id:"COL-2",name:"C. Vargas"},{id:"COL-3",name:"D. Ospina"},{id:"COL-4",name:"D. Sánchez"},{id:"COL-5",name:"Y. Mina"},{id:"COL-6",name:"D. Munoz"},{id:"COL-7",name:"J. Mojica"},{id:"COL-8",name:"J. Lucumí"},{id:"COL-9",name:"S. Arias"},{id:"COL-10",name:"J. Lerma"},{id:"COL-11",name:"K. Castaño"},{id:"COL-12",name:"R. Rios"},{id:"COL-13",name:"Foto Equipo"},{id:"COL-14",name:"James Rodríguez"},{id:"COL-15",name:"JF. Quintero"},{id:"COL-16",name:"J. Carrascal"},{id:"COL-17",name:"J. Arias"},{id:"COL-18",name:"J. Córdoba"},{id:"COL-19",name:"L. Suárez"},{id:"COL-20",name:"Luis Díaz"}]},
+    CPV:{name:"Cabo Verde",flag:"🇨🇻",stickers:[{id:"CPV-1",name:"Escudo"},{id:"CPV-2",name:"Vozinha"},{id:"CPV-3",name:"Logan Costa"},{id:"CPV-4",name:"Pico"},{id:"CPV-5",name:"Diney"},{id:"CPV-6",name:"S. Moreira"},{id:"CPV-7",name:"W. Pina"},{id:"CPV-8",name:"Joao Paulo"},{id:"CPV-9",name:"Y. Semedo"},{id:"CPV-10",name:"K. Pina"},{id:"CPV-11",name:"P. Andrade"},{id:"CPV-12",name:"J. Monteiro"},{id:"CPV-13",name:"Foto Equipo"},{id:"CPV-14",name:"D. Duarte"},{id:"CPV-15",name:"G. Rodrigues"},{id:"CPV-16",name:"J. Cabral"},{id:"CPV-17",name:"R. Mendes"},{id:"CPV-18",name:"D. Livramento"},{id:"CPV-19",name:"W. Semedo"},{id:"CPV-20",name:"Bebé"}]},
+    CRO:{name:"Croacia",flag:"🇭🇷",stickers:[{id:"CRO-1",name:"Escudo"},{id:"CRO-2",name:"D. Livaković"},{id:"CRO-3",name:"D. Caleta-Car"},{id:"CRO-4",name:"J. Gvardiol"},{id:"CRO-5",name:"J. Stanišić"},{id:"CRO-6",name:"L. Vušković"},{id:"CRO-7",name:"J. Sutalo"},{id:"CRO-8",name:"K. Jakic"},{id:"CRO-9",name:"Luka Modrić"},{id:"CRO-10",name:"M. Kovacic"},{id:"CRO-11",name:"M. Baturina"},{id:"CRO-12",name:"L. Majer"},{id:"CRO-13",name:"Foto Equipo"},{id:"CRO-14",name:"M. Pasalic"},{id:"CRO-15",name:"P. Sucic"},{id:"CRO-16",name:"I. Perišić"},{id:"CRO-17",name:"Marco Pasalic"},{id:"CRO-18",name:"A. Budimir"},{id:"CRO-19",name:"A. Kramarić"},{id:"CRO-20",name:"F. Ivanovic"}]},
+    CUW:{name:"Curaçao",flag:"🇨🇼",stickers:[{id:"CUW-1",name:"Escudo"},{id:"CUW-2",name:"E. Room"},{id:"CUW-3",name:"A. Obispo"},{id:"CUW-4",name:"S. Floranus"},{id:"CUW-5",name:"J. Gaari"},{id:"CUW-6",name:"J. Brenet"},{id:"CUW-7",name:"R. Van Eijma"},{id:"CUW-8",name:"S. Sambo"},{id:"CUW-9",name:"L. Comenencia"},{id:"CUW-10",name:"G. Roemeratoe"},{id:"CUW-11",name:"J. Bacuna"},{id:"CUW-12",name:"L. Bacuna"},{id:"CUW-13",name:"Foto Equipo"},{id:"CUW-14",name:"T. Chong"},{id:"CUW-15",name:"K. Gorre"},{id:"CUW-16",name:"J. Margaritha"},{id:"CUW-17",name:"J. Locadia"},{id:"CUW-18",name:"J. Antonisse"},{id:"CUW-19",name:"G. Kastaneer"},{id:"CUW-20",name:"S. Hansen"}]},
+    CZE:{name:"Chequia",flag:"🇨🇿",stickers:[{id:"CZE-1",name:"Escudo"},{id:"CZE-2",name:"M. Kovar"},{id:"CZE-3",name:"J. Stanek"},{id:"CZE-4",name:"L. Krejci"},{id:"CZE-5",name:"V. Coufal"},{id:"CZE-6",name:"J. Zeleny"},{id:"CZE-7",name:"T. Holes"},{id:"CZE-8",name:"D. Zima"},{id:"CZE-9",name:"M. Sadilek"},{id:"CZE-10",name:"L. Provod"},{id:"CZE-11",name:"L. Cerv"},{id:"CZE-12",name:"T. Soucek"},{id:"CZE-13",name:"Foto Equipo"},{id:"CZE-14",name:"P. Sulc"},{id:"CZE-15",name:"M. Vydra"},{id:"CZE-16",name:"V. Kusej"},{id:"CZE-17",name:"T. Chory"},{id:"CZE-18",name:"V. Cerny"},{id:"CZE-19",name:"A. Hlozek"},{id:"CZE-20",name:"P. Schick"}]},
+    ECU:{name:"Ecuador",flag:"🇪🇨",stickers:[{id:"ECU-1",name:"Escudo"},{id:"ECU-2",name:"H. Galíndez"},{id:"ECU-3",name:"G. Valle"},{id:"ECU-4",name:"P. Hincapié"},{id:"ECU-5",name:"P. Estupiñán"},{id:"ECU-6",name:"W. Pacho"},{id:"ECU-7",name:"Á. Preciado"},{id:"ECU-8",name:"J. Ordóñez"},{id:"ECU-9",name:"M. Caicedo"},{id:"ECU-10",name:"A. Franco"},{id:"ECU-11",name:"K. Paez"},{id:"ECU-12",name:"P. Vite"},{id:"ECU-13",name:"Foto Equipo"},{id:"ECU-14",name:"J. Veboah"},{id:"ECU-15",name:"L. Campana"},{id:"ECU-16",name:"G. Plata"},{id:"ECU-17",name:"N. Angulo"},{id:"ECU-18",name:"A. Minda"},{id:"ECU-19",name:"K. Rodriguez"},{id:"ECU-20",name:"Enner Valencia"}]},
+    EGY:{name:"Egipto",flag:"🇪🇬",stickers:[{id:"EGY-1",name:"Escudo"},{id:"EGY-2",name:"M. El Shenawy"},{id:"EGY-3",name:"M. Hany"},{id:"EGY-4",name:"M. Hamdy"},{id:"EGY-5",name:"Y. Ibrahim"},{id:"EGY-6",name:"K. Sobhi"},{id:"EGY-7",name:"R. Rabia"},{id:"EGY-8",name:"H. Abdelmaguid"},{id:"EGY-9",name:"A. Fatouh"},{id:"EGY-10",name:"M. Attia"},{id:"EGY-11",name:"Zizo"},{id:"EGY-12",name:"H. Fathy"},{id:"EGY-13",name:"Foto Equipo"},{id:"EGY-14",name:"M. Lasheen"},{id:"EGY-15",name:"E. Ashour"},{id:"EGY-16",name:"O. Faisal"},{id:"EGY-17",name:"Mohamed Salah"},{id:"EGY-18",name:"M. Mohamed"},{id:"EGY-19",name:"Trezeguet"},{id:"EGY-20",name:"O. Marsmoush"}]},
+    ENG:{name:"Inglaterra",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",stickers:[{id:"ENG-1",name:"Escudo"},{id:"ENG-2",name:"J. Pickford"},{id:"ENG-3",name:"J. Stones"},{id:"ENG-4",name:"Marc Guéhi"},{id:"ENG-5",name:"E. Konsa"},{id:"ENG-6",name:"T. Alexander-Arnold"},{id:"ENG-7",name:"R. James"},{id:"ENG-8",name:"D. Burn"},{id:"ENG-9",name:"J. Henderson"},{id:"ENG-10",name:"D. Rice"},{id:"ENG-11",name:"J. Bellingham"},{id:"ENG-12",name:"C. Palmer"},{id:"ENG-13",name:"Foto Equipo"},{id:"ENG-14",name:"M. Rogers"},{id:"ENG-15",name:"A. Gordon"},{id:"ENG-16",name:"P. Foden"},{id:"ENG-17",name:"B. Saka"},{id:"ENG-18",name:"H. Kane"},{id:"ENG-19",name:"M. Rashford"},{id:"ENG-20",name:"O. Watkins"}]},
+    ESP:{name:"España",flag:"🇪🇸",stickers:[{id:"ESP-1",name:"Escudo"},{id:"ESP-2",name:"U. Simon"},{id:"ESP-3",name:"R. Le Normand"},{id:"ESP-4",name:"A. Laporte"},{id:"ESP-5",name:"D. Huijsen"},{id:"ESP-6",name:"P. Porro"},{id:"ESP-7",name:"D. Carvajal"},{id:"ESP-8",name:"M. Cucurella"},{id:"ESP-9",name:"M. Zubimendi"},{id:"ESP-10",name:"Rodri"},{id:"ESP-11",name:"Pedri"},{id:"ESP-12",name:"F. Ruiz"},{id:"ESP-13",name:"Foto Equipo"},{id:"ESP-14",name:"M. Merino"},{id:"ESP-15",name:"Lamine Yamal"},{id:"ESP-16",name:"D. Olmo"},{id:"ESP-17",name:"N. Williams"},{id:"ESP-18",name:"F. Torres"},{id:"ESP-19",name:"Á. Morata"},{id:"ESP-20",name:"M. Oyarzabal"}]},
+    FRA:{name:"Francia",flag:"🇫🇷",stickers:[{id:"FRA-1",name:"Escudo"},{id:"FRA-2",name:"M. Maignan"},{id:"FRA-3",name:"T. Hernandez"},{id:"FRA-4",name:"W. Saliba"},{id:"FRA-5",name:"J. Kounde"},{id:"FRA-6",name:"I. Konate"},{id:"FRA-7",name:"D. Upamecano"},{id:"FRA-8",name:"L. Digne"},{id:"FRA-9",name:"A. Tchouaméni"},{id:"FRA-10",name:"E. Camavinga"},{id:"FRA-11",name:"M. Kone"},{id:"FRA-12",name:"A. Rabiot"},{id:"FRA-13",name:"Foto Equipo"},{id:"FRA-14",name:"M. Olise"},{id:"FRA-15",name:"O. Dembele"},{id:"FRA-16",name:"B. Barcola"},{id:"FRA-17",name:"D. Doué"},{id:"FRA-18",name:"K. Coman"},{id:"FRA-19",name:"H. Ekitike"},{id:"FRA-20",name:"Kylian Mbappé"}]},
+    GER:{name:"Alemania",flag:"🇩🇪",stickers:[{id:"GER-1",name:"Escudo"},{id:"GER-2",name:"Ter Stegen"},{id:"GER-3",name:"J. Tah"},{id:"GER-4",name:"D. Raum"},{id:"GER-5",name:"N. Schlotterbeck"},{id:"GER-6",name:"A. Rüdiger"},{id:"GER-7",name:"W. Anton"},{id:"GER-8",name:"R. Baku"},{id:"GER-9",name:"M. Mittelstadt"},{id:"GER-10",name:"J. Kimmich"},{id:"GER-11",name:"F. Wirtz"},{id:"GER-12",name:"F. Nmecha"},{id:"GER-13",name:"Foto Equipo"},{id:"GER-14",name:"L. Goretzka"},{id:"GER-15",name:"J. Musiala"},{id:"GER-16",name:"S. Gnabry"},{id:"GER-17",name:"K. Havertz"},{id:"GER-18",name:"L. Sane"},{id:"GER-19",name:"K. Adeyemi"},{id:"GER-20",name:"N. Woltemade"}]},
+    GHA:{name:"Ghana",flag:"🇬🇭",stickers:[{id:"GHA-1",name:"Escudo"},{id:"GHA-2",name:"L. Ati Zigi"},{id:"GHA-3",name:"T. Lamptey"},{id:"GHA-4",name:"M. Salisu"},{id:"GHA-5",name:"A. Seidu"},{id:"GHA-6",name:"A. Djiku"},{id:"GHA-7",name:"G. Mensah"},{id:"GHA-8",name:"C. Yirenkyi"},{id:"GHA-9",name:"AI. Fatawu"},{id:"GHA-10",name:"T. Partey"},{id:"GHA-11",name:"S. Abdul Samed"},{id:"GHA-12",name:"K. Sulemana"},{id:"GHA-13",name:"Foto Equipo"},{id:"GHA-14",name:"M. Kudus"},{id:"GHA-15",name:"Inaki Williams"},{id:"GHA-16",name:"J. Ayew"},{id:"GHA-17",name:"A. Ayew"},{id:"GHA-18",name:"J. Paintsil"},{id:"GHA-19",name:"O. Bukari"},{id:"GHA-20",name:"A. Semenyo"}]},
+    HAI:{name:"Haití",flag:"🇭🇹",stickers:[{id:"HAI-1",name:"Escudo"},{id:"HAI-2",name:"J. Placide"},{id:"HAI-3",name:"C. Arcus"},{id:"HAI-4",name:"M. Expérience"},{id:"HAI-5",name:"JK. Duverne"},{id:"HAI-6",name:"R. Adé"},{id:"HAI-7",name:"D. Lacroix"},{id:"HAI-8",name:"G. Metusala"},{id:"HAI-9",name:"H. Delcroix"},{id:"HAI-10",name:"L. Pierre"},{id:"HAI-11",name:"DJ. Jacques"},{id:"HAI-12",name:"JR. Bellegarde"},{id:"HAI-13",name:"Foto Equipo"},{id:"HAI-14",name:"C. Attys"},{id:"HAI-15",name:"D. Etienne Jr."},{id:"HAI-16",name:"J. Casimir"},{id:"HAI-17",name:"R. Providence"},{id:"HAI-18",name:"D. Nazon"},{id:"HAI-19",name:"L. Deedson"},{id:"HAI-20",name:"F. Pierrot"}]},
+    IRN:{name:"Irán",flag:"🇮🇷",stickers:[{id:"IRN-1",name:"Escudo"},{id:"IRN-2",name:"A. Beiranvand"},{id:"IRN-3",name:"M. Pouraliganji"},{id:"IRN-4",name:"E. Hajsafi"},{id:"IRN-5",name:"M. Mohammadi"},{id:"IRN-6",name:"S. Khalilzadeh"},{id:"IRN-7",name:"R. Rezaeian"},{id:"IRN-8",name:"H. Kanaani"},{id:"IRN-9",name:"S. Moharrami"},{id:"IRN-10",name:"S. Hardani"},{id:"IRN-11",name:"S. Ezatolahi"},{id:"IRN-12",name:"S. Ghoddos"},{id:"IRN-13",name:"Foto Equipo"},{id:"IRN-14",name:"O. Noorafkan"},{id:"IRN-15",name:"R. Cheshmi"},{id:"IRN-16",name:"M. Mohebi"},{id:"IRN-17",name:"S. Azmoun"},{id:"IRN-18",name:"M. Taremi"},{id:"IRN-19",name:"A. Jahanbakhsh"},{id:"IRN-20",name:"A. Gholizadeh"}]},
+    IRQ:{name:"Iraq",flag:"🇮🇶",stickers:[{id:"IRQ-1",name:"Escudo"},{id:"IRQ-2",name:"J. Hassan"},{id:"IRQ-3",name:"R. Sulaka"},{id:"IRQ-4",name:"H. Ali"},{id:"IRQ-5",name:"A. Hashem"},{id:"IRQ-6",name:"M. Doski"},{id:"IRQ-7",name:"Z. Tahseen"},{id:"IRQ-8",name:"M. Younis"},{id:"IRQ-9",name:"Z. Iqbal"},{id:"IRQ-10",name:"A. Al-Ammari"},{id:"IRQ-11",name:"I. Bavesh"},{id:"IRQ-12",name:"A. Jasim"},{id:"IRQ-13",name:"Foto Equipo"},{id:"IRQ-14",name:"Y. Amyn"},{id:"IRQ-15",name:"A. Sher"},{id:"IRQ-16",name:"M. Farji"},{id:"IRQ-17",name:"O. Rashid"},{id:"IRQ-18",name:"A. Al-Hamadi"},{id:"IRQ-19",name:"A. Hussein"},{id:"IRQ-20",name:"M. Ali"}]},
+    JOR:{name:"Jordania",flag:"🇯🇴",stickers:[{id:"JOR-1",name:"Escudo"},{id:"JOR-2",name:"Y. Abulaila"},{id:"JOR-3",name:"I. Haddad"},{id:"JOR-4",name:"M. Abu Hashish"},{id:"JOR-5",name:"Y. Al-Arab"},{id:"JOR-6",name:"A. Nasib"},{id:"JOR-7",name:"S. Obaid"},{id:"JOR-8",name:"M. Abualnadi"},{id:"JOR-9",name:"I. Saadeh"},{id:"JOR-10",name:"N. Al-Rashdan"},{id:"JOR-11",name:"N. Al-Rawabdeh"},{id:"JOR-12",name:"M. Abu Taha"},{id:"JOR-13",name:"Foto Equipo"},{id:"JOR-14",name:"A. Jamous"},{id:"JOR-15",name:"M. Al-Taamari"},{id:"JOR-16",name:"Y. Al-Naimat"},{id:"JOR-17",name:"M. Al-Mardi"},{id:"JOR-18",name:"A. Olwan"},{id:"JOR-19",name:"M. Abu Zrayq"},{id:"JOR-20",name:"I. Sabra"}]},
+    JPN:{name:"Japón",flag:"🇯🇵",stickers:[{id:"JPN-1",name:"Escudo"},{id:"JPN-2",name:"Z. Suzuki"},{id:"JPN-3",name:"H. Mochizuki"},{id:"JPN-4",name:"A. Seko"},{id:"JPN-5",name:"J. Suzuki"},{id:"JPN-6",name:"S. Taniguchi"},{id:"JPN-7",name:"T. Watanabe"},{id:"JPN-8",name:"K. Sano"},{id:"JPN-9",name:"Y. Soma"},{id:"JPN-10",name:"A. Tanaka"},{id:"JPN-11",name:"D. Kamada"},{id:"JPN-12",name:"T. Kubo"},{id:"JPN-13",name:"Foto Equipo"},{id:"JPN-14",name:"R. Doan"},{id:"JPN-15",name:"K. Nakamura"},{id:"JPN-16",name:"T. Minamino"},{id:"JPN-17",name:"S. Machino"},{id:"JPN-18",name:"J. Ito"},{id:"JPN-19",name:"K. Ogawa"},{id:"JPN-20",name:"A. Ueda"}]},
+    KOR:{name:"Corea del Sur",flag:"🇰🇷",stickers:[{id:"KOR-1",name:"Escudo"},{id:"KOR-2",name:"H. Jo"},{id:"KOR-3",name:"SG. Kim"},{id:"KOR-4",name:"Min-jae Kim"},{id:"KOR-5",name:"YM. Cho"},{id:"KOR-6",name:"YW. Seol"},{id:"KOR-7",name:"HB. Lee"},{id:"KOR-8",name:"TS. Lee"},{id:"KOR-9",name:"MJ. Lee"},{id:"KOR-10",name:"JS. Lee"},{id:"KOR-11",name:"IB. Hwang"},{id:"KOR-12",name:"Kang-in Lee"},{id:"KOR-13",name:"Foto Equipo"},{id:"KOR-14",name:"SH. Paik"},{id:"KOR-15",name:"J. Castrop"},{id:"KOR-16",name:"DY. Lee"},{id:"KOR-17",name:"GS. Cho"},{id:"KOR-18",name:"Heung-min Son"},{id:"KOR-19",name:"HC. Hwang"},{id:"KOR-20",name:"HG. Oh"}]},
+    KSA:{name:"Arabia Saudita",flag:"🇸🇦",stickers:[{id:"KSA-1",name:"Escudo"},{id:"KSA-2",name:"N. Alaqidi"},{id:"KSA-3",name:"A. Al-Sanbi"},{id:"KSA-4",name:"S. Abdulhamid"},{id:"KSA-5",name:"N. Bouwashl"},{id:"KSA-6",name:"J. Thakri"},{id:"KSA-7",name:"M. Al-Harbi"},{id:"KSA-8",name:"H. Altambakti"},{id:"KSA-9",name:"M. Aljuwayr"},{id:"KSA-10",name:"Z. Aljohani"},{id:"KSA-11",name:"A. Alkhaibari"},{id:"KSA-12",name:"N. Aldawsari"},{id:"KSA-13",name:"Foto Equipo"},{id:"KSA-14",name:"S. Abu Alshamat"},{id:"KSA-15",name:"M. Alsahafi"},{id:"KSA-16",name:"S. Aldawsari"},{id:"KSA-17",name:"A. Al-Aboud"},{id:"KSA-18",name:"F. Akbrikan"},{id:"KSA-19",name:"S. Alshehri"},{id:"KSA-20",name:"A. Al-Hamdan"}]},
+    MAR:{name:"Marruecos",flag:"🇲🇦",stickers:[{id:"MAR-1",name:"Escudo"},{id:"MAR-2",name:"Y. Bounou"},{id:"MAR-3",name:"M. El Kajoui"},{id:"MAR-4",name:"A. Hakimi"},{id:"MAR-5",name:"N. Mazraoui"},{id:"MAR-6",name:"N. Aguerd"},{id:"MAR-7",name:"R. Saiss"},{id:"MAR-8",name:"J. El Yamio"},{id:"MAR-9",name:"A. Masina"},{id:"MAR-10",name:"S. Amrabat"},{id:"MAR-11",name:"A. Ounahi"},{id:"MAR-12",name:"E. Ben Seghir"},{id:"MAR-13",name:"Foto Equipo"},{id:"MAR-14",name:"B. El Khannouss"},{id:"MAR-15",name:"I. Saibari"},{id:"MAR-16",name:"Y. En-Nesyri"},{id:"MAR-17",name:"A. Ezzalzouli"},{id:"MAR-18",name:"S. Rahimi"},{id:"MAR-19",name:"B. Diaz"},{id:"MAR-20",name:"A. El Kaabi"}]},
+    MEX:{name:"México",flag:"🇲🇽",stickers:[{id:"MEX-1",name:"Escudo"},{id:"MEX-2",name:"L. Malagón"},{id:"MEX-3",name:"J. Vasquez"},{id:"MEX-4",name:"J. Sánchez"},{id:"MEX-5",name:"C. Montes"},{id:"MEX-6",name:"J. Gallardo"},{id:"MEX-7",name:"I. Reyes"},{id:"MEX-8",name:"D. Lainez"},{id:"MEX-9",name:"C. Rodriguez"},{id:"MEX-10",name:"E. Álvarez"},{id:"MEX-11",name:"O. Pineda"},{id:"MEX-12",name:"M. Ruiz"},{id:"MEX-13",name:"Foto Equipo"},{id:"MEX-14",name:"É. Sánchez"},{id:"MEX-15",name:"Hirving Lozano"},{id:"MEX-16",name:"S. Giménez"},{id:"MEX-17",name:"R. Jiménez"},{id:"MEX-18",name:"A. Vega"},{id:"MEX-19",name:"R. Alvarado"},{id:"MEX-20",name:"C. Huerta"}]},
+    NED:{name:"Países Bajos",flag:"🇳🇱",stickers:[{id:"NED-1",name:"Escudo"},{id:"NED-2",name:"B. Verbruggen"},{id:"NED-3",name:"V. van Dijk"},{id:"NED-4",name:"M. van de Ven"},{id:"NED-5",name:"J. Timber"},{id:"NED-6",name:"D. Dumfries"},{id:"NED-7",name:"N. Aké"},{id:"NED-8",name:"J. Frimpong"},{id:"NED-9",name:"JP. van Hecke"},{id:"NED-10",name:"T. Reijnders"},{id:"NED-11",name:"R. Gravenberch"},{id:"NED-12",name:"T. Koopmeiners"},{id:"NED-13",name:"Foto Equipo"},{id:"NED-14",name:"F. de Jong"},{id:"NED-15",name:"X. Simons"},{id:"NED-16",name:"J. Kluivert"},{id:"NED-17",name:"M. Depay"},{id:"NED-18",name:"D. Malen"},{id:"NED-19",name:"W. Weghorst"},{id:"NED-20",name:"C. Gakpo"}]},
+    NOR:{name:"Noruega",flag:"🇳🇴",stickers:[{id:"NOR-1",name:"Escudo"},{id:"NOR-2",name:"O. Nyland"},{id:"NOR-3",name:"J. Ryerson"},{id:"NOR-4",name:"L. Ostigård"},{id:"NOR-5",name:"KV. Ajer"},{id:"NOR-6",name:"MH. Pedersen"},{id:"NOR-7",name:"DM. Wolfe"},{id:"NOR-8",name:"T. Heggem"},{id:"NOR-9",name:"M. Thorsby"},{id:"NOR-10",name:"M. Ødegaard"},{id:"NOR-11",name:"S. Berge"},{id:"NOR-12",name:"A. Schjelderup"},{id:"NOR-13",name:"Foto Equipo"},{id:"NOR-14",name:"P. Berg"},{id:"NOR-15",name:"Erling Haaland"},{id:"NOR-16",name:"A. Sørloth"},{id:"NOR-17",name:"A. Dønnum"},{id:"NOR-18",name:"J. Strand Larsen"},{id:"NOR-19",name:"A. Nusa"},{id:"NOR-20",name:"O. Bobb"}]},
+    NZL:{name:"Nueva Zelanda",flag:"🇳🇿",stickers:[{id:"NZL-1",name:"Escudo"},{id:"NZL-2",name:"M. Crocombe"},{id:"NZL-3",name:"A. Paulsen"},{id:"NZL-4",name:"M. Boxall"},{id:"NZL-5",name:"L. Cacace"},{id:"NZL-6",name:"T. Payne"},{id:"NZL-7",name:"T. Bindon"},{id:"NZL-8",name:"F. de Vries"},{id:"NZL-9",name:"F. Surman"},{id:"NZL-10",name:"J. Bell"},{id:"NZL-11",name:"S. Singh"},{id:"NZL-12",name:"R. Thomas"},{id:"NZL-13",name:"Foto Equipo"},{id:"NZL-14",name:"M. Garbett"},{id:"NZL-15",name:"M. Stamenić"},{id:"NZL-16",name:"B. Old"},{id:"NZL-17",name:"C. Wood"},{id:"NZL-18",name:"E. Just"},{id:"NZL-19",name:"C. McCowatt"},{id:"NZL-20",name:"K. Barbarouses"}]},
+    PAN:{name:"Panamá",flag:"🇵🇦",stickers:[{id:"PAN-1",name:"Escudo"},{id:"PAN-2",name:"O. Mosquera"},{id:"PAN-3",name:"L. Mejia"},{id:"PAN-4",name:"F. Escobar"},{id:"PAN-5",name:"A. Andrade"},{id:"PAN-6",name:"MA. Murillo"},{id:"PAN-7",name:"E. Davis"},{id:"PAN-8",name:"J. Cordoba"},{id:"PAN-9",name:"C. Blackman"},{id:"PAN-10",name:"C. Martinez"},{id:"PAN-11",name:"A. Godoy"},{id:"PAN-12",name:"A. Carrasquilla"},{id:"PAN-13",name:"Foto Equipo"},{id:"PAN-14",name:"É. Bárcenas"},{id:"PAN-15",name:"C. Harvey"},{id:"PAN-16",name:"I. Díaz"},{id:"PAN-17",name:"J. Fajardo"},{id:"PAN-18",name:"C. Waterman"},{id:"PAN-19",name:"JL. Rodriguez"},{id:"PAN-20",name:"A. Quintero"}]},
+    PAR:{name:"Paraguay",flag:"🇵🇾",stickers:[{id:"PAR-1",name:"Escudo"},{id:"PAR-2",name:"R. Fernandez"},{id:"PAR-3",name:"O. Gill"},{id:"PAR-4",name:"G. Gomez"},{id:"PAR-5",name:"F. Balbuena"},{id:"PAR-6",name:"JJ. Cáceres"},{id:"PAR-7",name:"O. Alderete"},{id:"PAR-8",name:"J. Alonso"},{id:"PAR-9",name:"M. Villasanti"},{id:"PAR-10",name:"D. Gomez"},{id:"PAR-11",name:"D. Bobadilla"},{id:"PAR-12",name:"A. Cubas"},{id:"PAR-13",name:"Foto Equipo"},{id:"PAR-14",name:"M. Galarza"},{id:"PAR-15",name:"J. Enciso"},{id:"PAR-16",name:"AR. Gamarra"},{id:"PAR-17",name:"M. Almirón"},{id:"PAR-18",name:"R. Sosa"},{id:"PAR-19",name:"A. Romero"},{id:"PAR-20",name:"A. Sanabria"}]},
+    POR:{name:"Portugal",flag:"🇵🇹",stickers:[{id:"POR-1",name:"Escudo"},{id:"POR-2",name:"D. Costa"},{id:"POR-3",name:"Jose Sa"},{id:"POR-4",name:"R. Dias"},{id:"POR-5",name:"J. Cancelo"},{id:"POR-6",name:"D. Dalot"},{id:"POR-7",name:"N. Mendes"},{id:"POR-8",name:"G. Inácio"},{id:"POR-9",name:"B. Silva"},{id:"POR-10",name:"B. Fernandes"},{id:"POR-11",name:"R. Neves"},{id:"POR-12",name:"Vitinha"},{id:"POR-13",name:"Foto Equipo"},{id:"POR-14",name:"João Neves"},{id:"POR-15",name:"Cristiano Ronaldo"},{id:"POR-16",name:"F. Trincao"},{id:"POR-17",name:"João Felix"},{id:"POR-18",name:"G. Ramos"},{id:"POR-19",name:"P. Neto"},{id:"POR-20",name:"R. Leão"}]},
+    QAT:{name:"Qatar",flag:"🇶🇦",stickers:[{id:"QAT-1",name:"Escudo"},{id:"QAT-2",name:"M. Barsham"},{id:"QAT-3",name:"S. Albrake"},{id:"QAT-4",name:"L. Mendes"},{id:"QAT-5",name:"H. Ahmed"},{id:"QAT-6",name:"B. Khoukhi"},{id:"QAT-7",name:"P. Miguel"},{id:"QAT-8",name:"T. Salman"},{id:"QAT-9",name:"M. Al-Mannai"},{id:"QAT-10",name:"K. Boudiaf"},{id:"QAT-11",name:"A. Madibo"},{id:"QAT-12",name:"A. Fatehi"},{id:"QAT-13",name:"Foto Equipo"},{id:"QAT-14",name:"M. Waad"},{id:"QAT-15",name:"A. Hatem"},{id:"QAT-16",name:"H. Al-Haydos"},{id:"QAT-17",name:"E. Junior"},{id:"QAT-18",name:"AH. Afif"},{id:"QAT-19",name:"A. Al Ganehi"},{id:"QAT-20",name:"A. Ali"}]},
+    RSA:{name:"Sudáfrica",flag:"🇿🇦",stickers:[{id:"RSA-1",name:"Escudo"},{id:"RSA-2",name:"R. Williams"},{id:"RSA-3",name:"S. Chaine"},{id:"RSA-4",name:"A. Modiba"},{id:"RSA-5",name:"S. Kabini"},{id:"RSA-6",name:"M. Mbokazi"},{id:"RSA-7",name:"K. Ndamane"},{id:"RSA-8",name:"S. Ngezana"},{id:"RSA-9",name:"K. Mudau"},{id:"RSA-10",name:"N. Sibisi"},{id:"RSA-11",name:"T. Mokoena"},{id:"RSA-12",name:"T. Mbatha"},{id:"RSA-13",name:"Foto Equipo"},{id:"RSA-14",name:"B. Aubaas"},{id:"RSA-15",name:"Y. Sithole"},{id:"RSA-16",name:"S. Mbule"},{id:"RSA-17",name:"L. Foster"},{id:"RSA-18",name:"I. Rayners"},{id:"RSA-19",name:"M. Nkota"},{id:"RSA-20",name:"O. Appollis"}]},
+    SCO:{name:"Escocia",flag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",stickers:[{id:"SCO-1",name:"Escudo"},{id:"SCO-2",name:"A. Gunn"},{id:"SCO-3",name:"J. Hendry"},{id:"SCO-4",name:"K. Tierney"},{id:"SCO-5",name:"A. Hickey"},{id:"SCO-6",name:"A. Robertson"},{id:"SCO-7",name:"S. McKenna"},{id:"SCO-8",name:"J. Souttar"},{id:"SCO-9",name:"A. Ralston"},{id:"SCO-10",name:"G. Hanley"},{id:"SCO-11",name:"S. McTominay"},{id:"SCO-12",name:"B. Gilmour"},{id:"SCO-13",name:"Foto Equipo"},{id:"SCO-14",name:"L. Ferguson"},{id:"SCO-15",name:"R. Christie"},{id:"SCO-16",name:"K. McLean"},{id:"SCO-17",name:"J. McGinn"},{id:"SCO-18",name:"L. Dykes"},{id:"SCO-19",name:"C. Adams"},{id:"SCO-20",name:"B. Gannon-Doak"}]},
+    SEN:{name:"Senegal",flag:"🇸🇳",stickers:[{id:"SEN-1",name:"Escudo"},{id:"SEN-2",name:"E. Mendy"},{id:"SEN-3",name:"Y. Diouf"},{id:"SEN-4",name:"M. Niakhaté"},{id:"SEN-5",name:"A. Seck"},{id:"SEN-6",name:"I. Jakobs"},{id:"SEN-7",name:"EH. M. Diouf"},{id:"SEN-8",name:"K. Koulibaly"},{id:"SEN-9",name:"I. Gana Gueye"},{id:"SEN-10",name:"P.M. Sarr"},{id:"SEN-11",name:"P. Gueye"},{id:"SEN-12",name:"H. Diarra"},{id:"SEN-13",name:"Foto Equipo"},{id:"SEN-14",name:"L. Camara"},{id:"SEN-15",name:"Sadio Mané"},{id:"SEN-16",name:"I. Sarr"},{id:"SEN-17",name:"B. Dia"},{id:"SEN-18",name:"I. Ndiaye"},{id:"SEN-19",name:"N. Jackson"},{id:"SEN-20",name:"K. Diatta"}]},
+    SUI:{name:"Suiza",flag:"🇨🇭",stickers:[{id:"SUI-1",name:"Escudo"},{id:"SUI-2",name:"G. Kobel"},{id:"SUI-3",name:"Y. Mvogo"},{id:"SUI-4",name:"M. Akanji"},{id:"SUI-5",name:"R. Rodriguez"},{id:"SUI-6",name:"N. Elvedi"},{id:"SUI-7",name:"A. Amenda"},{id:"SUI-8",name:"S. Widmer"},{id:"SUI-9",name:"G. Xhaka"},{id:"SUI-10",name:"D. Zakaria"},{id:"SUI-11",name:"R. Freuler"},{id:"SUI-12",name:"F. Rieder"},{id:"SUI-13",name:"Foto Equipo"},{id:"SUI-14",name:"A. Jashari"},{id:"SUI-15",name:"J. Manzambi"},{id:"SUI-16",name:"M. Aebischer"},{id:"SUI-17",name:"B. Embolo"},{id:"SUI-18",name:"R. Vargas"},{id:"SUI-19",name:"D. Ndoye"},{id:"SUI-20",name:"Z. Amdouni"}]},
+    SWE:{name:"Suecia",flag:"🇸🇪",stickers:[{id:"SWE-1",name:"Escudo"},{id:"SWE-2",name:"V. Johansson"},{id:"SWE-3",name:"I. Hien"},{id:"SWE-4",name:"G. Gudmundsson"},{id:"SWE-5",name:"E. Holm"},{id:"SWE-6",name:"VN. Lindelöf"},{id:"SWE-7",name:"G. Lagerbielke"},{id:"SWE-8",name:"L. Bergvall"},{id:"SWE-9",name:"H. Larsson"},{id:"SWE-10",name:"J. Karlström"},{id:"SWE-11",name:"Y. Ayari"},{id:"SWE-12",name:"M. Svanberg"},{id:"SWE-13",name:"Foto Equipo"},{id:"SWE-14",name:"D. Svensson"},{id:"SWE-15",name:"K. Sema"},{id:"SWE-16",name:"R. Bardghji"},{id:"SWE-17",name:"D. Kulusevski"},{id:"SWE-18",name:"A. Elanga"},{id:"SWE-19",name:"A. Isak"},{id:"SWE-20",name:"V. Gyökeres"}]},
+    TUN:{name:"Túnez",flag:"🇹🇳",stickers:[{id:"TUN-1",name:"Escudo"},{id:"TUN-2",name:"B. Ben Said"},{id:"TUN-3",name:"A. Dahmen"},{id:"TUN-4",name:"Van Valery"},{id:"TUN-5",name:"M. Talbi"},{id:"TUN-6",name:"Y. Meriah"},{id:"TUN-7",name:"A. Abdi"},{id:"TUN-8",name:"D. Bronn"},{id:"TUN-9",name:"E. Skhiri"},{id:"TUN-10",name:"A. Laidouni"},{id:"TUN-11",name:"F. Sassi"},{id:"TUN-12",name:"MA. Ben Romdhane"},{id:"TUN-13",name:"Foto Equipo"},{id:"TUN-14",name:"H. Mejbri"},{id:"TUN-15",name:"E. Achouri"},{id:"TUN-16",name:"E. Saad"},{id:"TUN-17",name:"H. Mastouri"},{id:"TUN-18",name:"I. Gharbi"},{id:"TUN-19",name:"S. Ltaief"},{id:"TUN-20",name:"N. Sliti"}]},
+    TUR:{name:"Turquía",flag:"🇹🇷",stickers:[{id:"TUR-1",name:"Escudo"},{id:"TUR-2",name:"U. Cakir"},{id:"TUR-3",name:"M. Muldur"},{id:"TUR-4",name:"Z. Celik"},{id:"TUR-5",name:"A. Bardakci"},{id:"TUR-6",name:"C. Soyunku"},{id:"TUR-7",name:"M. Demiral"},{id:"TUR-8",name:"F. Kadioglu"},{id:"TUR-9",name:"K. Ayhan"},{id:"TUR-10",name:"I. Yuksek"},{id:"TUR-11",name:"H. Calhanoglu"},{id:"TUR-12",name:"O. Kokcu"},{id:"TUR-13",name:"Foto Equipo"},{id:"TUR-14",name:"Arda Guler"},{id:"TUR-15",name:"IC. Kahvecu"},{id:"TUR-16",name:"Y. Akgun"},{id:"TUR-17",name:"C. Uzun"},{id:"TUR-18",name:"BA. Yilmaz"},{id:"TUR-19",name:"K. Akturkoglu"},{id:"TUR-20",name:"K. Yildiz"}]},
+    URU:{name:"Uruguay",flag:"🇺🇾",stickers:[{id:"URU-1",name:"Escudo"},{id:"URU-2",name:"S. Rochet"},{id:"URU-3",name:"S. Mele"},{id:"URU-4",name:"R. Araujo"},{id:"URU-5",name:"JM. Giménez"},{id:"URU-6",name:"S. Caceres"},{id:"URU-7",name:"M. Olivera"},{id:"URU-8",name:"G. Varela"},{id:"URU-9",name:"N. Nandez"},{id:"URU-10",name:"F. Valverde"},{id:"URU-11",name:"G. De Arrascaeta"},{id:"URU-12",name:"R. Bentancur"},{id:"URU-13",name:"Foto Equipo"},{id:"URU-14",name:"M. Ugarte"},{id:"URU-15",name:"N. de la Cruz"},{id:"URU-16",name:"M. Araujo"},{id:"URU-17",name:"Darwin Núñez"},{id:"URU-18",name:"F. Viñas"},{id:"URU-19",name:"R. Aguirre"},{id:"URU-20",name:"F. Pellistri"}]},
+    USA:{name:"EE.UU.",flag:"🇺🇸",stickers:[{id:"USA-1",name:"Escudo"},{id:"USA-2",name:"M. Freese"},{id:"USA-3",name:"C. Richards"},{id:"USA-4",name:"T. Ream"},{id:"USA-5",name:"M. McKenzie"},{id:"USA-6",name:"A. Freeman"},{id:"USA-7",name:"A. Robinson"},{id:"USA-8",name:"T. Adams"},{id:"USA-9",name:"T. Tessmann"},{id:"USA-10",name:"W. McKennie"},{id:"USA-11",name:"C. Roldan"},{id:"USA-12",name:"T. Weah"},{id:"USA-13",name:"Foto Equipo"},{id:"USA-14",name:"D. Luna"},{id:"USA-15",name:"M. Tillman"},{id:"USA-16",name:"C. Pulisic"},{id:"USA-17",name:"B. Aaronson"},{id:"USA-18",name:"R. Pepi"},{id:"USA-19",name:"H. Wright"},{id:"USA-20",name:"F. Balogun"}]},
+    UZB:{name:"Uzbekistán",flag:"🇺🇿",stickers:[{id:"UZB-1",name:"Escudo"},{id:"UZB-2",name:"U. Yusupov"},{id:"UZB-3",name:"F. Savfiev"},{id:"UZB-4",name:"S. Nasrullaev"},{id:"UZB-5",name:"U. Eshmurodov"},{id:"UZB-6",name:"H. Aliqulov"},{id:"UZB-7",name:"R. Ashurmatov"},{id:"UZB-8",name:"K. Alijonov"},{id:"UZB-9",name:"A. Khusanov"},{id:"UZB-10",name:"O. Hamrobekov"},{id:"UZB-11",name:"O. Shukurov"},{id:"UZB-12",name:"J. Iskanderov"},{id:"UZB-13",name:"Foto Equipo"},{id:"UZB-14",name:"A. Turgunboev"},{id:"UZB-15",name:"K. Erkinov"},{id:"UZB-16",name:"E. Shomurodov"},{id:"UZB-17",name:"O. Urunov"},{id:"UZB-18",name:"J. Masharipov"},{id:"UZB-19",name:"I. Sergeev"},{id:"UZB-20",name:"A. Fayzullaev"}]},
+    FWC:{name:"FIFA WC / Intro",flag:"🏆",stickers:[{id:"FWC-1",name:"Emblema Oficial 1/2"},{id:"FWC-2",name:"Emblema Oficial 2/2"},{id:"FWC-3",name:"Mascotas Oficiales"},{id:"FWC-4",name:"Slogan Oficial"},{id:"FWC-5",name:"Balón Oficial"},{id:"FWC-6",name:"Canadá (País Sede)"},{id:"FWC-7",name:"México (País Sede)"},{id:"FWC-8",name:"EE.UU. (País Sede)"},{id:"FWC-9",name:"Italia 1934"},{id:"FWC-10",name:"Uruguay 1950"},{id:"FWC-11",name:"Alemania O. 1954"},{id:"FWC-12",name:"Brasil 1962"},{id:"FWC-13",name:"Alemania O. 1974"},{id:"FWC-14",name:"Argentina 1986"},{id:"FWC-15",name:"Brasil 1994"},{id:"FWC-16",name:"Brasil 2002"},{id:"FWC-17",name:"Italia 2006"},{id:"FWC-18",name:"Alemania 2014"},{id:"FWC-19",name:"Argentina 2022"},{id:"PANINI-0",name:"Logo Panini"}]}
+  }
+};
+
+// ─── STATE ──────────────────────────────────────────────────
+const TOTAL = 980;
+let state = {}; // {id: 'none'|'have'|'trade'}
+let dupes = {}; // {id: count}
+let purchases = []; // [{qty, price, date}]
+let activeModal = null;
+let holdTimer = null;
+
+function loadState() {
+  try {
+    state = JSON.parse(localStorage.getItem('panini26_state') || '{}');
+    dupes = JSON.parse(localStorage.getItem('panini26_dupes') || '{}');
+    purchases = JSON.parse(localStorage.getItem('panini26_purchases') || '[]');
+  } catch(e) {}
+}
+function saveState() {
+  localStorage.setItem('panini26_state', JSON.stringify(state));
+  localStorage.setItem('panini26_dupes', JSON.stringify(dupes));
+  localStorage.setItem('panini26_purchases', JSON.stringify(purchases));
+}
+
+// ─── GETTERS ─────────────────────────────────────────────────
+function getHaveCount() {
+  return Object.values(state).filter(v => v === 'have' || v === 'trade').length;
+}
+function getTeamGroup(code) {
+  for (const [g, teams] of Object.entries(DB.groups)) {
+    if (teams.includes(code)) return g;
+  }
+  return '—';
+}
+function getTeamHave(code) {
+  const team = DB.teams[code];
+  return team.stickers.filter(s => state[s.id] === 'have' || state[s.id] === 'trade').length;
+}
+
+// ─── UPDATE UI ───────────────────────────────────────────────
+function updateGlobal() {
+  const have = getHaveCount();
+  const pct = ((have / TOTAL) * 100).toFixed(1);
+  document.getElementById('global-bar').style.width = pct + '%';
+  document.getElementById('pct-display').textContent = pct + '%';
+  document.getElementById('count-display').textContent = `${have} / ${TOTAL}`;
+  document.getElementById('have-count').textContent = `${have} pegadas`;
+  document.getElementById('missing-count').textContent = `${TOTAL - have} faltantes`;
+}
+
+// ─── VIEW SWITCHING ──────────────────────────────────────────
+let currentView = 'album';
+function switchView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  event.target.classList.add('active');
+  currentView = name;
+  if (name === 'faltantes') renderMissing('all');
+  if (name === 'repetidas') renderDupes();
+  if (name === 'inversion') renderInvestment();
+  if (name === 'probabilidad') calcProb();
+}
+
+// ─── GROUP FILTER ────────────────────────────────────────────
+let activeGroup = 'all';
+function selectGroup(g, el) {
+  activeGroup = g;
+  document.querySelectorAll('.group-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderAlbum();
+}
+
+// ─── RENDER ALBUM ────────────────────────────────────────────
+function renderAlbum(query = '') {
+  const list = document.getElementById('album-list');
+  list.innerHTML = '';
+  const q = (query || document.getElementById('search-input').value).toLowerCase();
+
+  // Build ordered list: FWC first, then by group
+  let teamOrder = ['FWC'];
+  if (activeGroup === 'all') {
+    for (const g of 'ABCDEFGHIJKL') {
+      teamOrder = teamOrder.concat(DB.groups[g] || []);
+    }
+  } else {
+    teamOrder = teamOrder.concat(DB.groups[activeGroup] || []);
+  }
+
+  for (const code of teamOrder) {
+    const team = DB.teams[code];
+    if (!team) continue;
+
+    // Filter by search
+    const matchesSearch = !q || team.name.toLowerCase().includes(q) ||
+      team.stickers.some(s => s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q));
+    if (!matchesSearch) continue;
+
+    const have = getTeamHave(code);
+    const total = team.stickers.length;
+    const complete = have === total;
+    const group = getTeamGroup(code);
+
+    const card = document.createElement('div');
+    card.className = 'team-card' + (complete ? ' complete' : '');
+    card.innerHTML = `
+      <div class="team-header" onclick="toggleTeam('${code}', this)">
+        <span class="team-flag">${team.flag}</span>
+        <span class="team-name">${team.name}</span>
+        ${group !== '—' ? `<span class="team-group">Gr. ${group}</span>` : ''}
+        <span class="team-count ${complete ? 'done' : ''}">${have}/${total}</span>
+        <span style="color:var(--muted);font-size:12px;margin-left:4px">›</span>
+      </div>
+      <div class="team-mini-bar">
+        <div class="team-mini-fill ${complete ? 'full' : ''}" style="width:${(have/total*100).toFixed(0)}%"></div>
+      </div>
+      <div class="sticker-grid" id="grid-${code}">
+        ${team.stickers.map(s => {
+          const st = state[s.id] || 'none';
+          const dup = dupes[s.id] || 0;
+          const matchSticker = !q || s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) || team.name.toLowerCase().includes(q);
+          return `<div class="sticker ${st}" id="sticker-${s.id}"
+            ontouchstart="startHold('${s.id}', event)"
+            ontouchend="endHold()"
+            ontouchmove="endHold()"
+            onclick="quickToggle('${s.id}')"
+            oncontextmenu="openModal('${s.id}');return false;"
+            style="${!matchSticker && q ? 'opacity:0.3' : ''}">
+            <span class="sticker-id">${s.id}</span>
+            <span class="sticker-name">${s.name}</span>
+            ${st === 'trade' ? '<span class="sticker-badge">🔄</span>' : ''}
+            ${dup > 0 ? `<span class="sticker-dupes">×${dup + 1}</span>` : ''}
+          </div>`;
+        }).join('')}
+      </div>
+    `;
+    list.appendChild(card);
+  }
+}
+
+function filterAlbum() { renderAlbum(); }
+
+function toggleTeam(code, header) {
+  const grid = document.getElementById('grid-' + code);
+  grid.classList.toggle('open');
+  const arrow = header.querySelector('span:last-child');
+  arrow.textContent = grid.classList.contains('open') ? '⌄' : '›';
+}
+
+// ─── STICKER INTERACTION ─────────────────────────────────────
+function quickToggle(id) {
+  if (holdTimer) return; // was a long press
+  const cur = state[id] || 'none';
+  if (cur === 'none') {
+    state[id] = 'have';
+  } else if (cur === 'have') {
+    // On second tap if already have: add duplicate
+    dupes[id] = (dupes[id] || 0) + 1;
+  } else if (cur === 'trade') {
+    state[id] = 'none';
+    dupes[id] = 0;
+  }
+  saveState();
+  refreshSticker(id);
+  updateGlobal();
+}
+
+function startHold(id, e) {
+  holdTimer = null;
+  const t = setTimeout(() => {
+    holdTimer = true;
+    openModal(id);
+  }, 500);
+  holdTimer = t;
+}
+function endHold() {
+  if (typeof holdTimer === 'number') {
+    clearTimeout(holdTimer);
+    holdTimer = null;
+  }
+}
+
+function refreshSticker(id) {
+  const el = document.getElementById('sticker-' + id);
+  if (!el) return;
+  const st = state[id] || 'none';
+  const dup = dupes[id] || 0;
+  el.className = 'sticker ' + st;
+
+  // Update badge
+  const badge = el.querySelector('.sticker-badge');
+  if (badge) badge.remove();
+  if (st === 'trade') {
+    const b = document.createElement('span');
+    b.className = 'sticker-badge';
+    b.textContent = '🔄';
+    el.appendChild(b);
+  }
+  const dupEl = el.querySelector('.sticker-dupes');
+  if (dupEl) dupEl.remove();
+  if (dup > 0) {
+    const d = document.createElement('span');
+    d.className = 'sticker-dupes';
+    d.textContent = `×${dup + 1}`;
+    el.appendChild(d);
+  }
+
+  // Update team card
+  const code = id.split('-')[0];
+  const team = DB.teams[code];
+  if (team) {
+    const have = getTeamHave(code);
+    const total = team.stickers.length;
+    const card = el.closest('.team-card');
+    if (card) {
+      card.classList.toggle('complete', have === total);
+      const countEl = card.querySelector('.team-count');
+      if (countEl) { countEl.textContent = `${have}/${total}`; countEl.className = 'team-count' + (have === total ? ' done' : ''); }
+      const fill = card.querySelector('.team-mini-fill');
+      if (fill) { fill.style.width = (have/total*100).toFixed(0) + '%'; fill.classList.toggle('full', have === total); }
+    }
+  }
+}
+
+// ─── MODAL ───────────────────────────────────────────────────
+function openModal(id) {
+  activeModal = id;
+  // Find sticker name
+  for (const [code, team] of Object.entries(DB.teams)) {
+    const s = team.stickers.find(s => s.id === id);
+    if (s) {
+      document.getElementById('modal-title').textContent = s.name;
+      document.getElementById('modal-sub').textContent = `${team.flag} ${team.name} · ${id}`;
+      break;
+    }
+  }
+  const cur = state[id] || 'none';
+  document.getElementById('opt-none').classList.toggle('selected', cur === 'none');
+  document.getElementById('opt-have').classList.toggle('selected', cur === 'have');
+  document.getElementById('opt-trade').classList.toggle('selected', cur === 'trade');
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal')) return;
+  document.getElementById('modal').classList.remove('open');
+  activeModal = null;
+}
+function setSticker(status) {
+  if (!activeModal) return;
+  state[activeModal] = status;
+  if (status === 'none') dupes[activeModal] = 0;
+  saveState();
+  refreshSticker(activeModal);
+  updateGlobal();
+  document.getElementById('modal').classList.remove('open');
+  activeModal = null;
+}
+
+// ─── MISSING ─────────────────────────────────────────────────
+let missingGroup = 'all';
+function filterMissing(g, el) {
+  missingGroup = g;
+  document.querySelectorAll('#missing-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderMissing(g);
+}
+function renderMissing(g) {
+  const list = document.getElementById('missing-list');
+  list.innerHTML = '';
+  let teamOrder = ['FWC'];
+  if (g === 'all') {
+    for (const gr of 'ABCDEFGHIJKL') teamOrder = teamOrder.concat(DB.groups[gr] || []);
+  } else {
+    teamOrder = teamOrder.concat(DB.groups[g] || []);
+  }
+
+  let totalMissing = 0;
+  for (const code of teamOrder) {
+    const team = DB.teams[code];
+    const missing = team.stickers.filter(s => !state[s.id] || state[s.id] === 'none');
+    if (!missing.length) continue;
+    totalMissing += missing.length;
+
+    const section = document.createElement('div');
+    section.innerHTML = `<div class="section-label">${team.flag} ${team.name} — ${missing.length} faltantes</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+      ${missing.map(s => `
+        <div onclick="quickToggleMissing('${s.id}', this)" style="background:var(--surface);border:1.5px solid var(--border);border-radius:7px;padding:6px 10px;cursor:pointer;font-size:12px;transition:all 0.15s">
+          <span style="color:var(--muted);font-size:10px">${s.id}</span>
+          <span style="display:block;font-size:11px">${s.name}</span>
+        </div>`).join('')}
+    </div>`;
+    list.appendChild(section);
+  }
+  if (!totalMissing) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">🎉</div><div class="empty-text">¡Álbum completo!</div></div>';
+  }
+}
+function quickToggleMissing(id, el) {
+  state[id] = 'have';
+  saveState();
+  el.style.opacity = '0.3';
+  el.style.textDecoration = 'line-through';
+  updateGlobal();
+  refreshSticker(id);
+}
+
+// ─── DUPES ───────────────────────────────────────────────────
+function renderDupes() {
+  const list = document.getElementById('dupes-list');
+  list.innerHTML = '';
+  const entries = Object.entries(dupes).filter(([,c]) => c > 0);
+
+  document.getElementById('dupe-total').textContent = entries.reduce((a,[,c]) => a + c, 0);
+  document.getElementById('dupe-unique').textContent = entries.length;
+
+  if (!entries.length) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">No hay repetidas aún</div></div>';
+    return;
+  }
+  for (const [id, count] of entries) {
+    let name = id, teamName = '';
+    for (const [code, team] of Object.entries(DB.teams)) {
+      const s = team.stickers.find(s => s.id === id);
+      if (s) { name = s.name; teamName = team.flag + ' ' + team.name; break; }
+    }
+    const row = document.createElement('div');
+    row.className = 'dupe-row';
+    row.innerHTML = `
+      <div class="dupe-info">
+        <div class="dupe-id">${id} · ${teamName}</div>
+        <div class="dupe-name">${name}</div>
+      </div>
+      <div class="dupe-ctrl">
+        <button class="dupe-btn" onclick="changeDupe('${id}', -1)">−</button>
+        <span class="dupe-count">${count + 1}</span>
+        <button class="dupe-btn" onclick="changeDupe('${id}', 1)">+</button>
+      </div>`;
+    list.appendChild(row);
+  }
+}
+function changeDupe(id, delta) {
+  dupes[id] = Math.max(0, (dupes[id] || 0) + delta);
+  if (dupes[id] === 0) delete dupes[id];
+  saveState();
+  renderDupes();
+  refreshSticker(id);
+}
+
+// ─── INVESTMENT ──────────────────────────────────────────────
+function renderInvestment() {
+  const total = purchases.reduce((a, p) => a + p.qty * p.price, 0);
+  const packs = purchases.reduce((a, p) => a + p.qty, 0);
+  const have = getHaveCount();
+  const perSticker = have > 0 ? (total / have).toFixed(2) : 0;
+  const missing = TOTAL - have;
+  const avgPricePerPack = packs > 0 ? total / packs : 15;
+  const projected = missing > 0 ? ((missing / 7) * avgPricePerPack).toFixed(0) : 0;
+
+  document.getElementById('invest-total').textContent = '$' + total.toFixed(0);
+  document.getElementById('invest-per').textContent = '$' + perSticker;
+  document.getElementById('invest-packs').textContent = packs;
+  document.getElementById('invest-projected').textContent = '$' + projected;
+
+  const pList = document.getElementById('purchase-list');
+  pList.innerHTML = '';
+  if (!purchases.length) {
+    pList.innerHTML = '<div class="empty"><div class="empty-icon">💰</div><div class="empty-text">Sin compras registradas</div></div>';
+    return;
+  }
+  purchases.slice().reverse().forEach((p, i) => {
+    const idx = purchases.length - 1 - i;
+    const item = document.createElement('div');
+    item.className = 'purchase-item';
+    item.innerHTML = `
+      <div>
+        <div style="font-weight:600">${p.qty} sobres × $${p.price}</div>
+        <div class="purchase-date">${p.date} · Total: $${(p.qty * p.price).toFixed(0)}</div>
+      </div>
+      <button class="purchase-del" onclick="deletePurchase(${idx})">🗑</button>`;
+    pList.appendChild(item);
+  });
+}
+function addPurchase() {
+  const qty = parseInt(document.getElementById('inv-qty').value);
+  const price = parseFloat(document.getElementById('inv-price').value);
+  if (!qty || !price || qty < 1 || price < 0) return;
+  purchases.push({ qty, price, date: new Date().toLocaleDateString('es-MX') });
+  saveState();
+  document.getElementById('inv-qty').value = '';
+  document.getElementById('inv-price').value = '';
+  renderInvestment();
+}
+function deletePurchase(idx) {
+  purchases.splice(idx, 1);
+  saveState();
+  renderInvestment();
+}
+
+// ─── PROBABILITY ─────────────────────────────────────────────
+function calcProb() {
+  const packs = parseInt(document.getElementById('prob-slider').value);
+  document.getElementById('slider-val').textContent = packs + ' sobre' + (packs !== 1 ? 's' : '');
+
+  const have = getHaveCount();
+  const missing = TOTAL - have;
+  const stickersPerPack = 7;
+  const total = packs * stickersPerPack;
+
+  // Expected new stickers using coupon collector approximation
+  // E[new] = Σ_{i=1}^{n} missing/(TOTAL) * (1 - have/TOTAL)^... 
+  // Simpler: expected unique new = missing * (1 - ((TOTAL-1)/TOTAL)^n)
+  // More accurate: simulate draw by draw
+  let expectedNew = 0;
+  let tempHave = have;
+  for (let i = 0; i < total; i++) {
+    const pNew = (TOTAL - tempHave) / TOTAL;
+    expectedNew += pNew;
+    tempHave += pNew; // fractional increment
+  }
+  expectedNew = Math.min(expectedNew, missing);
+  const expectedDupes = total - expectedNew;
+
+  // Packs needed to finish (rough estimate)
+  let packsToFinish = '∞';
+  if (missing > 0 && have < TOTAL) {
+    // Expected packs = Σ TOTAL/remaining for each sticker left
+    let est = 0;
+    for (let i = 0; i < missing; i++) {
+      est += TOTAL / (missing - i);
+    }
+    packsToFinish = Math.ceil(est / stickersPerPack);
+  } else if (have === TOTAL) {
+    packsToFinish = '0';
+  }
+
+  const pctMissing = missing > 0 ? ((missing / TOTAL) * 100).toFixed(1) : '0';
+
+  document.getElementById('prob-stickers').textContent = total;
+  document.getElementById('prob-new').textContent = Math.round(expectedNew);
+  document.getElementById('prob-pct-miss').textContent = pctMissing + '%';
+  document.getElementById('prob-expected-dupes').textContent = Math.round(expectedDupes);
+  document.getElementById('prob-to-finish').textContent = typeof packsToFinish === 'number' ? packsToFinish.toLocaleString() : packsToFinish;
+}
+
+// ─── GROUP TABS SETUP ────────────────────────────────────────
+function buildGroupTabs() {
+  const wrap = document.getElementById('group-tabs');
+  for (const g of 'ABCDEFGHIJKL') {
+    const btn = document.createElement('button');
+    btn.className = 'group-tab';
+    btn.textContent = 'Gr. ' + g;
+    btn.onclick = function() { selectGroup(g, this); };
+    wrap.appendChild(btn);
+  }
+}
+
+// ─── INIT ────────────────────────────────────────────────────
+loadState();
+buildGroupTabs();
+renderAlbum();
+updateGlobal();
+calcProb();
+</script>
+</body>
+</html>
