@@ -154,7 +154,8 @@
     cursor: pointer;
     user-select: none;
   }
-  .team-flag { font-size: 22px; line-height: 1; }
+  .team-flag { width: 32px; height: 22px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
+  .team-flag-emoji { font-size: 22px; line-height: 1; }
   .team-name { font-weight: 600; font-size: 14px; flex: 1; }
   .team-group {
     font-size: 10px;
@@ -782,6 +783,23 @@
 </div>
 
 <script>
+// ─── FLAGS ───────────────────────────────────────────────────
+const BASE = 'https://raw.githubusercontent.com/FranzNons/BracketCamisetas/main/flags/';
+const FLAG_MAP = {
+  ALG:'dz',ARG:'ar',AUS:'au',AUT:'at',BEL:'be',BIH:'ba',BRA:'br',
+  CAN:'ca',CIV:'ci',COD:'cd',COL:'co',CPV:'cv',CRO:'hr',CUW:'cw',
+  CZE:'cz',ECU:'ec',EGY:'eg',ENG:'gb-eng',ESP:'es',FRA:'fr',GER:'de',
+  GHA:'gh',HAI:'ht',IRN:'ir',IRQ:'iq',JOR:'jo',JPN:'jp',KOR:'kr',
+  KSA:'sa',MAR:'ma',MEX:'mx',NED:'nl',NOR:'no',NZL:'nz',PAN:'pa',
+  PAR:'py',POR:'pt',QAT:'qa',RSA:'za',SCO:'gb-sct',SEN:'sn',SUI:'ch',
+  SWE:'se',TUN:'tn',TUR:'tr',URU:'uy',USA:'us',UZB:'uz',FWC:null
+};
+function flagHTML(code) {
+  const file = FLAG_MAP[code];
+  if (!file) return '<span class="team-flag-emoji">🏆</span>';
+  return `<img class="team-flag" src="${BASE}${file}.svg" alt="${code}" loading="lazy" onerror="this.style.display='none'">`;
+}
+
 // ─── DATABASE ──────────────────────────────────────────────
 const DB = {
   groups: {
@@ -949,7 +967,7 @@ function renderAlbum(query = '') {
     card.className = 'team-card' + (complete ? ' complete' : '');
     card.innerHTML = `
       <div class="team-header" onclick="toggleTeam('${code}', this)">
-        <span class="team-flag">${team.flag}</span>
+        ${flagHTML(code)}
         <span class="team-name">${team.name}</span>
         ${group !== '—' ? `<span class="team-group">Gr. ${group}</span>` : ''}
         <span class="team-count ${complete ? 'done' : ''}">${have}/${total}</span>
@@ -1126,7 +1144,7 @@ function renderMissing(g) {
     totalMissing += missing.length;
 
     const section = document.createElement('div');
-    section.innerHTML = `<div class="section-label">${team.flag} ${team.name} — ${missing.length} faltantes</div>
+    section.innerHTML = `<div class="section-label" style="display:flex;align-items:center;gap:6px">${flagHTML(code)} ${team.name} — ${missing.length} faltantes</div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
       ${missing.map(s => `
         <div onclick="quickToggleMissing('${s.id}', this)" style="background:var(--surface);border:1.5px solid var(--border);border-radius:7px;padding:6px 10px;cursor:pointer;font-size:12px;transition:all 0.15s">
@@ -1163,17 +1181,20 @@ function renderDupes() {
     return;
   }
   for (const [id, count] of entries) {
-    let name = id, teamName = '';
+    let name = id, teamName = '', teamCode = '';
     for (const [code, team] of Object.entries(DB.teams)) {
       const s = team.stickers.find(s => s.id === id);
-      if (s) { name = s.name; teamName = team.flag + ' ' + team.name; break; }
+      if (s) { name = s.name; teamName = team.name; teamCode = code; break; }
     }
     const row = document.createElement('div');
     row.className = 'dupe-row';
     row.innerHTML = `
-      <div class="dupe-info">
-        <div class="dupe-id">${id} · ${teamName}</div>
-        <div class="dupe-name">${name}</div>
+      <div class="dupe-info" style="display:flex;align-items:center;gap:8px">
+        ${flagHTML(teamCode)}
+        <div>
+          <div class="dupe-id">${id} · ${teamName}</div>
+          <div class="dupe-name">${name}</div>
+        </div>
       </div>
       <div class="dupe-ctrl">
         <button class="dupe-btn" onclick="changeDupe('${id}', -1)">−</button>
