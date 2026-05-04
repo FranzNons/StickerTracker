@@ -2,808 +2,404 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Álbum Panini Mundial 2026</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Álbum Panini 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+:root{--bg:#0b0f1a;--surface:#131929;--surface2:#1a2236;--border:#232f45;--accent:#e8b84b;--accent2:#3b82f6;--red:#ef4444;--green:#22c55e;--muted:#566070;--text:#dde4f0;--trade:#a855f7;--nav-h:64px;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;display:flex;flex-direction:column;}
 
-  :root {
-    --bg: #0a0f1e;
-    --surface: #111827;
-    --surface2: #1a2236;
-    --border: #1e2d45;
-    --accent: #e8b84b;
-    --accent2: #3b82f6;
-    --red: #ef4444;
-    --green: #22c55e;
-    --text: #e2e8f0;
-    --muted: #64748b;
-    --trade: #a855f7;
-  }
+/* TOP BAR */
+.top-bar{background:#0d1526;border-bottom:1px solid var(--border);padding:10px 16px 8px;flex-shrink:0;display:none;}
+.top-bar.visible{display:block;}
+.top-bar-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.top-bar-title{font-family:'Bebas Neue';font-size:18px;color:var(--accent);letter-spacing:1px;}
+.top-bar-pct{font-family:'Bebas Neue';font-size:20px;color:var(--accent);}
+.top-bar-sub{font-size:10px;color:var(--muted);}
+.prog-wrap{background:var(--border);border-radius:3px;height:5px;}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:3px;transition:width .4s;}
+.prog-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px;}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* SCREENS */
+.screen-wrap{flex:1;overflow:hidden;position:relative;}
+.screen{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;display:none;padding-bottom:calc(var(--nav-h) + 8px);}
+.screen.active{display:block;}
+#s-home{padding-bottom:0;}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    min-height: 100vh;
-    padding-bottom: 80px;
-  }
+/* BOTTOM NAV */
+.bottom-nav{height:var(--nav-h);background:#0d1526;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;flex-shrink:0;position:relative;z-index:50;}
+.bottom-nav.hidden{display:none;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:8px 4px;border:none;background:none;color:var(--muted);font-family:inherit;font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;transition:color .2s;}
+.nav-item.active{color:var(--accent);}
+.nav-item-icon{font-size:20px;line-height:1;}
+.nav-center{width:52px;height:52px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;box-shadow:0 0 20px rgba(232,184,75,.3);flex-shrink:0;transition:transform .15s;margin-bottom:10px;}
+.nav-center:active{transform:scale(.94);}
+.nav-center-icon{font-size:22px;}
 
-  /* ── HEADER ── */
-  .header {
-    background: linear-gradient(135deg, #0d1b2e 0%, #1a2d4a 100%);
-    border-bottom: 2px solid var(--accent);
-    padding: 16px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-  }
-  .header-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 1px;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .header-subtitle {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
+/* HOME */
+#s-home{background:var(--bg);}
+.home-logo{text-align:center;padding:28px 20px 16px;}
+.home-logo-title{font-family:'Bebas Neue';font-size:32px;letter-spacing:3px;color:var(--accent);line-height:1;}
+.home-logo-sub{font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-top:2px;}
+.home-progress{display:flex;flex-direction:column;align-items:center;padding:0 20px 20px;}
+.ring-wrap{position:relative;width:140px;height:140px;}
+.ring-svg{transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:var(--border);stroke-width:10;}
+.ring-fill{fill:none;stroke:url(#ringGrad);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .8s ease;}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring-pct{font-family:'Bebas Neue';font-size:36px;color:var(--accent);line-height:1;}
+.ring-label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.home-counts{display:flex;gap:24px;margin-top:12px;}
+.home-count{text-align:center;}
+.home-count-val{font-family:'Bebas Neue';font-size:22px;line-height:1;}
+.home-count-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.home-cards{padding:0 16px 24px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.home-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;transition:border-color .2s,transform .15s;position:relative;overflow:hidden;}
+.home-card:active{transform:scale(.97);}
+.home-card.full{grid-column:1/-1;}
+.home-card-icon{font-size:20px;margin-bottom:8px;}
+.home-card-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;}
+.home-card-val{font-family:'Bebas Neue';font-size:26px;color:var(--text);line-height:1;}
+.home-card-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+.home-recent-list{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.home-recent-chip{background:var(--surface2);border-radius:6px;padding:3px 7px;font-size:10px;color:var(--muted);}
+.home-recent-chip span{color:var(--text);font-weight:600;}
+.home-team-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);}
+.home-team-row:last-child{border-bottom:none;}
+.home-team-bar-wrap{width:60px;background:var(--border);border-radius:2px;height:4px;}
+.home-team-bar{height:100%;background:var(--accent);border-radius:2px;}
+.home-team-count{font-size:11px;color:var(--muted);min-width:28px;text-align:right;}
 
-  /* ── PROGRESS BAR ── */
-  .progress-wrap {
-    background: var(--border);
-    border-radius: 4px;
-    height: 8px;
-    overflow: hidden;
-    position: relative;
-  }
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent2), var(--accent));
-    border-radius: 4px;
-    transition: width 0.4s ease;
-  }
-  .progress-stats {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 6px;
-    font-size: 11px;
-    color: var(--muted);
-  }
-  .progress-pct {
-    font-weight: 700;
-    color: var(--accent);
-    font-size: 13px;
-  }
+/* ÁLBUM */
+.album-search-wrap{padding:12px 16px 8px;position:sticky;top:0;z-index:10;background:var(--bg);}
+.album-search{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px 10px 36px;color:var(--text);font-family:inherit;font-size:14px;outline:none;}
+.album-search:focus{border-color:var(--accent2);}
+.search-ico{position:absolute;left:27px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
+.groups-list{padding:0 16px 16px;}
+.group-section{margin-bottom:16px;}
+.group-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-left:2px;}
+.country-row{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;transition:border-color .15s;}
+.country-row:active{border-color:var(--accent);}
+.country-row.complete{border-color:var(--green);}
+.country-name{flex:1;font-weight:600;font-size:13px;}
+.country-prog-wrap{width:50px;background:var(--border);height:3px;border-radius:2px;}
+.country-prog-fill{height:100%;background:var(--accent2);border-radius:2px;transition:width .3s;}
+.country-prog-fill.done{background:var(--green);}
+.country-count{font-size:11px;color:var(--muted);min-width:32px;text-align:right;font-weight:600;}
+.country-count.done{color:var(--green);}
 
-  /* ── NAV TABS ── */
-  .nav {
-    display: flex;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 116px;
-    z-index: 90;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .nav::-webkit-scrollbar { display: none; }
-  .nav-btn {
-    flex: none;
-    padding: 10px 16px;
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    white-space: nowrap;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-  }
-  .nav-btn.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-  }
+/* COUNTRY DETAIL */
+.country-detail{display:none;position:absolute;inset:0;background:var(--bg);z-index:30;overflow-y:auto;}
+.country-detail.open{display:block;}
+.detail-header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5;}
+.detail-back{background:var(--surface2);border:none;border-radius:8px;color:var(--text);font-size:20px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.detail-info{flex:1;}
+.detail-name{font-family:'Bebas Neue';font-size:20px;color:var(--text);letter-spacing:1px;line-height:1;}
+.detail-count{font-size:11px;color:var(--muted);}
+.detail-nav{display:flex;gap:6px;}
+.detail-nav-btn{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:18px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.detail-hint{text-align:center;font-size:11px;color:var(--muted);padding:8px 16px 4px;}
+.sticker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 16px 24px;}
+.sticker{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:8px 4px 6px;text-align:center;cursor:pointer;transition:border-color .15s;position:relative;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
+.sticker.have{background:#0b2016;border-color:var(--green);}
+.sticker.trade{background:#1a0a2e;border-color:var(--trade);}
+.sticker-id{font-size:8px;color:var(--muted);font-weight:700;}
+.sticker-num{font-family:'Bebas Neue';font-size:20px;line-height:1;color:var(--text);}
+.sticker.have .sticker-num{color:#86efac;}
+.sticker.trade .sticker-num{color:#d8b4fe;}
+.sticker-name{font-size:8px;color:var(--muted);line-height:1.2;}
+.sticker-badge{font-size:10px;position:absolute;top:3px;right:4px;}
+.sticker-dupes{font-size:9px;font-weight:700;color:var(--accent);position:absolute;bottom:2px;right:4px;}
 
-  /* ── VIEWS ── */
-  .view { display: none; padding: 16px; }
-  .view.active { display: block; }
+/* FALTANTES */
+.missing-search-wrap{padding:12px 16px 8px;position:sticky;top:0;z-index:10;background:var(--bg);}
+.missing-search{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px 10px 36px;color:var(--text);font-family:inherit;font-size:14px;outline:none;}
+.missing-country-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;}
+.missing-country-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.missing-stickers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.missing-chip{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 4px;text-align:center;cursor:pointer;transition:all .15s;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
+.missing-chip-id{font-size:8px;color:var(--muted);font-weight:700;}
+.missing-chip-num{font-family:'Bebas Neue';font-size:18px;color:var(--text);line-height:1;}
+.missing-chip-name{font-size:8px;color:var(--muted);line-height:1.1;}
 
-  /* ── SECTION CARD ── */
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-    margin-top: 16px;
-  }
-  .section-label:first-child { margin-top: 0; }
+/* REPETIDAS */
+.section-pad{padding:16px;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
+.stat-val{font-family:'Bebas Neue';font-size:30px;color:var(--accent);line-height:1;}
+.stat-lbl{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;}
+.dupe-row{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;gap:10px;}
+.dupe-info{flex:1;}
+.dupe-id{font-size:10px;color:var(--muted);}
+.dupe-name{font-size:13px;font-weight:600;}
+.dupe-ctrl{display:flex;align-items:center;gap:6px;}
+.dupe-count{font-family:'Bebas Neue';font-size:24px;color:var(--accent);min-width:24px;text-align:center;}
+.dupe-btn{background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:16px;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 
-  /* ── TEAM CARD ── */
-  .team-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    margin-bottom: 10px;
-    overflow: hidden;
-    transition: border-color 0.2s;
-  }
-  .team-card.complete { border-color: var(--green); }
-  .team-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    cursor: pointer;
-    user-select: none;
-  }
-  .team-flag { width: 32px; height: 22px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
-  .team-flag-emoji { font-size: 22px; line-height: 1; }
-  .team-name { font-weight: 600; font-size: 14px; flex: 1; }
-  .team-group {
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 10px;
-    background: var(--surface2);
-    color: var(--muted);
-    font-weight: 600;
-  }
-  .team-count {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--muted);
-  }
-  .team-count.done { color: var(--green); }
-  .team-mini-bar {
-    height: 3px;
-    background: var(--border);
-  }
-  .team-mini-fill {
-    height: 100%;
-    background: var(--accent2);
-    transition: width 0.3s;
-  }
-  .team-mini-fill.full { background: var(--green); }
+/* INVERSIÓN */
+.inv-section{padding:16px 16px 0;}
+.section-title{font-family:'Bebas Neue';font-size:18px;color:var(--accent);letter-spacing:1px;margin-bottom:12px;}
+.inv-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;}
+.inv-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px;}
+.input-row{display:flex;gap:8px;margin-top:10px;align-items:flex-end;}
+.input-group{flex:1;}
+.input-label{font-size:11px;color:var(--muted);margin-bottom:4px;display:block;}
+.input-field{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);font-family:inherit;font-size:14px;outline:none;}
+.input-field:focus{border-color:var(--accent2);}
+.btn-add{background:var(--accent);border:none;border-radius:8px;padding:9px 18px;color:#000;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;flex-shrink:0;}
+.purchase-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.purchase-item:last-child{border-bottom:none;}
+.purchase-date{color:var(--muted);font-size:11px;}
+.purchase-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 6px;}
+.divider{height:1px;background:var(--border);margin:4px 16px 0;}
+.prob-slider{width:100%;accent-color:var(--accent);cursor:pointer;}
+.prob-result{background:var(--surface2);border-radius:10px;padding:16px;text-align:center;margin-top:10px;}
+.prob-number{font-family:'Bebas Neue';font-size:52px;color:var(--accent);line-height:1;}
+.prob-label{font-size:12px;color:var(--muted);}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.prob-stat{background:var(--surface2);border-radius:8px;padding:10px;text-align:center;}
+.prob-stat-val{font-weight:700;font-size:16px;}
+.prob-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
 
-  /* ── STICKER GRID ── */
-  .sticker-grid {
-    display: none;
-    padding: 10px 14px 14px;
-    display: none;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 6px;
-  }
-  .sticker-grid.open { display: grid; }
+/* BANDERAS */
+.flags-intro{padding:16px 16px 8px;font-size:12px;color:var(--muted);line-height:1.5;}
+.flags-groups{padding:0 16px 24px;}
+.flags-group-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:14px 0 8px;}
+.flags-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.flag-tile{border-radius:10px;overflow:hidden;position:relative;aspect-ratio:3/2;cursor:pointer;border:1.5px solid var(--border);transition:border-color .2s,transform .15s;}
+.flag-tile.unlocked{border-color:var(--green);}
+.flag-tile:active{transform:scale(.95);}
+.flag-tile img{width:100%;height:100%;object-fit:cover;display:block;transition:filter .4s;}
+.flag-tile.locked img{filter:grayscale(1) brightness(.35);}
+.flag-tile-name{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.65);font-size:7px;font-weight:700;text-align:center;padding:2px;color:var(--muted);letter-spacing:.3px;text-transform:uppercase;}
+.flag-tile.unlocked .flag-tile-name{color:#fff;}
+.flag-tile-check{position:absolute;top:2px;right:2px;font-size:11px;display:none;}
+.flag-tile.unlocked .flag-tile-check{display:block;}
 
-  .sticker {
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    border-radius: 7px;
-    padding: 7px 5px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s;
-    position: relative;
-    min-height: 64px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .sticker.have {
-    background: #0f2d1a;
-    border-color: var(--green);
-  }
-  .sticker.trade {
-    background: #1e0a33;
-    border-color: var(--trade);
-  }
-  .sticker-id {
-    font-size: 9px;
-    color: var(--muted);
-    font-weight: 600;
-    letter-spacing: 0.3px;
-  }
-  .sticker-name {
-    font-size: 9px;
-    color: var(--text);
-    line-height: 1.2;
-    word-break: break-word;
-  }
-  .sticker.have .sticker-name { color: #86efac; }
-  .sticker.trade .sticker-name { color: #d8b4fe; }
-  .sticker-badge {
-    font-size: 10px;
-    position: absolute;
-    top: 3px;
-    right: 4px;
-  }
-  .sticker-dupes {
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--accent);
-    position: absolute;
-    bottom: 3px;
-    right: 5px;
-  }
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border-radius:16px;padding:20px;width:100%;max-width:340px;border:1px solid var(--accent);box-shadow:0 20px 60px rgba(0,0,0,.6);}
+.modal-title{font-family:'Bebas Neue';font-size:22px;color:var(--accent);}
+.modal-sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
+.modal-opts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
+.modal-opt{border-radius:10px;border:2px solid var(--border);padding:12px 6px;text-align:center;cursor:pointer;background:var(--surface2);transition:all .15s;}
+.modal-opt.selected{border-color:var(--accent);background:#1a1400;}
+.modal-opt-icon{font-size:20px;margin-bottom:4px;}
+.modal-opt-label{font-size:11px;font-weight:600;}
+.modal-opt-desc{font-size:9px;color:var(--muted);margin-top:2px;}
+.modal-close{width:100%;padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:inherit;font-size:14px;cursor:pointer;}
 
-  /* ── LONG PRESS HINT ── */
-  .hint {
-    text-align: center;
-    font-size: 11px;
-    color: var(--muted);
-    padding: 8px;
-    margin-bottom: 8px;
-  }
-
-  /* ── SEARCH ── */
-  .search-wrap {
-    position: relative;
-    margin-bottom: 14px;
-  }
-  .search-input {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px 10px 36px;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 14px;
-    outline: none;
-  }
-  .search-input:focus { border-color: var(--accent2); }
-  .search-icon {
-    position: absolute;
-    left: 11px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    font-size: 14px;
-  }
-
-  /* ── FILTERS ── */
-  .filters {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-  }
-  .filter-btn {
-    padding: 5px 12px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: none;
-    color: var(--muted);
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .filter-btn.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
-
-  /* ── INVESTMENT VIEW ── */
-  .invest-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-  }
-  .invest-title {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-  .invest-amount {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    color: var(--accent);
-    letter-spacing: 1px;
-  }
-  .invest-sub { font-size: 12px; color: var(--muted); }
-
-  .input-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-    align-items: flex-end;
-  }
-  .input-group { flex: 1; }
-  .input-label {
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 4px;
-    display: block;
-  }
-  .input-field {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 9px 12px;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 14px;
-    outline: none;
-  }
-  .input-field:focus { border-color: var(--accent2); }
-  .btn-add {
-    background: var(--accent);
-    border: none;
-    border-radius: 8px;
-    padding: 9px 18px;
-    color: #000;
-    font-family: inherit;
-    font-weight: 700;
-    font-size: 14px;
-    cursor: pointer;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .purchase-list { margin-top: 12px; }
-  .purchase-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .purchase-item:last-child { border-bottom: none; }
-  .purchase-date { color: var(--muted); font-size: 11px; }
-  .purchase-del {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 16px;
-    padding: 2px 6px;
-  }
-
-  /* ── PROBABILITY VIEW ── */
-  .prob-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-  }
-  .prob-slider-wrap {
-    margin: 16px 0;
-  }
-  .prob-slider {
-    width: 100%;
-    accent-color: var(--accent);
-    height: 4px;
-    cursor: pointer;
-  }
-  .prob-result {
-    background: var(--surface2);
-    border-radius: 10px;
-    padding: 16px;
-    text-align: center;
-    margin-top: 12px;
-  }
-  .prob-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 48px;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .prob-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .prob-breakdown {
-    margin-top: 14px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .prob-stat {
-    background: var(--surface2);
-    border-radius: 8px;
-    padding: 10px;
-    text-align: center;
-  }
-  .prob-stat-val {
-    font-weight: 700;
-    font-size: 16px;
-    color: var(--text);
-  }
-  .prob-stat-lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
-
-  /* ── DUPLICATES VIEW ── */
-  .dupes-list { }
-  .dupe-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin-bottom: 8px;
-  }
-  .dupe-info { flex: 1; }
-  .dupe-id { font-size: 11px; color: var(--muted); }
-  .dupe-name { font-size: 13px; font-weight: 500; }
-  .dupe-ctrl {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .dupe-count {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    color: var(--accent);
-    min-width: 24px;
-    text-align: center;
-  }
-  .dupe-btn {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-size: 16px;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* ── MODAL ── */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--surface);
-    border-radius: 16px;
-    padding: 20px;
-    width: 100%;
-    max-width: 360px;
-    border: 1px solid var(--accent);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-  }
-  .modal-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    color: var(--accent);
-    margin-bottom: 4px;
-  }
-  .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
-  .modal-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .modal-opt {
-    border-radius: 10px;
-    border: 2px solid var(--border);
-    padding: 14px 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s;
-    background: var(--surface2);
-  }
-  .modal-opt:hover { border-color: var(--accent2); }
-  .modal-opt.selected { border-color: var(--accent); background: #1a1400; }
-  .modal-opt-icon { font-size: 22px; margin-bottom: 4px; }
-  .modal-opt-label { font-size: 11px; font-weight: 600; color: var(--text); }
-  .modal-opt-desc { font-size: 10px; color: var(--muted); margin-top: 2px; }
-  .modal-close {
-    width: 100%;
-    padding: 12px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--muted);
-    font-family: inherit;
-    font-size: 14px;
-    cursor: pointer;
-  }
-
-  /* ── STATS GRID ── */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-    text-align: center;
-  }
-  .stat-card.accent { border-color: var(--accent); }
-  .stat-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 30px;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .stat-lbl { font-size: 10px; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-  /* ── GROUP TABS ── */
-  .group-tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-  }
-  .group-tab {
-    padding: 4px 10px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: none;
-    color: var(--muted);
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .group-tab.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
-  .group-tab.done { border-color: var(--green); color: var(--green); }
-
-  /* ── EMPTY STATE ── */
-  .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
-  .empty-icon { font-size: 40px; margin-bottom: 10px; }
-  .empty-text { font-size: 14px; }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.empty{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-icon{font-size:40px;margin-bottom:8px;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-top">
+<div class="top-bar" id="top-bar">
+  <div class="top-bar-row">
     <div>
-      <div class="header-title">⚽ Álbum Panini 2026</div>
-      <div class="header-subtitle">FIFA World Cup · 48 Selecciones</div>
+      <div class="top-bar-title">⚽ Álbum Panini 2026</div>
+      <div class="top-bar-sub">FIFA World Cup · 48 Selecciones</div>
     </div>
     <div style="text-align:right">
-      <div class="progress-pct" id="pct-display">0%</div>
-      <div style="font-size:10px;color:var(--muted)" id="count-display">0 / 980</div>
-      <div id="sync-status" style="margin-top:2px"></div>
+      <div class="top-bar-pct" id="tb-pct">0%</div>
+      <div id="sync-status" style="font-size:10px;color:var(--muted)"></div>
     </div>
   </div>
-  <div class="progress-wrap">
-    <div class="progress-bar" id="global-bar" style="width:0%"></div>
-  </div>
-  <div class="progress-stats">
-    <span id="have-count">0 pegadas</span>
-    <span id="missing-count">980 faltantes</span>
-  </div>
+  <div class="prog-wrap"><div class="prog-bar" id="tb-bar" style="width:0%"></div></div>
+  <div class="prog-labels"><span id="tb-have">0 pegadas</span><span id="tb-missing">980 faltantes</span></div>
 </div>
 
-<!-- NAV -->
-<div class="nav">
-  <button class="nav-btn active" onclick="switchView('album')">Álbum</button>
-  <button class="nav-btn" onclick="switchView('faltantes')">Faltantes</button>
-  <button class="nav-btn" onclick="switchView('repetidas')">Repetidas</button>
-  <button class="nav-btn" onclick="switchView('inversion')">Inversión</button>
-  <button class="nav-btn" onclick="switchView('probabilidad')">Probabilidad</button>
-</div>
+<div class="screen-wrap">
 
-<!-- ===== VIEW: ÁLBUM ===== -->
-<div class="view active" id="view-album">
-  <div class="hint">Toca para marcar · Mantén pulsado para opciones</div>
-
-  <div class="search-wrap">
-    <span class="search-icon">🔍</span>
-    <input class="search-input" type="search" placeholder="Buscar jugador o selección..." id="search-input" oninput="filterAlbum()">
-  </div>
-
-  <div class="group-tabs" id="group-tabs">
-    <button class="group-tab active" onclick="selectGroup('all', this)">Todos</button>
-  </div>
-
-  <div id="album-list"></div>
-</div>
-
-<!-- ===== VIEW: FALTANTES ===== -->
-<div class="view" id="view-faltantes">
-  <div class="filters" id="missing-filters">
-    <button class="filter-btn active" onclick="filterMissing('all', this)">Todas</button>
-    <button class="filter-btn" onclick="filterMissing('A', this)">Grupo A</button>
-    <button class="filter-btn" onclick="filterMissing('B', this)">Grupo B</button>
-    <button class="filter-btn" onclick="filterMissing('C', this)">Grupo C</button>
-    <button class="filter-btn" onclick="filterMissing('D', this)">Grupo D</button>
-    <button class="filter-btn" onclick="filterMissing('E', this)">Grupo E</button>
-    <button class="filter-btn" onclick="filterMissing('F', this)">Grupo F</button>
-    <button class="filter-btn" onclick="filterMissing('G', this)">Grupo G</button>
-    <button class="filter-btn" onclick="filterMissing('H', this)">Grupo H</button>
-    <button class="filter-btn" onclick="filterMissing('I', this)">Grupo I</button>
-    <button class="filter-btn" onclick="filterMissing('J', this)">Grupo J</button>
-    <button class="filter-btn" onclick="filterMissing('K', this)">Grupo K</button>
-    <button class="filter-btn" onclick="filterMissing('L', this)">Grupo L</button>
-  </div>
-  <div id="missing-list"></div>
-</div>
-
-<!-- ===== VIEW: REPETIDAS ===== -->
-<div class="view" id="view-repetidas">
-  <div class="stats-grid" style="margin-bottom:16px">
-    <div class="stat-card">
-      <div class="stat-val" id="dupe-total">0</div>
-      <div class="stat-lbl">Repetidas</div>
+  <!-- HOME -->
+  <div class="screen active" id="s-home">
+    <div class="home-logo">
+      <div class="home-logo-title">⚽ Álbum Panini</div>
+      <div class="home-logo-sub">FIFA World Cup 2026</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-val" id="dupe-unique">0</div>
-      <div class="stat-lbl">Estampas distintas</div>
-    </div>
-  </div>
-  <div id="dupes-list"></div>
-</div>
-
-<!-- ===== VIEW: INVERSIÓN ===== -->
-<div class="view" id="view-inversion">
-  <div class="stats-grid">
-    <div class="stat-card accent">
-      <div class="stat-val" id="invest-total">$0</div>
-      <div class="stat-lbl">Total invertido</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" id="invest-per">$0</div>
-      <div class="stat-lbl">Por estampa</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" id="invest-packs">0</div>
-      <div class="stat-lbl">Sobres comprados</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" id="invest-projected">$0</div>
-      <div class="stat-lbl">Proy. completar</div>
-    </div>
-  </div>
-
-  <div class="invest-card">
-    <div class="invest-title">Registrar compra</div>
-    <div class="input-row">
-      <div class="input-group">
-        <label class="input-label">Cantidad de sobres</label>
-        <input class="input-field" type="number" id="inv-qty" placeholder="ej. 10" min="1">
+    <div class="home-progress">
+      <div class="ring-wrap">
+        <svg class="ring-svg" width="140" height="140" viewBox="0 0 140 140">
+          <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#e8b84b"/></linearGradient></defs>
+          <circle class="ring-bg" cx="70" cy="70" r="60"/>
+          <circle class="ring-fill" id="ring-fill" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-pct" id="ring-pct">0%</div>
+          <div class="ring-label">completado</div>
+        </div>
       </div>
-      <div class="input-group">
-        <label class="input-label">Precio por sobre ($)</label>
-        <input class="input-field" type="number" id="inv-price" placeholder="ej. 15" step="0.5">
+      <div class="home-counts">
+        <div class="home-count"><div class="home-count-val" style="color:var(--green)" id="hc-have">0</div><div class="home-count-lbl">Pegadas</div></div>
+        <div class="home-count"><div class="home-count-val" style="color:var(--red)" id="hc-miss">980</div><div class="home-count-lbl">Faltantes</div></div>
+        <div class="home-count"><div class="home-count-val" style="color:var(--trade)" id="hc-dup">0</div><div class="home-count-lbl">Repetidas</div></div>
       </div>
-      <button class="btn-add" onclick="addPurchase()">+</button>
+      <div style="margin-top:6px" id="sync-status-home"></div>
     </div>
-  </div>
-
-  <div class="section-label">Historial de compras</div>
-  <div id="purchase-list"></div>
-</div>
-
-<!-- ===== VIEW: PROBABILIDAD ===== -->
-<div class="view" id="view-probabilidad">
-  <div class="prob-card">
-    <div style="font-size:13px;font-weight:600;margin-bottom:4px">¿Cuántos sobres quiero comprar?</div>
-    <div style="font-size:11px;color:var(--muted);margin-bottom:12px">7 estampas por sobre</div>
-    <div class="prob-slider-wrap">
-      <input type="range" class="prob-slider" id="prob-slider" min="1" max="200" value="10" oninput="calcProb()">
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px">
-        <span>1</span><span id="slider-val" style="color:var(--accent);font-weight:700">10 sobres</span><span>200</span>
+    <div class="home-cards">
+      <div class="home-card full" onclick="goScreen('album')" style="display:flex;align-items:center;gap:14px;padding:16px;border-color:var(--accent)">
+        <div style="font-size:36px">📚</div>
+        <div><div class="home-card-label">Ver álbum completo</div><div class="home-card-val" id="hc-album">0 / 980</div><div class="home-card-sub">Toca para navegar</div></div>
       </div>
-    </div>
-
-    <div class="prob-result">
-      <div class="prob-number" id="prob-new">0</div>
-      <div class="prob-label">estampas nuevas esperadas</div>
-    </div>
-
-    <div class="prob-breakdown">
-      <div class="prob-stat">
-        <div class="prob-stat-val" id="prob-stickers">70</div>
-        <div class="prob-stat-lbl">Estampas totales</div>
+      <div class="home-card" onclick="goScreen('inversion')" style="border-color:var(--accent2)">
+        <div class="home-card-icon">💰</div><div class="home-card-label">Inversión</div>
+        <div class="home-card-val" id="hc-inv">$0</div><div class="home-card-sub" id="hc-packs">0 sobres</div>
       </div>
-      <div class="prob-stat">
-        <div class="prob-stat-val" id="prob-pct-miss">100%</div>
-        <div class="prob-stat-lbl">Prob. carta nueva</div>
+      <div class="home-card" onclick="goScreen('faltantes')" style="border-color:var(--green)">
+        <div class="home-card-icon">🔍</div><div class="home-card-label">Faltantes</div>
+        <div class="home-card-val" id="hc-falt">980</div><div class="home-card-sub">por conseguir</div>
       </div>
-      <div class="prob-stat">
-        <div class="prob-stat-val" id="prob-expected-dupes">0</div>
-        <div class="prob-stat-lbl">Repetidas esperadas</div>
+      <div class="home-card" onclick="goScreen('repetidas')" style="border-color:var(--trade)">
+        <div class="home-card-icon">🔄</div><div class="home-card-label">Repetidas</div>
+        <div class="home-card-val" id="hc-rep">0</div><div class="home-card-sub" id="hc-rep-u">0 distintas</div>
       </div>
-      <div class="prob-stat">
-        <div class="prob-stat-val" id="prob-to-finish">-</div>
-        <div class="prob-stat-lbl">Sobres p/ completar</div>
+      <div class="home-card" onclick="goScreen('banderas')" style="border-color:#f97316">
+        <div class="home-card-icon">🏳️</div><div class="home-card-label">Páginas completas</div>
+        <div class="home-card-val" id="hc-flags">0 / 49</div><div class="home-card-sub">países completos</div>
+      </div>
+      <div class="home-card full" style="cursor:default">
+        <div class="home-card-label" style="margin-bottom:10px">🏆 Top países (con repetidas)</div>
+        <div id="hc-top"></div>
+      </div>
+      <div class="home-card full" style="cursor:default">
+        <div class="home-card-label" style="margin-bottom:8px">⏱ Últimas añadidas</div>
+        <div class="home-recent-list" id="hc-recent"></div>
       </div>
     </div>
   </div>
 
-  <div class="invest-card" style="font-size:12px;color:var(--muted);line-height:1.6">
-    <b style="color:var(--text)">¿Cómo se calcula?</b><br>
-    Usamos el modelo del "cupón del coleccionista": cada sobre tiene 7 estampas aleatorias de 980 posibles. La probabilidad de que cada estampa sea nueva depende de cuántas ya tienes. El resultado es el valor esperado acumulado de estampas únicas nuevas.
+  <!-- ÁLBUM -->
+  <div class="screen" id="s-album">
+    <div class="album-search-wrap" style="position:relative">
+      <span class="search-ico">🔍</span>
+      <input class="album-search" type="search" placeholder="Buscar jugador o selección…" id="album-q" oninput="filterAlbum()">
+    </div>
+    <div class="groups-list" id="album-list"></div>
+    <div class="country-detail" id="country-detail">
+      <div class="detail-header">
+        <button class="detail-back" onclick="closeDetail()">‹</button>
+        <div id="detail-flag"></div>
+        <div class="detail-info">
+          <div class="detail-name" id="detail-name">País</div>
+          <div class="detail-count" id="detail-count">0/20</div>
+        </div>
+        <div class="detail-nav">
+          <button class="detail-nav-btn" onclick="navDetail(-1)">‹</button>
+          <button class="detail-nav-btn" onclick="navDetail(1)">›</button>
+        </div>
+      </div>
+      <div class="detail-hint">Toca = marcar · Mantén = opciones</div>
+      <div class="sticker-grid" id="detail-grid"></div>
+    </div>
   </div>
+
+  <!-- FALTANTES -->
+  <div class="screen" id="s-faltantes">
+    <div class="missing-search-wrap" style="position:relative">
+      <span class="search-ico">🔍</span>
+      <input class="missing-search" type="search" placeholder="Buscar en faltantes…" id="missing-q" oninput="renderMissing()">
+    </div>
+    <div style="padding:0 16px 16px" id="missing-list"></div>
+  </div>
+
+  <!-- REPETIDAS -->
+  <div class="screen" id="s-repetidas">
+    <div class="section-pad">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-val" id="dup-total">0</div><div class="stat-lbl">Repetidas</div></div>
+        <div class="stat-card"><div class="stat-val" id="dup-unique">0</div><div class="stat-lbl">Distintas</div></div>
+      </div>
+      <div id="dupes-list"></div>
+    </div>
+  </div>
+
+  <!-- INVERSIÓN + PROBABILIDAD -->
+  <div class="screen" id="s-inversion">
+    <div class="inv-section">
+      <div class="section-title">Inversión</div>
+      <div class="stats-grid" style="margin-bottom:12px">
+        <div class="stat-card" style="border-color:var(--accent)"><div class="stat-val" id="inv-total">$0</div><div class="stat-lbl">Total</div></div>
+        <div class="stat-card"><div class="stat-val" id="inv-per">$0</div><div class="stat-lbl">Por estampa</div></div>
+        <div class="stat-card"><div class="stat-val" id="inv-packs">0</div><div class="stat-lbl">Sobres</div></div>
+        <div class="stat-card"><div class="stat-val" id="inv-proj">$0</div><div class="stat-lbl">Proy. completar</div></div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-title">Registrar compra</div>
+        <div class="input-row">
+          <div class="input-group"><label class="input-label">Sobres</label><input class="input-field" type="number" id="inv-qty" placeholder="10" min="1"></div>
+          <div class="input-group"><label class="input-label">Precio c/u ($)</label><input class="input-field" type="number" id="inv-price" placeholder="15" step=".5"></div>
+          <button class="btn-add" onclick="addPurchase()">+</button>
+        </div>
+      </div>
+      <div id="purchase-list"></div>
+    </div>
+    <div class="divider"></div>
+    <div class="inv-section" style="padding-top:16px;padding-bottom:24px">
+      <div class="section-title">Probabilidad</div>
+      <div class="inv-card">
+        <div style="font-size:13px;font-weight:600;margin-bottom:2px">¿Cuántos sobres compro?</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:12px">7 estampas por sobre</div>
+        <input type="range" class="prob-slider" id="prob-slider" min="1" max="200" value="10" oninput="calcProb()">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px">
+          <span>1</span><span id="slider-val" style="color:var(--accent);font-weight:700">10 sobres</span><span>200</span>
+        </div>
+        <div class="prob-result">
+          <div class="prob-number" id="prob-new">0</div>
+          <div class="prob-label">estampas nuevas esperadas</div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-stat"><div class="prob-stat-val" id="prob-total">70</div><div class="prob-stat-lbl">Estampas totales</div></div>
+          <div class="prob-stat"><div class="prob-stat-val" id="prob-pct">100%</div><div class="prob-stat-lbl">Prob. nueva</div></div>
+          <div class="prob-stat"><div class="prob-stat-val" id="prob-dupes">0</div><div class="prob-stat-lbl">Repetidas esp.</div></div>
+          <div class="prob-stat"><div class="prob-stat-val" id="prob-finish">—</div><div class="prob-stat-lbl">Sobres p/ terminar</div></div>
+        </div>
+      </div>
+      <div class="inv-card" style="font-size:11px;color:var(--muted);line-height:1.6">
+        <b style="color:var(--text)">¿Cómo se calcula?</b><br>
+        Modelo del "cupón del coleccionista": la probabilidad de que cada estampa sea nueva depende de cuántas ya tienes. El resultado es el valor esperado acumulado de estampas únicas.
+      </div>
+    </div>
+  </div>
+
+  <!-- BANDERAS -->
+  <div class="screen" id="s-banderas">
+    <div class="flags-intro">Las banderas cobran color cuando completas todas las estampas de ese país. ¡A coleccionar!</div>
+    <div class="flags-groups" id="flags-list"></div>
+  </div>
+
 </div>
 
-<!-- MODAL (opciones de estampa) -->
+<nav class="bottom-nav hidden" id="bottom-nav">
+  <button class="nav-item" id="nav-inversion" onclick="goScreen('inversion')"><span class="nav-item-icon">💰</span>Inversión</button>
+  <button class="nav-item" id="nav-faltantes" onclick="goScreen('faltantes')"><span class="nav-item-icon">🔍</span>Faltantes</button>
+  <button class="nav-center" id="nav-album" onclick="goScreen('album')"><span class="nav-center-icon">⚽</span></button>
+  <button class="nav-item" id="nav-repetidas" onclick="goScreen('repetidas')"><span class="nav-item-icon">🔄</span>Repetidas</button>
+  <button class="nav-item" id="nav-banderas" onclick="goScreen('banderas')"><span class="nav-item-icon">🏳️</span>Banderas</button>
+</nav>
+
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-title" id="modal-title">Estampa</div>
     <div class="modal-sub" id="modal-sub"></div>
-    <div class="modal-options">
-      <div class="modal-opt" id="opt-none" onclick="setSticker('none')">
-        <div class="modal-opt-icon">📭</div>
-        <div class="modal-opt-label">No tengo</div>
-        <div class="modal-opt-desc">Faltante</div>
-      </div>
-      <div class="modal-opt" id="opt-have" onclick="setSticker('have')">
-        <div class="modal-opt-icon">✅</div>
-        <div class="modal-opt-label">La tengo</div>
-        <div class="modal-opt-desc">Pegada</div>
-      </div>
-      <div class="modal-opt" id="opt-trade" onclick="setSticker('trade')">
-        <div class="modal-opt-icon">🔄</div>
-        <div class="modal-opt-label">Trueque</div>
-        <div class="modal-opt-desc">Intercambio</div>
-      </div>
+    <div class="modal-opts">
+      <div class="modal-opt" id="opt-none" onclick="setSticker('none')"><div class="modal-opt-icon">📭</div><div class="modal-opt-label">No tengo</div><div class="modal-opt-desc">Faltante</div></div>
+      <div class="modal-opt" id="opt-have" onclick="setSticker('have')"><div class="modal-opt-icon">✅</div><div class="modal-opt-label">La tengo</div><div class="modal-opt-desc">Pegada</div></div>
+      <div class="modal-opt" id="opt-trade" onclick="setSticker('trade')"><div class="modal-opt-icon">🔄</div><div class="modal-opt-label">Trueque</div><div class="modal-opt-desc">Intercambio</div></div>
     </div>
     <button class="modal-close" onclick="closeModal()">Cancelar</button>
   </div>
 </div>
 
 <script>
-// ─── FLAGS ───────────────────────────────────────────────────
-const BASE = 'https://raw.githubusercontent.com/FranzNons/BracketCamisetas/main/flags/';
-const FLAG_MAP = {
-  ALG:'dz',ARG:'ar',AUS:'au',AUT:'at',BEL:'be',BIH:'ba',BRA:'br',
-  CAN:'ca',CIV:'ci',COD:'cd',COL:'co',CPV:'cv',CRO:'hr',CUW:'cw',
-  CZE:'cz',ECU:'ec',EGY:'eg',ENG:'gb-eng',ESP:'es',FRA:'fr',GER:'de',
-  GHA:'gh',HAI:'ht',IRN:'ir',IRQ:'iq',JOR:'jo',JPN:'jp',KOR:'kr',
-  KSA:'sa',MAR:'ma',MEX:'mx',NED:'nl',NOR:'no',NZL:'nz',PAN:'pa',
-  PAR:'py',POR:'pt',QAT:'qa',RSA:'za',SCO:'gb-sct',SEN:'sn',SUI:'ch',
-  SWE:'se',TUN:'tn',TUR:'tr',URU:'uy',USA:'us',UZB:'uz',FWC:null
-};
-function flagHTML(code) {
-  const file = FLAG_MAP[code];
-  if (!file) return '<span class="team-flag-emoji">🏆</span>';
-  return `<img class="team-flag" src="${BASE}${file}.svg" alt="${code}" loading="lazy" onerror="this.style.display='none'">`;
-}
 
-// ─── DATABASE ──────────────────────────────────────────────
 const DB = {
   groups: {
     A:["MEX","RSA","KOR","CZE"],B:["CAN","BIH","QAT","SUI"],
@@ -867,8 +463,12 @@ const DB = {
 };
 
 // ─── STATE ──────────────────────────────────────────────────
-const TOTAL = 980;
-// ─── SUPABASE CONFIG ─────────────────────────────────────────
+
+const TOTAL=980;
+const TEAM_ORDER=['FWC',...Object.values(DB.groups).flat()];
+const BASE='https://raw.githubusercontent.com/FranzNons/BracketCamisetas/main/flags/';
+function fi(code,w,h){const f=FM[code];if(!f)return'<span style="font-size:'+(h||20)+'px">🏆</span>';return'<img src="'+BASE+f+'.svg" width="'+(w||30)+'" height="'+(h||20)+'" style="object-fit:cover;border-radius:3px;flex-shrink:0" alt="'+code+'" loading="lazy" onerror="this.style.display=\'none\'">';}
+const FM={ALG:'dz',ARG:'ar',AUS:'au',AUT:'at',BEL:'be',BIH:'ba',BRA:'br',CAN:'ca',CIV:'ci',COD:'cd',COL:'co',CPV:'cv',CRO:'hr',CUW:'cw',CZE:'cz',ECU:'ec',EGY:'eg',ENG:'gb-eng',ESP:'es',FRA:'fr',GER:'de',GHA:'gh',HAI:'ht',IRN:'ir',IRQ:'iq',JOR:'jo',JPN:'jp',KOR:'kr',KSA:'sa',MAR:'ma',MEX:'mx',NED:'nl',NOR:'no',NZL:'nz',PAN:'pa',PAR:'py',POR:'pt',QAT:'qa',RSA:'za',SCO:'gb-sct',SEN:'sn',SUI:'ch',SWE:'se',TUN:'tn',TUR:'tr',URU:'uy',USA:'us',UZB:'uz',FWC:null};
 const SB_URL = 'https://vmowvyfxbuwigzolojyp.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtb3d2eWZ4YnV3aWd6b2xvanlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NzkzNzEsImV4cCI6MjA5MzM1NTM3MX0.7XNT1GGqtnAzU__rGvEXeuiCzPDF5nmiP-laT8h8hk0';
 
@@ -1417,3 +1017,46 @@ init();
 </script>
 </body>
 </html>
+let state={},dupes={},purchases=[],recentIds=[];
+let activeModal=null,holdTimer=null,syncTimer=null,syncPending=false;
+function setSyncStatus(s){const map={ok:'☁️ Sync',saving:'⏫ Guardando…',loading:'⏬ Cargando…',error:'⚠️ Sin conexión',offline:'💾 Local'};const col={ok:'var(--green)',saving:'var(--accent)',loading:'var(--accent2)',error:'var(--red)',offline:'var(--muted)'};['sync-status','sync-status-home'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<span style="color:'+(col[s]||col.offline)+';font-size:10px">'+(map[s]||s)+'</span>';});}
+async function loadState(){try{state=JSON.parse(localStorage.getItem('panini26_state')||'{}');dupes=JSON.parse(localStorage.getItem('panini26_dupes')||'{}');purchases=JSON.parse(localStorage.getItem('panini26_purchases')||'[]');recentIds=JSON.parse(localStorage.getItem('panini26_recent')||'[]');}catch(e){}setSyncStatus('loading');try{const rows=await sbFetch('GET');if(rows&&rows.length){const row=rows[0];state=row.state||{};dupes=row.dupes||{};purchases=row.purchases||[];recentIds=row.recent||[];saveLocal();}setSyncStatus('ok');}catch(e){setSyncStatus('offline');}}
+function saveLocal(){localStorage.setItem('panini26_state',JSON.stringify(state));localStorage.setItem('panini26_dupes',JSON.stringify(dupes));localStorage.setItem('panini26_purchases',JSON.stringify(purchases));localStorage.setItem('panini26_recent',JSON.stringify(recentIds));}
+function saveState(){saveLocal();setSyncStatus('saving');syncPending=true;clearTimeout(syncTimer);syncTimer=setTimeout(pushToCloud,1500);}
+async function pushToCloud(){if(!syncPending)return;try{await sbFetch('PATCH',{state,dupes,purchases,recent:recentIds,updated_at:new Date().toISOString()});syncPending=false;setSyncStatus('ok');}catch(e){setSyncStatus('error');syncTimer=setTimeout(pushToCloud,10000);}}
+let currentScreen='home';
+function goScreen(name){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('s-'+name).classList.add('active');const tb=document.getElementById('top-bar'),nav=document.getElementById('bottom-nav');if(name==='home'){tb.classList.remove('visible');nav.classList.add('hidden');}else{tb.classList.add('visible');nav.classList.remove('hidden');document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));const nb=document.getElementById('nav-'+name);if(nb)nb.classList.add('active');}currentScreen=name;if(name==='faltantes')renderMissing();if(name==='repetidas')renderDupes();if(name==='inversion'){renderInvestment();calcProb();}if(name==='banderas')renderBanderas();if(name==='album')renderAlbum();}
+function getHave(){return Object.values(state).filter(v=>v==='have'||v==='trade').length;}
+function getTeamHave(c){return DB.teams[c].stickers.filter(s=>state[s.id]==='have'||state[s.id]==='trade').length;}
+function getDupTotal(){return Object.values(dupes).reduce((a,c)=>a+c,0);}
+function getDupUnique(){return Object.keys(dupes).filter(k=>dupes[k]>0).length;}
+function updateAll(){const have=getHave(),pct=(have/TOTAL*100).toFixed(1),miss=TOTAL-have;document.getElementById('tb-pct').textContent=pct+'%';document.getElementById('tb-bar').style.width=pct+'%';document.getElementById('tb-have').textContent=have+' pegadas';document.getElementById('tb-missing').textContent=miss+' faltantes';const circ=377;document.getElementById('ring-fill').style.strokeDashoffset=circ-(circ*have/TOTAL);document.getElementById('ring-pct').textContent=pct+'%';document.getElementById('hc-have').textContent=have;document.getElementById('hc-miss').textContent=miss;document.getElementById('hc-dup').textContent=getDupTotal();document.getElementById('hc-falt').textContent=miss;document.getElementById('hc-album').textContent=have+' / '+TOTAL;const tot=purchases.reduce((a,p)=>a+p.qty*p.price,0),pks=purchases.reduce((a,p)=>a+p.qty,0);document.getElementById('hc-inv').textContent='$'+tot.toFixed(0);document.getElementById('hc-packs').textContent=pks+' sobres';document.getElementById('hc-rep').textContent=getDupTotal();document.getElementById('hc-rep-u').textContent=getDupUnique()+' distintas';const comp=Object.keys(DB.teams).filter(c=>getTeamHave(c)===DB.teams[c].stickers.length).length;document.getElementById('hc-flags').textContent=comp+' / '+Object.keys(DB.teams).length;renderHomeTop();renderHomeRecent();}
+function renderHomeTop(){const scores=Object.entries(DB.teams).map(([c,t])=>{const h=getTeamHave(c),d=t.stickers.reduce((a,s)=>a+(dupes[s.id]||0),0);return{c,name:t.name,h,total:t.stickers.length,score:h+d};}).sort((a,b)=>b.score-a.score).slice(0,5);document.getElementById('hc-top').innerHTML=scores.map(s=>'<div class="home-team-row">'+fi(s.c,22,15)+'<span style="flex:1;font-size:12px;font-weight:500">'+s.name+'</span><div class="home-team-bar-wrap"><div class="home-team-bar" style="width:'+(s.h/s.total*100).toFixed(0)+'%"></div></div><span class="home-team-count">'+s.h+'/'+s.total+'</span></div>').join('');}
+function renderHomeRecent(){const w=document.getElementById('hc-recent');if(!recentIds.length){w.innerHTML='<span style="color:var(--muted);font-size:11px">Aún no has añadido estampas</span>';return;}w.innerHTML=recentIds.slice(0,8).map(id=>{let n='';for(const[c,t]of Object.entries(DB.teams)){const s=t.stickers.find(s=>s.id===id);if(s){n=s.name;break;}}return'<div class="home-recent-chip"><span>'+id+'</span> '+n+'</div>';}).join('');}
+function renderAlbum(){const list=document.getElementById('album-list');list.innerHTML='';const secs=[{lbl:'Introducción',teams:['FWC']},...Object.entries(DB.groups).map(([g,ts])=>({lbl:'Grupo '+g,teams:ts}))];secs.forEach(({lbl,teams})=>{const sec=document.createElement('div');sec.className='group-section';sec.innerHTML='<div class="group-label">'+lbl+'</div>';teams.forEach(code=>{const t=DB.teams[code],h=getTeamHave(code),tot=t.stickers.length,done=h===tot;const row=document.createElement('div');row.className='country-row'+(done?' complete':'');row.onclick=()=>openDetail(code);row.innerHTML=fi(code,30,20)+'<span class="country-name">'+t.name+'</span><div class="country-prog-wrap"><div class="country-prog-fill'+(done?' done':'')+'" style="width:'+(h/tot*100).toFixed(0)+'%"></div></div><span class="country-count'+(done?' done':'')+'">'+h+'/'+tot+'</span>';sec.appendChild(row);});list.appendChild(sec);});}
+function filterAlbum(){const q=document.getElementById('album-q').value.toLowerCase();document.querySelectorAll('.country-row').forEach(r=>{r.style.display=(!q||r.querySelector('.country-name').textContent.toLowerCase().includes(q))?'':'none';});}
+let detailCode=null;
+function openDetail(code){detailCode=code;renderDetail();document.getElementById('country-detail').classList.add('open');}
+function closeDetail(){document.getElementById('country-detail').classList.remove('open');renderAlbum();}
+function navDetail(dir){const idx=TEAM_ORDER.indexOf(detailCode);detailCode=TEAM_ORDER[(idx+dir+TEAM_ORDER.length)%TEAM_ORDER.length];renderDetail();}
+function renderDetail(){const t=DB.teams[detailCode],h=getTeamHave(detailCode);document.getElementById('detail-flag').innerHTML=fi(detailCode,38,26);document.getElementById('detail-name').textContent=t.name;document.getElementById('detail-count').textContent=h+'/'+t.stickers.length+' estampas';document.getElementById('detail-grid').innerHTML=t.stickers.map(s=>{const st=state[s.id]||'none',dup=dupes[s.id]||0,num=s.id.split('-')[1]||'0';return'<div class="sticker '+st+'" id="sticker-'+s.id+'" ontouchstart="startHold(''+s.id+'',event)" ontouchend="endHold()" ontouchmove="endHold()" onclick="quickToggle(''+s.id+'')" oncontextmenu="openModal(''+s.id+'');return false;"><span class="sticker-id">'+s.id+'</span><span class="sticker-num">'+num+'</span><span class="sticker-name">'+s.name+'</span>'+(st==='trade'?'<span class="sticker-badge">🔄</span>':'')+(dup>0?'<span class="sticker-dupes">×'+(dup+1)+'</span>':'')+'</div>';}).join('');}
+function refreshSticker(id){const el=document.getElementById('sticker-'+id);if(!el)return;const st=state[id]||'none',dup=dupes[id]||0;el.className='sticker '+st;el.querySelector('.sticker-badge')?.remove();el.querySelector('.sticker-dupes')?.remove();if(st==='trade'){const b=document.createElement('span');b.className='sticker-badge';b.textContent='🔄';el.appendChild(b);}if(dup>0){const d=document.createElement('span');d.className='sticker-dupes';d.textContent='×'+(dup+1);el.appendChild(d);}if(detailCode){const h=getTeamHave(detailCode);document.getElementById('detail-count').textContent=h+'/'+DB.teams[detailCode].stickers.length+' estampas';}}
+function addRecent(id){recentIds=recentIds.filter(r=>r!==id);recentIds.unshift(id);if(recentIds.length>12)recentIds=recentIds.slice(0,12);}
+function quickToggle(id){if(holdTimer===true)return;const cur=state[id]||'none';if(cur==='none'){state[id]='have';addRecent(id);}else if(cur==='have'){dupes[id]=(dupes[id]||0)+1;}else if(cur==='trade'){state[id]='none';dupes[id]=0;}saveState();refreshSticker(id);updateAll();}
+function startHold(id,e){holdTimer=null;const t=setTimeout(()=>{holdTimer=true;openModal(id);},500);holdTimer=t;}
+function endHold(){if(typeof holdTimer==='number'){clearTimeout(holdTimer);holdTimer=null;}}
+function openModal(id){activeModal=id;for(const[c,t]of Object.entries(DB.teams)){const s=t.stickers.find(s=>s.id===id);if(s){document.getElementById('modal-title').textContent=s.name;document.getElementById('modal-sub').textContent=t.name+' · '+id;break;}}const cur=state[id]||'none';['none','have','trade'].forEach(o=>document.getElementById('opt-'+o).classList.toggle('selected',cur===o));document.getElementById('modal').classList.add('open');}
+function closeModal(e){if(e&&e.target!==document.getElementById('modal'))return;document.getElementById('modal').classList.remove('open');activeModal=null;}
+function setSticker(status){if(!activeModal)return;const prev=state[activeModal]||'none';state[activeModal]=status;if(status==='none')dupes[activeModal]=0;if(status!=='none'&&prev==='none')addRecent(activeModal);saveState();refreshSticker(activeModal);updateAll();document.getElementById('modal').classList.remove('open');activeModal=null;}
+function renderMissing(){const q=(document.getElementById('missing-q').value||'').toLowerCase();const list=document.getElementById('missing-list');list.innerHTML='';let any=false;const secs=[{lbl:'Introducción',teams:['FWC']},...Object.entries(DB.groups).map(([g,ts])=>({lbl:'Grupo '+g,teams:ts}))];secs.forEach(({lbl,teams})=>{let html='';teams.forEach(code=>{const t=DB.teams[code];const miss=t.stickers.filter(s=>(!state[s.id]||state[s.id]==='none')&&(!q||s.name.toLowerCase().includes(q)||s.id.toLowerCase().includes(q)||t.name.toLowerCase().includes(q)));if(!miss.length)return;any=true;html+='<div class="missing-country-card"><div class="missing-country-header">'+fi(code,28,18)+'<span style="font-weight:600;font-size:13px;flex:1">'+t.name+'</span><span style="font-size:11px;color:var(--muted)">'+miss.length+' faltantes</span></div><div class="missing-stickers">'+miss.map(s=>{const num=s.id.split('-')[1]||'0';return'<div class="missing-chip" onclick="markMissing(\''+s.id+'\',this)"><span class="missing-chip-id">'+s.id+'</span><span class="missing-chip-num">'+num+'</span><span class="missing-chip-name">'+s.name+'</span></div>';}).join('')+'</div></div>';});if(html){const sec=document.createElement('div');sec.innerHTML='<div class="group-label">'+lbl+'</div>'+html;list.appendChild(sec);}});if(!any)list.innerHTML='<div class="empty"><div class="empty-icon">🎉</div><div>¡Álbum completo!</div></div>';}
+function markMissing(id,el){state[id]='have';addRecent(id);saveState();updateAll();el.style.opacity='.3';el.style.pointerEvents='none';el.querySelector('.missing-chip-num').textContent='✓';}
+function renderDupes(){document.getElementById('dup-total').textContent=getDupTotal();document.getElementById('dup-unique').textContent=getDupUnique();const list=document.getElementById('dupes-list');const entries=Object.entries(dupes).filter(([,c])=>c>0);if(!entries.length){list.innerHTML='<div class="empty"><div class="empty-icon">📋</div><div>No hay repetidas aún</div></div>';return;}list.innerHTML=entries.map(([id,count])=>{let name=id,tname='',code='';for(const[c,t]of Object.entries(DB.teams)){const s=t.stickers.find(s=>s.id===id);if(s){name=s.name;tname=t.name;code=c;break;}}return'<div class="dupe-row">'+fi(code,24,16)+'<div class="dupe-info"><div class="dupe-id">'+id+' · '+tname+'</div><div class="dupe-name">'+name+'</div></div><div class="dupe-ctrl"><button class="dupe-btn" onclick="changeDupe(''+id+'',-1)">−</button><span class="dupe-count">'+(count+1)+'</span><button class="dupe-btn" onclick="changeDupe(''+id+'',1)">+</button></div></div>';}).join('');}
+function changeDupe(id,d){dupes[id]=Math.max(0,(dupes[id]||0)+d);if(!dupes[id])delete dupes[id];saveState();renderDupes();refreshSticker(id);updateAll();}
+function renderInvestment(){const tot=purchases.reduce((a,p)=>a+p.qty*p.price,0),pks=purchases.reduce((a,p)=>a+p.qty,0),have=getHave();document.getElementById('inv-total').textContent='$'+tot.toFixed(0);document.getElementById('inv-per').textContent='$'+(have>0?(tot/have).toFixed(2):0);document.getElementById('inv-packs').textContent=pks;const avg=pks>0?tot/pks:15;document.getElementById('inv-proj').textContent='$'+((TOTAL-have)/7*avg).toFixed(0);const pl=document.getElementById('purchase-list');if(!purchases.length){pl.innerHTML='<div class="empty"><div class="empty-icon">💰</div><div>Sin compras registradas</div></div>';return;}pl.innerHTML=purchases.slice().reverse().map((p,i)=>{const idx=purchases.length-1-i;return'<div class="purchase-item"><div><div style="font-weight:600">'+p.qty+' sobres × $'+p.price+'</div><div class="purchase-date">'+p.date+' · $'+(p.qty*p.price).toFixed(0)+'</div></div><button class="purchase-del" onclick="delPurchase('+idx+')">🗑</button></div>';}).join('');}
+function addPurchase(){const qty=parseInt(document.getElementById('inv-qty').value),price=parseFloat(document.getElementById('inv-price').value);if(!qty||!price||qty<1||price<0)return;purchases.push({qty,price,date:new Date().toLocaleDateString('es-MX')});saveState();document.getElementById('inv-qty').value='';document.getElementById('inv-price').value='';renderInvestment();updateAll();}
+function delPurchase(idx){purchases.splice(idx,1);saveState();renderInvestment();updateAll();}
+function calcProb(){const packs=parseInt(document.getElementById('prob-slider').value);document.getElementById('slider-val').textContent=packs+' sobre'+(packs!==1?'s':'');const have=getHave(),miss=TOTAL-have,tot=packs*7;let expNew=0,tmp=have;for(let i=0;i<tot;i++){const p=(TOTAL-tmp)/TOTAL;expNew+=p;tmp+=p;}expNew=Math.min(expNew,miss);document.getElementById('prob-new').textContent=Math.round(expNew);document.getElementById('prob-total').textContent=tot;document.getElementById('prob-pct').textContent=((miss/TOTAL)*100).toFixed(1)+'%';document.getElementById('prob-dupes').textContent=Math.round(tot-expNew);let fin='∞';if(miss>0){let e=0;for(let i=0;i<miss;i++)e+=TOTAL/(miss-i);fin=Math.ceil(e/7).toLocaleString();}else if(have===TOTAL)fin='0';document.getElementById('prob-finish').textContent=fin;}
+function renderBanderas(){const list=document.getElementById('flags-list');list.innerHTML='';const secs=[{lbl:'Introducción',teams:['FWC']},...Object.entries(DB.groups).map(([g,ts])=>({lbl:'Grupo '+g,teams:ts}))];secs.forEach(({lbl,teams})=>{const sec=document.createElement('div');sec.innerHTML='<div class="flags-group-label">'+lbl+'</div><div class="flags-grid">'+teams.map(code=>{const t=DB.teams[code],done=getTeamHave(code)===t.stickers.length,file=FM[code];const img=file?'<img src="'+BASE+file+'.svg" alt="'+code+'" loading="lazy">':'<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:24px">🏆</div>';return'<div class="flag-tile '+(done?'unlocked':'locked')+'" onclick="goScreen('album')">'+img+'<div class="flag-tile-name">'+t.name+'</div><div class="flag-tile-check">✅</div></div>';}).join('')+'</div>';list.appendChild(sec);});}
+async function init(){updateAll();await loadState();updateAll();if(currentScreen==='album')renderAlbum();}
+init();
+</script></body></html>
