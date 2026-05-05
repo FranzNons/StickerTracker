@@ -337,24 +337,34 @@
       <div id="album-list" style="padding:0 16px 16px;"></div>
     </div>
     <div id="album-detail-panel" style="display:none;position:absolute;inset:0;background:var(--bg);z-index:10;overflow-y:auto;">
-      <div style="position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;">
+      <!-- Nav bar — sticky, minimal -->
+      <div style="position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;">
         <button onclick="closeAlbumDetail()" style="background:var(--surface2);border:none;border-radius:8px;color:var(--text);font-size:20px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">‹</button>
-        <div id="detail-flag-wrap" style="flex-shrink:0;"></div>
-        <div style="flex:1;">
-          <div id="detail-country-name" style="font-family:'Bebas Neue';font-size:20px;letter-spacing:1px;line-height:1;"></div>
-          <div id="detail-country-count" style="font-size:11px;color:var(--muted);"></div>
-        </div>
+        <div style="font-size:10px;color:var(--muted);">Desliza para navegar</div>
         <div style="display:grid;grid-template-columns:repeat(3,30px);grid-template-rows:repeat(2,26px);gap:3px;">
           <div></div>
-          <button onclick="navigateDetailVertical(-1)" title="Grupo anterior" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▲</button>
+          <button onclick="navigateDetailVertical(-1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▲</button>
           <div></div>
-          <button onclick="navigateDetail(-1)" title="País anterior" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">◀</button>
-          <button onclick="navigateDetailVertical(1)" title="Grupo siguiente" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▼</button>
-          <button onclick="navigateDetail(1)" title="País siguiente" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▶</button>
+          <button onclick="navigateDetail(-1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">◀</button>
+          <button onclick="navigateDetailVertical(1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▼</button>
+          <button onclick="navigateDetail(1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▶</button>
         </div>
       </div>
-      <div style="text-align:center;font-size:11px;color:var(--muted);padding:6px 16px 2px;">Toca = marcar · Mantén = opciones · Desliza para navegar</div>
-      <div id="detail-sticker-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 16px 24px;"></div>
+      <!-- Capsule card -->
+      <div style="margin:0 16px 24px;background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;" id="detail-capsule">
+        <!-- Capsule header -->
+        <div style="display:flex;align-items:center;gap:10px;padding:14px 16px 12px;border-bottom:1px solid var(--border);">
+          <div id="detail-flag-wrap" style="flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div id="detail-country-name" style="font-family:'Bebas Neue';font-size:22px;letter-spacing:1px;line-height:1;text-transform:uppercase;"></div>
+          </div>
+          <div id="detail-country-count" style="font-size:12px;color:var(--muted);font-weight:600;"></div>
+        </div>
+        <!-- Hint -->
+        <div style="text-align:center;font-size:10px;color:var(--muted);padding:6px 0 2px;">Toca = marcar · Mantén = opciones</div>
+        <!-- Sticker grid inside capsule -->
+        <div id="detail-sticker-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:8px 12px 16px;"></div>
+      </div>
     </div>
   </div>
 
@@ -1043,9 +1053,9 @@ function renderAlbumDetail() {
   // Find group
   let groupLabel = 'Introducción';
   for (const [g, teams] of Object.entries(DB.groups)) {
-    if (teams.includes(detailCode)) { groupLabel = 'Grupo ' + g; break; }
+    if (teams.includes(detailCode)) { groupLabel = 'Gr. ' + g; break; }
   }
-  document.getElementById('detail-country-count').textContent = `${have}/${team.stickers.length} estampas · ${groupLabel}`;
+  document.getElementById('detail-country-count').textContent = `${have}/${team.stickers.length} · ${groupLabel}`;
 
   document.getElementById('detail-sticker-grid').innerHTML = team.stickers.map(s => {
     const st = state[s.id] || 'none';
