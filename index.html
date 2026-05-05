@@ -3,228 +3,277 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Álbum Panini 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Álbum Panini Mundial 2026</title>
 <style>
-:root{--bg:#0b0f1a;--surface:#131929;--surface2:#1a2236;--border:#232f45;--accent:#e8b84b;--accent2:#3b82f6;--red:#ef4444;--green:#22c55e;--text:#dde4f0;--muted:#566070;--trade:#a855f7;--nav-h:64px;}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;overflow:hidden;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;display:flex;flex-direction:column;}
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
 
-/* TOP BAR */
-.top-bar{background:#0d1526;border-bottom:1px solid var(--border);padding:10px 16px 8px;flex-shrink:0;display:none;}
-.top-bar.visible{display:block;}
-.tb-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.tb-title{font-family:'Bebas Neue';font-size:18px;color:var(--accent);letter-spacing:1px;}
-.tb-pct{font-family:'Bebas Neue';font-size:22px;color:var(--accent);}
-.tb-sub{font-size:10px;color:var(--muted);}
-.prog-wrap{background:var(--border);border-radius:3px;height:5px;}
-.prog-bar{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:3px;transition:width .4s;}
-.prog-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px;}
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --border: #1e2d45;
+    --accent: #e8b84b;
+    --accent2: #3b82f6;
+    --red: #ef4444;
+    --green: #22c55e;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --trade: #a855f7;
+    --nav-h: 64px;
+  }
 
-/* SCREENS */
-.screen-wrap{flex:1;overflow:hidden;position:relative;}
-.screen{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;display:none;padding-bottom:calc(var(--nav-h) + 8px);}
-.screen.active{display:block;}
-#s-home{padding-bottom:24px;}
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-/* BOTTOM NAV */
-.bottom-nav{height:var(--nav-h);background:#0d1526;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;flex-shrink:0;position:relative;z-index:50;}
-.bottom-nav.hidden{display:none;}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:8px 4px;border:none;background:none;color:var(--muted);font-family:inherit;font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;transition:color .2s;}
-.nav-item.active{color:var(--accent);}
-.nav-item-icon{font-size:20px;line-height:1;}
-.nav-center{width:52px;height:52px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;box-shadow:0 0 20px rgba(232,184,75,.3);flex-shrink:0;transition:transform .15s;margin-bottom:10px;}
-.nav-center:active{transform:scale(.94);}
+  /* ── APP SHELL (new) ── */
+  html, body { height: 100%; overflow: hidden; }
+  .app-shell {
+    display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+    background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;
+  }
 
-/* HOME */
-.home-logo{text-align:center;padding:28px 20px 16px;}
-.home-logo-title{font-family:'Bebas Neue';font-size:32px;letter-spacing:3px;color:var(--accent);line-height:1;}
-.home-logo-sub{font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-top:2px;}
-.home-ring-wrap{display:flex;flex-direction:column;align-items:center;padding:0 20px 20px;}
-.ring-outer{position:relative;width:140px;height:140px;}
-.ring-svg{transform:rotate(-90deg);}
-.ring-bg{fill:none;stroke:var(--border);stroke-width:10;}
-.ring-fill{fill:none;stroke:url(#rg);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .8s ease;}
-.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.ring-pct{font-family:'Bebas Neue';font-size:36px;color:var(--accent);line-height:1;}
-.ring-lbl{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
-.home-counts{display:flex;gap:24px;margin-top:12px;}
-.h-count{text-align:center;}
-.h-count-val{font-family:'Bebas Neue';font-size:22px;line-height:1;}
-.h-count-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
-.home-cards{padding:0 16px 8px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.hcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;transition:transform .15s;}
-.hcard:active{transform:scale(.97);}
-.hcard.full{grid-column:1/-1;}
-.hcard-ico{font-size:20px;margin-bottom:8px;}
-.hcard-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;}
-.hcard-val{font-family:'Bebas Neue';font-size:26px;color:var(--text);line-height:1;}
-.hcard-sub{font-size:11px;color:var(--muted);margin-top:3px;}
-.recent-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
-.recent-chip{background:var(--surface2);border-radius:6px;padding:3px 7px;font-size:10px;color:var(--muted);}
-.recent-chip b{color:var(--text);}
-.top-team-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);}
-.top-team-row:last-child{border-bottom:none;}
-.top-bar-mini{width:60px;background:var(--border);border-radius:2px;height:4px;}
-.top-bar-mini-fill{height:100%;background:var(--accent);border-radius:2px;}
-.top-cnt{font-size:11px;color:var(--muted);min-width:32px;text-align:right;}
+  /* ── TOP BAR (hidden on home) ── */
+  .top-bar {
+    background: linear-gradient(135deg, #0d1b2e 0%, #1a2d4a 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 10px 16px 8px;
+    flex-shrink: 0; display: none;
+  }
+  .top-bar.visible { display: block; }
+  .tb-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .tb-title { font-family: 'Bebas Neue'; font-size: 18px; color: var(--accent); letter-spacing: 1px; }
+  .tb-pct { font-family: 'Bebas Neue'; font-size: 22px; color: var(--accent); }
+  .tb-sub { font-size: 10px; color: var(--muted); }
+  .tb-prog-wrap { background: var(--border); border-radius: 3px; height: 5px; }
+  .tb-prog-bar { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 3px; transition: width .4s; }
+  .tb-prog-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-top: 4px; }
 
-/* ALBUM LIST */
-.album-search-wrap{padding:12px 16px 8px;position:sticky;top:0;z-index:10;background:var(--bg);}
-.album-search{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px 10px 36px;color:var(--text);font-family:inherit;font-size:14px;outline:none;}
-.album-search:focus{border-color:var(--accent2);}
-.s-ico{position:absolute;left:27px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
-.groups-list{padding:0 16px 16px;}
-.grp-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-left:2px;}
-.grp-section{margin-bottom:16px;}
-.country-row{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;transition:border-color .15s;}
-.country-row:active{border-color:var(--accent);}
-.country-row.complete{border-color:var(--green);}
-.cname{flex:1;font-weight:600;font-size:13px;}
-.cprog-wrap{width:50px;background:var(--border);height:3px;border-radius:2px;}
-.cprog-fill{height:100%;background:var(--accent2);border-radius:2px;}
-.cprog-fill.done{background:var(--green);}
-.ccnt{font-size:11px;color:var(--muted);min-width:32px;text-align:right;font-weight:600;}
-.ccnt.done{color:var(--green);}
+  /* ── SCROLL AREA ── */
+  .screen-wrap { flex: 1; overflow: hidden; position: relative; }
+  .screen { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; display: none; }
+  .screen.active { display: block; }
+  #s-home { padding-bottom: 24px; background: var(--bg); }
+  #s-views { padding-bottom: calc(var(--nav-h) + 8px); }
 
-/* COUNTRY DETAIL */
-.country-detail{display:none;position:absolute;inset:0;background:var(--bg);z-index:30;overflow-y:auto;}
-.country-detail.open{display:block;}
-.det-header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5;}
-.det-back{background:var(--surface2);border:none;border-radius:8px;color:var(--text);font-size:20px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.det-info{flex:1;}
-.det-name{font-family:'Bebas Neue';font-size:20px;color:var(--text);letter-spacing:1px;line-height:1;}
-.det-count{font-size:11px;color:var(--muted);}
-.det-nav{display:flex;gap:6px;}
-.det-nav-btn{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:18px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.det-nav-btn:active{border-color:var(--accent);}
-.det-hint{text-align:center;font-size:11px;color:var(--muted);padding:8px 16px 4px;}
-.sticker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 16px 24px;}
-.sticker{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:8px 4px 6px;text-align:center;cursor:pointer;transition:border-color .15s;position:relative;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
-.sticker.have{background:#0b2016;border-color:var(--green);}
-.sticker.trade{background:#1a0a2e;border-color:var(--trade);}
-.sticker-id{font-size:8px;color:var(--muted);font-weight:700;}
-.sticker-num{font-family:'Bebas Neue';font-size:22px;line-height:1;color:var(--text);}
-.sticker.have .sticker-num{color:#86efac;}
-.sticker.trade .sticker-num{color:#d8b4fe;}
-.sticker-name{font-size:8px;color:var(--muted);line-height:1.2;}
-.sticker-badge{font-size:10px;position:absolute;top:3px;right:4px;}
-.sticker-dupes{font-size:9px;font-weight:700;color:var(--accent);position:absolute;bottom:2px;right:4px;}
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    height: var(--nav-h); background: #0d1526; border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-around;
+    flex-shrink: 0; z-index: 50;
+  }
+  .bottom-nav.hidden { display: none; }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    cursor: pointer; padding: 8px 4px; border: none; background: none; color: var(--muted);
+    font-family: inherit; font-size: 9px; font-weight: 600; letter-spacing: .5px;
+    text-transform: uppercase; transition: color .2s;
+  }
+  .nav-item.active { color: var(--accent); }
+  .nav-item-icon { font-size: 20px; line-height: 1; }
+  .nav-center {
+    width: 52px; height: 52px; border-radius: 50%; background: var(--accent);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    border: none; box-shadow: 0 0 20px rgba(232,184,75,.3); flex-shrink: 0;
+    transition: transform .15s; margin-bottom: 10px;
+  }
+  .nav-center:active { transform: scale(.94); }
 
-/* FALTANTES */
-.miss-search-wrap{padding:12px 16px 8px;position:sticky;top:0;z-index:10;background:var(--bg);}
-.miss-search{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px 10px 36px;color:var(--text);font-family:inherit;font-size:14px;outline:none;}
-.miss-search:focus{border-color:var(--accent2);}
-.miss-groups{padding:0 16px 16px;}
-.miss-country-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;}
-.miss-country-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.miss-stickers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-.miss-chip{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 4px;text-align:center;cursor:pointer;transition:all .15s;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
-.miss-chip:active{border-color:var(--green);background:#0b2016;}
-.miss-chip-id{font-size:8px;color:var(--muted);font-weight:700;}
-.miss-chip-num{font-family:'Bebas Neue';font-size:18px;color:var(--text);line-height:1;}
-.miss-chip-name{font-size:8px;color:var(--muted);line-height:1.1;}
+  /* ── HOME ── */
+  .home-logo { text-align: center; padding: 28px 20px 16px; }
+  .home-logo-title { font-family: 'Bebas Neue'; font-size: 32px; letter-spacing: 3px; color: var(--accent); line-height: 1; }
+  .home-logo-sub { font-size: 10px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; margin-top: 2px; }
+  .home-ring-wrap { display: flex; flex-direction: column; align-items: center; padding: 0 20px 20px; }
+  .ring-outer { position: relative; width: 140px; height: 140px; }
+  .ring-svg { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--border); stroke-width: 10; }
+  .ring-fill { fill: none; stroke: url(#rg); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset .8s ease; }
+  .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-pct { font-family: 'Bebas Neue'; font-size: 36px; color: var(--accent); line-height: 1; }
+  .ring-lbl { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .home-counts { display: flex; gap: 24px; margin-top: 12px; }
+  .h-count { text-align: center; }
+  .h-count-val { font-family: 'Bebas Neue'; font-size: 22px; line-height: 1; }
+  .h-count-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+  .home-cards { padding: 0 16px 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .hcard {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 14px; cursor: pointer; transition: transform .15s;
+  }
+  .hcard:active { transform: scale(.97); }
+  .hcard.full { grid-column: 1 / -1; }
+  .hcard-ico { font-size: 20px; margin-bottom: 8px; }
+  .hcard-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px; }
+  .hcard-val { font-family: 'Bebas Neue'; font-size: 26px; color: var(--text); line-height: 1; }
+  .hcard-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .recent-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .recent-chip { background: var(--surface2); border-radius: 6px; padding: 3px 7px; font-size: 10px; color: var(--muted); }
+  .recent-chip b { color: var(--text); }
+  .top-team-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .top-team-row:last-child { border-bottom: none; }
+  .top-bar-mini { width: 60px; background: var(--border); border-radius: 2px; height: 4px; }
+  .top-bar-mini-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+  .top-cnt { font-size: 11px; color: var(--muted); min-width: 32px; text-align: right; }
 
-/* REPETIDAS */
-.sec-pad{padding:16px;}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
-.stat-val{font-family:'Bebas Neue';font-size:30px;color:var(--accent);line-height:1;}
-.stat-lbl{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;}
-.dupe-row{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;gap:10px;}
-.dupe-info{flex:1;}
-.dupe-id{font-size:10px;color:var(--muted);}
-.dupe-name{font-size:13px;font-weight:600;}
-.dupe-ctrl{display:flex;align-items:center;gap:6px;}
-.dupe-count{font-family:'Bebas Neue';font-size:24px;color:var(--accent);min-width:24px;text-align:center;}
-.dupe-btn{background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:16px;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  /* ── EXISTING STYLES (kept exactly) ── */
+  .header {
+    background: linear-gradient(135deg, #0d1b2e 0%, #1a2d4a 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 16px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .header-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--accent); line-height: 1; }
+  .header-subtitle { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .progress-wrap { background: var(--border); border-radius: 4px; height: 8px; overflow: hidden; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 4px; transition: width 0.4s ease; }
+  .progress-stats { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--muted); }
+  .progress-pct { font-weight: 700; color: var(--accent); font-size: 13px; }
+  .nav { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 116px; z-index: 90; overflow-x: auto; scrollbar-width: none; }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn { flex: none; padding: 10px 16px; background: none; border: none; color: var(--muted); font-family: inherit; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .view { display: none; padding: 16px; }
+  .view.active { display: block; }
+  .section-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; margin-top: 16px; }
+  .section-label:first-child { margin-top: 0; }
+  .team-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; transition: border-color 0.2s; }
+  .team-card.complete { border-color: var(--green); }
+  .team-header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; user-select: none; }
+  .team-flag { width: 32px; height: 22px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
+  .team-flag-emoji { font-size: 22px; line-height: 1; }
+  .team-name { font-weight: 600; font-size: 14px; flex: 1; }
+  .team-group { font-size: 10px; padding: 2px 7px; border-radius: 10px; background: var(--surface2); color: var(--muted); font-weight: 600; }
+  .team-count { font-size: 12px; font-weight: 700; color: var(--muted); }
+  .team-count.done { color: var(--green); }
+  .team-mini-bar { height: 3px; background: var(--border); }
+  .team-mini-fill { height: 100%; background: var(--accent2); transition: width 0.3s; }
+  .team-mini-fill.full { background: var(--green); }
+  .sticker-grid { display: none; padding: 10px 14px 14px; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 6px; }
+  .sticker-grid.open { display: grid; }
+  .sticker { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 7px; padding: 7px 5px; text-align: center; cursor: pointer; transition: all 0.15s; position: relative; min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; -webkit-tap-highlight-color: transparent; }
+  .sticker.have { background: #0f2d1a; border-color: var(--green); }
+  .sticker.trade { background: #1e0a33; border-color: var(--trade); }
+  .sticker-id { font-size: 9px; color: var(--muted); font-weight: 600; letter-spacing: 0.3px; }
+  .sticker-name { font-size: 9px; color: var(--text); line-height: 1.2; word-break: break-word; }
+  .sticker.have .sticker-name { color: #86efac; }
+  .sticker.trade .sticker-name { color: #d8b4fe; }
+  .sticker-badge { font-size: 10px; position: absolute; top: 3px; right: 4px; }
+  .sticker-dupes { font-size: 9px; font-weight: 700; color: var(--accent); position: absolute; bottom: 3px; right: 5px; }
+  .hint { text-align: center; font-size: 11px; color: var(--muted); padding: 8px; margin-bottom: 8px; }
+  .search-wrap { position: relative; margin-bottom: 14px; }
+  .search-input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px 10px 36px; color: var(--text); font-family: inherit; font-size: 14px; outline: none; }
+  .search-input:focus { border-color: var(--accent2); }
+  .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; }
+  .filters { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-btn { padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); background: none; color: var(--muted); font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .filter-btn.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+  .invest-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .invest-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 4px; }
+  .invest-amount { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--accent); letter-spacing: 1px; }
+  .invest-sub { font-size: 12px; color: var(--muted); }
+  .input-row { display: flex; gap: 8px; margin-top: 12px; align-items: flex-end; }
+  .input-group { flex: 1; }
+  .input-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; display: block; }
+  .input-field { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text); font-family: inherit; font-size: 14px; outline: none; }
+  .input-field:focus { border-color: var(--accent2); }
+  .btn-add { background: var(--accent); border: none; border-radius: 8px; padding: 9px 18px; color: #000; font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+  .purchase-list { margin-top: 12px; }
+  .purchase-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .purchase-item:last-child { border-bottom: none; }
+  .purchase-date { color: var(--muted); font-size: 11px; }
+  .purchase-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 2px 6px; }
+  .prob-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .prob-slider-wrap { margin: 16px 0; }
+  .prob-slider { width: 100%; accent-color: var(--accent); height: 4px; cursor: pointer; }
+  .prob-result { background: var(--surface2); border-radius: 10px; padding: 16px; text-align: center; margin-top: 12px; }
+  .prob-number { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--accent); line-height: 1; }
+  .prob-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .prob-breakdown { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .prob-stat { background: var(--surface2); border-radius: 8px; padding: 10px; text-align: center; }
+  .prob-stat-val { font-weight: 700; font-size: 16px; color: var(--text); }
+  .prob-stat-lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .dupes-list { }
+  .dupe-row { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; }
+  .dupe-info { flex: 1; }
+  .dupe-id { font-size: 11px; color: var(--muted); }
+  .dupe-name { font-size: 13px; font-weight: 500; }
+  .dupe-ctrl { display: flex; align-items: center; gap: 8px; }
+  .dupe-count { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--accent); min-width: 24px; text-align: center; }
+  .dupe-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 16px; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border-radius: 16px; padding: 20px; width: 100%; max-width: 360px; border: 1px solid var(--accent); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--accent); margin-bottom: 4px; }
+  .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .modal-options { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .modal-opt { border-radius: 10px; border: 2px solid var(--border); padding: 14px 8px; text-align: center; cursor: pointer; transition: all 0.15s; background: var(--surface2); }
+  .modal-opt:hover { border-color: var(--accent2); }
+  .modal-opt.selected { border-color: var(--accent); background: #1a1400; }
+  .modal-opt-icon { font-size: 22px; margin-bottom: 4px; }
+  .modal-opt-label { font-size: 11px; font-weight: 600; color: var(--text); }
+  .modal-opt-desc { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .modal-close { width: 100%; padding: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-family: inherit; font-size: 14px; cursor: pointer; }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
+  .stat-card.accent { border-color: var(--accent); }
+  .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--accent); line-height: 1; }
+  .stat-lbl { font-size: 10px; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .group-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .group-tab { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); background: none; color: var(--muted); font-family: inherit; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.15px; }
+  .group-tab.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+  .group-tab.done { border-color: var(--green); color: var(--green); }
+  .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .empty-icon { font-size: 40px; margin-bottom: 10px; }
+  .empty-text { font-size: 14px; }
 
-/* INVERSIÓN */
-.inv-sec{padding:16px 16px 0;}
-.sec-title{font-family:'Bebas Neue';font-size:18px;color:var(--accent);letter-spacing:1px;margin-bottom:12px;}
-.inv-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;}
-.inv-card-lbl{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px;}
-.input-row{display:flex;gap:8px;margin-top:10px;align-items:flex-end;}
-.input-grp{flex:1;}
-.input-lbl{font-size:11px;color:var(--muted);margin-bottom:4px;display:block;}
-.input-field{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);font-family:inherit;font-size:14px;outline:none;}
-.input-field:focus{border-color:var(--accent2);}
-.btn-add{background:var(--accent);border:none;border-radius:8px;padding:9px 18px;color:#000;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;flex-shrink:0;}
-.purchase-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
-.purchase-item:last-child{border-bottom:none;}
-.purchase-date{color:var(--muted);font-size:11px;}
-.purchase-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 6px;}
-.divider{height:1px;background:var(--border);margin:4px 16px 0;}
-.prob-slider{width:100%;accent-color:var(--accent);cursor:pointer;}
-.prob-result{background:var(--surface2);border-radius:10px;padding:16px;text-align:center;margin-top:10px;}
-.prob-num{font-family:'Bebas Neue';font-size:52px;color:var(--accent);line-height:1;}
-.prob-lbl{font-size:12px;color:var(--muted);}
-.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
-.prob-stat{background:var(--surface2);border-radius:8px;padding:10px;text-align:center;}
-.prob-stat-val{font-weight:700;font-size:16px;}
-.prob-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
+  /* ── BANDERAS (new) ── */
+  .flags-intro { padding: 0 0 12px; font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .flags-grp-lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin: 14px 0 8px; }
+  .flags-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .flag-tile { border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 3/2; border: 1.5px solid var(--border); transition: border-color .2s; }
+  .flag-tile.unlocked { border-color: var(--green); }
+  .flag-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: filter .4s; }
+  .flag-tile.locked img { filter: grayscale(1) brightness(.35); }
+  .flag-tile-lbl { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,.65); font-size: 7px; font-weight: 700; text-align: center; padding: 2px; color: var(--muted); letter-spacing: .3px; text-transform: uppercase; }
+  .flag-tile.unlocked .flag-tile-lbl { color: #fff; }
+  .flag-tile-check { position: absolute; top: 2px; right: 3px; font-size: 11px; display: none; }
+  .flag-tile.unlocked .flag-tile-check { display: block; }
+  .flag-tile-trophy { display: flex; align-items: center; justify-content: center; height: 100%; font-size: 24px; }
 
-/* BANDERAS */
-.flags-intro{padding:16px 16px 8px;font-size:12px;color:var(--muted);line-height:1.5;}
-.flags-groups{padding:0 16px 24px;}
-.flags-grp-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:14px 0 8px;}
-.flags-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.flag-tile{border-radius:10px;overflow:hidden;position:relative;aspect-ratio:3/2;border:1.5px solid var(--border);transition:border-color .2s;}
-.flag-tile.unlocked{border-color:var(--green);}
-.flag-tile img{width:100%;height:100%;object-fit:cover;display:block;transition:filter .4s;}
-.flag-tile.locked img{filter:grayscale(1) brightness(.35);}
-.flag-tile-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.65);font-size:7px;font-weight:700;text-align:center;padding:2px;color:var(--muted);letter-spacing:.3px;text-transform:uppercase;}
-.flag-tile.unlocked .flag-tile-lbl{color:#fff;}
-.flag-tile-check{position:absolute;top:2px;right:3px;font-size:11px;display:none;}
-.flag-tile.unlocked .flag-tile-check{display:block;}
-
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;padding:20px;}
-.modal-overlay.open{display:flex;}
-.modal{background:var(--surface);border-radius:16px;padding:20px;width:100%;max-width:340px;border:1px solid var(--accent);box-shadow:0 20px 60px rgba(0,0,0,.6);}
-.modal-title{font-family:'Bebas Neue';font-size:22px;color:var(--accent);}
-.modal-sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
-.modal-opts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
-.modal-opt{border-radius:10px;border:2px solid var(--border);padding:12px 6px;text-align:center;cursor:pointer;background:var(--surface2);transition:all .15s;}
-.modal-opt.selected{border-color:var(--accent);background:#1a1400;}
-.modal-opt-icon{font-size:20px;margin-bottom:4px;}
-.modal-opt-label{font-size:11px;font-weight:600;}
-.modal-opt-desc{font-size:9px;color:var(--muted);margin-top:2px;}
-.modal-close{width:100%;padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:inherit;font-size:14px;cursor:pointer;}
-.empty{text-align:center;padding:40px 20px;color:var(--muted);}
-.empty-icon{font-size:40px;margin-bottom:8px;}
-::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 </style>
 </head>
 <body>
+<div class="app-shell">
 
+<!-- TOP BAR (hidden on home) -->
 <div class="top-bar" id="top-bar">
   <div class="tb-row">
-    <div><div class="tb-title">&#9917; Álbum Panini 2026</div><div class="tb-sub">FIFA World Cup · 48 Selecciones</div></div>
+    <div><div class="tb-title">⚽ Álbum Panini 2026</div><div class="tb-sub">FIFA World Cup · 48 Selecciones</div></div>
     <div style="text-align:right">
       <div class="tb-pct" id="tb-pct">0%</div>
-      <div id="sync-status" style="font-size:10px"></div>
+      <div id="tb-sync" style="font-size:10px"></div>
     </div>
   </div>
-  <div class="prog-wrap"><div class="prog-bar" id="tb-bar" style="width:0%"></div></div>
-  <div class="prog-labels"><span id="tb-have">0 pegadas</span><span id="tb-miss">980 faltantes</span></div>
+  <div class="tb-prog-wrap"><div class="tb-prog-bar" id="tb-bar" style="width:0%"></div></div>
+  <div class="tb-prog-labels"><span id="tb-have">0 pegadas</span><span id="tb-miss">980 faltantes</span></div>
 </div>
 
 <div class="screen-wrap">
 
+<!-- HOME SCREEN -->
 <div class="screen active" id="s-home">
   <div class="home-logo">
-    <div class="home-logo-title">&#9917; Álbum Panini</div>
+    <div class="home-logo-title">⚽ Álbum Panini</div>
     <div class="home-logo-sub">FIFA World Cup 2026</div>
   </div>
   <div class="home-ring-wrap">
     <div class="ring-outer">
       <svg class="ring-svg" width="140" height="140" viewBox="0 0 140 140">
-        <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#e8b84b"/></linearGradient></defs>
+        <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#e8b84b"/>
+        </linearGradient></defs>
         <circle class="ring-bg" cx="70" cy="70" r="60"/>
         <circle class="ring-fill" id="ring-fill" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"/>
       </svg>
@@ -238,159 +287,184 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
       <div class="h-count"><div class="h-count-val" style="color:var(--red)" id="hc-miss">980</div><div class="h-count-lbl">Faltantes</div></div>
       <div class="h-count"><div class="h-count-val" style="color:var(--trade)" id="hc-dup">0</div><div class="h-count-lbl">Repetidas</div></div>
     </div>
-    <div style="margin-top:6px;font-size:10px" id="sync-home"></div>
+    <div style="margin-top:6px;font-size:10px" id="home-sync"></div>
   </div>
   <div class="home-cards">
     <div class="hcard full" onclick="goScreen('album')" style="display:flex;align-items:center;gap:14px;padding:16px;border-color:var(--accent)">
-      <div style="font-size:36px">&#128218;</div>
+      <div style="font-size:36px">📚</div>
       <div><div class="hcard-lbl">Ver álbum completo</div><div class="hcard-val" id="hc-album">0 / 980</div><div class="hcard-sub">Toca para navegar</div></div>
     </div>
     <div class="hcard" onclick="goScreen('inversion')" style="border-color:var(--accent2)">
-      <div class="hcard-ico">&#128176;</div><div class="hcard-lbl">Inversión</div>
+      <div class="hcard-ico">💰</div><div class="hcard-lbl">Inversión</div>
       <div class="hcard-val" id="hc-inv">$0</div><div class="hcard-sub" id="hc-packs">0 sobres</div>
     </div>
     <div class="hcard" onclick="goScreen('faltantes')" style="border-color:var(--green)">
-      <div class="hcard-ico">&#128269;</div><div class="hcard-lbl">Faltantes</div>
+      <div class="hcard-ico">🔍</div><div class="hcard-lbl">Faltantes</div>
       <div class="hcard-val" id="hc-falt">980</div><div class="hcard-sub">por conseguir</div>
     </div>
     <div class="hcard" onclick="goScreen('repetidas')" style="border-color:var(--trade)">
-      <div class="hcard-ico">&#128260;</div><div class="hcard-lbl">Repetidas</div>
+      <div class="hcard-ico">🔄</div><div class="hcard-lbl">Repetidas</div>
       <div class="hcard-val" id="hc-rep">0</div><div class="hcard-sub" id="hc-rep-u">0 distintas</div>
     </div>
     <div class="hcard" onclick="goScreen('banderas')" style="border-color:#f97316">
-      <div class="hcard-ico">&#127988;</div><div class="hcard-lbl">Páginas completas</div>
+      <div class="hcard-ico">🏳️</div><div class="hcard-lbl">Páginas completas</div>
       <div class="hcard-val" id="hc-flags">0 / 49</div><div class="hcard-sub">países con álbum lleno</div>
     </div>
     <div class="hcard full" style="cursor:default">
-      <div class="hcard-lbl" style="margin-bottom:10px">&#127942; Top países (con repetidas)</div>
+      <div class="hcard-lbl" style="margin-bottom:10px">🏆 Top países (con repetidas)</div>
       <div id="hc-top"></div>
     </div>
     <div class="hcard full" style="cursor:default">
-      <div class="hcard-lbl" style="margin-bottom:8px">&#9201; Últimas añadidas</div>
+      <div class="hcard-lbl" style="margin-bottom:8px">⏱ Últimas añadidas</div>
       <div class="recent-chips" id="hc-recent"></div>
     </div>
   </div>
 </div>
 
-<div class="screen" id="s-album">
-  <div class="album-search-wrap" style="position:relative">
-    <span class="s-ico">&#128269;</span>
-    <input class="album-search" type="search" placeholder="Buscar jugador o selección…" id="album-q" oninput="filterAlbum()">
-  </div>
-  <div class="groups-list" id="album-list"></div>
-  <div class="country-detail" id="country-detail">
-    <div class="det-header">
-      <button class="det-back" onclick="closeDetail()">&#8249;</button>
-      <div id="det-flag" style="flex-shrink:0"></div>
-      <div class="det-info">
-        <div class="det-name" id="det-name">País</div>
-        <div class="det-count" id="det-count">0/20 estampas</div>
+<!-- VIEWS SCREEN (wraps all existing views + header + nav) -->
+<div class="screen" id="s-views">
+
+  <!-- VIEW: ÁLBUM -->
+  <div class="view active" id="view-album" style="padding:0;position:relative;">
+    <div id="album-country-list-wrap">
+      <div style="padding:12px 16px 8px;position:sticky;top:0;z-index:5;background:var(--bg);">
+        <div style="position:relative;">
+          <span style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);">🔍</span>
+          <input class="search-input" type="search" placeholder="Buscar selección o jugador..." id="search-input" oninput="filterAlbum()" style="padding-left:36px;">
+        </div>
+        <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:8px;">Toca un país para ver sus estampas</div>
       </div>
-      <div class="det-nav">
-        <button class="det-nav-btn" onclick="navDetail(-1)">&#8249;</button>
-        <button class="det-nav-btn" onclick="navDetail(1)">&#8250;</button>
+      <div id="album-list" style="padding:0 16px 16px;"></div>
+    </div>
+    <div id="album-detail-panel" style="display:none;position:absolute;inset:0;background:var(--bg);z-index:10;overflow-y:auto;">
+      <div style="position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;">
+        <button onclick="closeAlbumDetail()" style="background:var(--surface2);border:none;border-radius:8px;color:var(--text);font-size:20px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">‹</button>
+        <div id="detail-flag-wrap" style="flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div id="detail-country-name" style="font-family:'Bebas Neue';font-size:20px;letter-spacing:1px;line-height:1;"></div>
+          <div id="detail-country-count" style="font-size:11px;color:var(--muted);"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,30px);grid-template-rows:repeat(2,26px);gap:3px;">
+          <div></div>
+          <button onclick="navigateDetailVertical(-1)" title="Grupo anterior" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▲</button>
+          <div></div>
+          <button onclick="navigateDetail(-1)" title="País anterior" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">◀</button>
+          <button onclick="navigateDetailVertical(1)" title="Grupo siguiente" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▼</button>
+          <button onclick="navigateDetail(1)" title="País siguiente" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▶</button>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:11px;color:var(--muted);padding:6px 16px 2px;">Toca = marcar · Mantén = opciones · Desliza para navegar</div>
+      <div id="detail-sticker-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 16px 24px;"></div>
+    </div>
+  </div>
+
+  <!-- VIEW: FALTANTES -->
+  <div class="view" id="view-faltantes" style="padding:0;">
+    <div style="padding:12px 16px 8px;position:sticky;top:0;z-index:5;background:var(--bg);">
+      <div style="position:relative;">
+        <span style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);">🔍</span>
+        <input class="search-input" type="search" placeholder="Buscar en faltantes..." id="missing-search" oninput="renderMissingNew()" style="padding-left:36px;">
       </div>
     </div>
-    <div class="det-hint">Toca = marcar · Mantén = opciones</div>
-    <div class="sticker-grid" id="det-grid"></div>
+    <div id="missing-list" style="padding:0 16px 16px;"></div>
   </div>
-</div>
 
-<div class="screen" id="s-faltantes">
-  <div class="miss-search-wrap" style="position:relative">
-    <span class="s-ico">&#128269;</span>
-    <input class="miss-search" type="search" placeholder="Buscar en faltantes…" id="miss-q" oninput="renderMissing()">
-  </div>
-  <div class="miss-groups" id="miss-list"></div>
-</div>
-
-<div class="screen" id="s-repetidas">
-  <div class="sec-pad">
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-val" id="dup-total">0</div><div class="stat-lbl">Repetidas</div></div>
-      <div class="stat-card"><div class="stat-val" id="dup-unique">0</div><div class="stat-lbl">Distintas</div></div>
+  <!-- VIEW: REPETIDAS -->
+  <div class="view" id="view-repetidas">
+    <div class="stats-grid" style="margin-bottom:16px">
+      <div class="stat-card"><div class="stat-val" id="dupe-total">0</div><div class="stat-lbl">Repetidas</div></div>
+      <div class="stat-card"><div class="stat-val" id="dupe-unique">0</div><div class="stat-lbl">Estampas distintas</div></div>
     </div>
     <div id="dupes-list"></div>
   </div>
-</div>
 
-<div class="screen" id="s-inversion">
-  <div class="inv-sec">
-    <div class="sec-title">Inversión</div>
-    <div class="stats-grid" style="margin-bottom:12px">
-      <div class="stat-card" style="border-color:var(--accent)"><div class="stat-val" id="inv-total">$0</div><div class="stat-lbl">Total</div></div>
-      <div class="stat-card"><div class="stat-val" id="inv-per">$0</div><div class="stat-lbl">Por estampa</div></div>
-      <div class="stat-card"><div class="stat-val" id="inv-packs">0</div><div class="stat-lbl">Sobres</div></div>
-      <div class="stat-card"><div class="stat-val" id="inv-proj">$0</div><div class="stat-lbl">Proy. completar</div></div>
+  <!-- VIEW: INVERSIÓN + PROBABILIDAD -->
+  <div class="view" id="view-inversion">
+    <p style="font-family:'Bebas Neue';font-size:16px;color:var(--accent);letter-spacing:1px;margin-bottom:12px;">Inversión</p>
+    <div class="stats-grid">
+      <div class="stat-card accent"><div class="stat-val" id="invest-total">$0</div><div class="stat-lbl">Total invertido</div></div>
+      <div class="stat-card"><div class="stat-val" id="invest-per">$0</div><div class="stat-lbl">Por estampa</div></div>
+      <div class="stat-card"><div class="stat-val" id="invest-packs">0</div><div class="stat-lbl">Sobres comprados</div></div>
+      <div class="stat-card"><div class="stat-val" id="invest-projected">$0</div><div class="stat-lbl">Proy. completar</div></div>
     </div>
-    <div class="inv-card">
-      <div class="inv-card-lbl">Registrar compra</div>
+    <div class="invest-card">
+      <div class="invest-title">Registrar compra</div>
       <div class="input-row">
-        <div class="input-grp"><label class="input-lbl">Sobres</label><input class="input-field" type="number" id="inv-qty" placeholder="10" min="1"></div>
-        <div class="input-grp"><label class="input-lbl">Precio c/u ($)</label><input class="input-field" type="number" id="inv-price" placeholder="15" step=".5"></div>
+        <div class="input-group"><label class="input-label">Cantidad de sobres</label><input class="input-field" type="number" id="inv-qty" placeholder="ej. 10" min="1"></div>
+        <div class="input-group"><label class="input-label">Precio por sobre ($)</label><input class="input-field" type="number" id="inv-price" placeholder="ej. 15" step="0.5"></div>
         <button class="btn-add" onclick="addPurchase()">+</button>
       </div>
     </div>
+    <div class="section-label">Historial de compras</div>
     <div id="purchase-list"></div>
-  </div>
-  <div class="divider"></div>
-  <div class="inv-sec" style="padding-top:16px;padding-bottom:24px">
-    <div class="sec-title">Probabilidad</div>
-    <div class="inv-card">
-      <div style="font-size:13px;font-weight:600;margin-bottom:2px">¿Cuántos sobres compro?</div>
+    <div style="height:1px;background:var(--border);margin:20px 0 16px;"></div>
+    <p style="font-family:'Bebas Neue';font-size:16px;color:var(--accent);letter-spacing:1px;margin-bottom:12px;">Probabilidad</p>
+    <div class="prob-card">
+      <div style="font-size:13px;font-weight:600;margin-bottom:4px">¿Cuántos sobres quiero comprar?</div>
       <div style="font-size:11px;color:var(--muted);margin-bottom:12px">7 estampas por sobre</div>
-      <input type="range" class="prob-slider" id="prob-slider" min="1" max="200" value="10" oninput="calcProb()">
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px">
-        <span>1</span><span id="slider-val" style="color:var(--accent);font-weight:700">10 sobres</span><span>200</span>
+      <div class="prob-slider-wrap">
+        <input type="range" class="prob-slider" id="prob-slider" min="1" max="200" value="10" oninput="calcProb()">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px">
+          <span>1</span><span id="slider-val" style="color:var(--accent);font-weight:700">10 sobres</span><span>200</span>
+        </div>
       </div>
       <div class="prob-result">
-        <div class="prob-num" id="prob-new">0</div>
-        <div class="prob-lbl">estampas nuevas esperadas</div>
+        <div class="prob-number" id="prob-new">0</div>
+        <div class="prob-label">estampas nuevas esperadas</div>
       </div>
-      <div class="prob-grid">
-        <div class="prob-stat"><div class="prob-stat-val" id="prob-total">70</div><div class="prob-stat-lbl">Estampas totales</div></div>
-        <div class="prob-stat"><div class="prob-stat-val" id="prob-pct">100%</div><div class="prob-stat-lbl">Prob. nueva</div></div>
-        <div class="prob-stat"><div class="prob-stat-val" id="prob-dupes">0</div><div class="prob-stat-lbl">Repetidas esp.</div></div>
-        <div class="prob-stat"><div class="prob-stat-val" id="prob-finish">—</div><div class="prob-stat-lbl">Sobres p/ terminar</div></div>
+      <div class="prob-breakdown">
+        <div class="prob-stat"><div class="prob-stat-val" id="prob-stickers">70</div><div class="prob-stat-lbl">Estampas totales</div></div>
+        <div class="prob-stat"><div class="prob-stat-val" id="prob-pct-miss">100%</div><div class="prob-stat-lbl">Prob. carta nueva</div></div>
+        <div class="prob-stat"><div class="prob-stat-val" id="prob-expected-dupes">0</div><div class="prob-stat-lbl">Repetidas esperadas</div></div>
+        <div class="prob-stat"><div class="prob-stat-val" id="prob-to-finish">-</div><div class="prob-stat-lbl">Sobres p/ completar</div></div>
       </div>
     </div>
-    <div class="inv-card" style="font-size:11px;color:var(--muted);line-height:1.6">
+    <div class="invest-card" style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:24px;">
       <b style="color:var(--text)">¿Cómo se calcula?</b><br>
-      Modelo del cupón del coleccionista: la probabilidad de que cada estampa sea nueva depende de cuántas ya tienes.
+      Usamos el modelo del "cupón del coleccionista": cada sobre tiene 7 estampas aleatorias de 980 posibles. La probabilidad de que cada estampa sea nueva depende de cuántas ya tienes.
     </div>
   </div>
-</div>
 
-<div class="screen" id="s-banderas">
-  <div class="flags-intro">Las banderas cobran color cuando completas todas las estampas de ese país.</div>
-  <div class="flags-groups" id="flags-list"></div>
-</div>
+  <!-- VIEW: PROBABILIDAD (vacía, por compatibilidad) -->
+  <div class="view" id="view-probabilidad" style="display:none!important;"></div>
 
-</div>
+  <!-- VIEW: BANDERAS -->
+  <div class="view" id="view-banderas">
+    <div class="flags-intro">Las banderas cobran color cuando completas todas las estampas de ese país.</div>
+    <div id="flags-list"></div>
+  </div>
 
+</div><!-- /s-views -->
+
+</div><!-- /screen-wrap -->
+
+<!-- BOTTOM NAV (hidden on home) -->
 <nav class="bottom-nav hidden" id="bottom-nav">
-  <button class="nav-item" id="nav-inversion" onclick="goScreen('inversion')"><span class="nav-item-icon">&#128176;</span>Inversión</button>
-  <button class="nav-item" id="nav-faltantes" onclick="goScreen('faltantes')"><span class="nav-item-icon">&#128269;</span>Faltantes</button>
-  <button class="nav-center" onclick="goScreen('album')"><span style="font-size:22px">&#9917;</span></button>
-  <button class="nav-item" id="nav-repetidas" onclick="goScreen('repetidas')"><span class="nav-item-icon">&#128260;</span>Repetidas</button>
-  <button class="nav-item" id="nav-banderas" onclick="goScreen('banderas')"><span class="nav-item-icon">&#127988;</span>Banderas</button>
+  <button class="nav-item" id="nav-inversion" onclick="goScreen('inversion')"><span class="nav-item-icon">💰</span>Inversión</button>
+  <button class="nav-item" id="nav-faltantes" onclick="goScreen('faltantes')"><span class="nav-item-icon">🔍</span>Faltantes</button>
+  <button class="nav-center" onclick="goScreen('album')"><span style="font-size:22px">⚽</span></button>
+  <button class="nav-item" id="nav-repetidas" onclick="goScreen('repetidas')"><span class="nav-item-icon">🔄</span>Repetidas</button>
+  <button class="nav-item" id="nav-banderas" onclick="goScreen('banderas')"><span class="nav-item-icon">🏳️</span>Banderas</button>
 </nav>
 
+</div><!-- /app-shell -->
+
+<!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-title" id="modal-title">Estampa</div>
     <div class="modal-sub" id="modal-sub"></div>
-    <div class="modal-opts">
-      <div class="modal-opt" id="opt-none" onclick="setSticker('none')"><div class="modal-opt-icon">&#128237;</div><div class="modal-opt-label">No tengo</div><div class="modal-opt-desc">Faltante</div></div>
-      <div class="modal-opt" id="opt-have" onclick="setSticker('have')"><div class="modal-opt-icon">&#9989;</div><div class="modal-opt-label">La tengo</div><div class="modal-opt-desc">Pegada</div></div>
-      <div class="modal-opt" id="opt-trade" onclick="setSticker('trade')"><div class="modal-opt-icon">&#128260;</div><div class="modal-opt-label">Trueque</div><div class="modal-opt-desc">Intercambio</div></div>
+    <div class="modal-options">
+      <div class="modal-opt" id="opt-none" onclick="setSticker('none')"><div class="modal-opt-icon">📭</div><div class="modal-opt-label">No tengo</div><div class="modal-opt-desc">Faltante</div></div>
+      <div class="modal-opt" id="opt-have" onclick="setSticker('have')"><div class="modal-opt-icon">✅</div><div class="modal-opt-label">La tengo</div><div class="modal-opt-desc">Pegada</div></div>
+      <div class="modal-opt" id="opt-trade" onclick="setSticker('trade')"><div class="modal-opt-icon">🔄</div><div class="modal-opt-label">Trueque</div><div class="modal-opt-desc">Intercambio</div></div>
     </div>
     <button class="modal-close" onclick="closeModal()">Cancelar</button>
   </div>
 </div>
-
 <script>
 
+// ─── FLAGS ───────────────────────────────────────────────────
 const BASE = 'https://raw.githubusercontent.com/FranzNons/BracketCamisetas/main/flags/';
 const FLAG_MAP = {
   ALG:'dz',ARG:'ar',AUS:'au',AUT:'at',BEL:'be',BIH:'ba',BRA:'br',
@@ -401,11 +475,169 @@ const FLAG_MAP = {
   PAR:'py',POR:'pt',QAT:'qa',RSA:'za',SCO:'gb-sct',SEN:'sn',SUI:'ch',
   SWE:'se',TUN:'tn',TUR:'tr',URU:'uy',USA:'us',UZB:'uz',FWC:null
 };
-function flagHTML(code, w, h) {
+function flagHTML(code) {
   const file = FLAG_MAP[code];
-  if (!file) return '<span style="font-size:' + (h||20) + 'px">&#127942;</span>';
-  return '<img src="' + BASE + file + '.svg" width="' + (w||30) + '" height="' + (h||20) + '" style="object-fit:cover;border-radius:3px;flex-shrink:0" alt="' + code + '" loading="lazy" onerror="this.style.display=\'none\'">';
+  if (!file) return '<span class="team-flag-emoji">🏆</span>';
+  return `<img class="team-flag" src="${BASE}${file}.svg" alt="${code}" loading="lazy" onerror="this.style.display='none'">`;
 }
+
+// ─── NEW: NAVIGATION & HOME ──────────────────────────────────
+let recentIds = [];
+
+function goScreen(name) {
+  const home = document.getElementById('s-home');
+  const views = document.getElementById('s-views');
+  const topBar = document.getElementById('top-bar');
+  const bottomNav = document.getElementById('bottom-nav');
+
+  if (name === 'home') {
+    home.classList.add('active');
+    views.classList.remove('active');
+    topBar.classList.remove('visible');
+    bottomNav.classList.add('hidden');
+    return;
+  }
+
+  home.classList.remove('active');
+  views.classList.add('active');
+  topBar.classList.add('visible');
+  bottomNav.classList.remove('hidden');
+
+  // Map bottom nav names to inner view names
+  const viewMap = {
+    album: 'album',
+    faltantes: 'faltantes',
+    repetidas: 'repetidas',
+    inversion: 'inversion',
+    banderas: 'banderas',
+    probabilidad: 'probabilidad'
+  };
+
+  const viewName = viewMap[name] || name;
+
+  // Use existing switchView but fake the event
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const targetView = document.getElementById('view-' + viewName);
+  if (targetView) targetView.classList.add('active');
+  const targetBtn = document.querySelector('.nav-btn[data-view="' + viewName + '"]');
+  if (targetBtn) targetBtn.classList.add('active');
+
+  // Bottom nav active state
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  const nb = document.getElementById('nav-' + name);
+  if (nb) nb.classList.add('active');
+
+  // Trigger renders
+  if (viewName === 'faltantes') renderMissingNew();
+  if (viewName === 'repetidas') renderDupes();
+  if (viewName === 'inversion') { renderInvestment(); calcProb(); }
+  if (viewName === 'probabilidad') calcProb();
+  if (viewName === 'banderas') renderBanderas();
+}
+
+function updateHome() {
+  const have = getHaveCount();
+  const pct = (have / TOTAL * 100).toFixed(1);
+  const miss = TOTAL - have;
+
+  // Top bar
+  document.getElementById('tb-pct').textContent = pct + '%';
+  document.getElementById('tb-bar').style.width = pct + '%';
+  document.getElementById('tb-have').textContent = have + ' pegadas';
+  document.getElementById('tb-miss').textContent = miss + ' faltantes';
+
+  // Ring
+  const circ = 377;
+  document.getElementById('ring-fill').style.strokeDashoffset = circ - (circ * have / TOTAL);
+  document.getElementById('ring-pct').textContent = pct + '%';
+
+  // Counts
+  document.getElementById('hc-have').textContent = have;
+  document.getElementById('hc-miss').textContent = miss;
+  document.getElementById('hc-dup').textContent = Object.values(dupes).reduce((a, c) => a + c, 0);
+  document.getElementById('hc-falt').textContent = miss;
+  document.getElementById('hc-album').textContent = have + ' / ' + TOTAL;
+
+  // Invest card
+  const tot = purchases.reduce((a, p) => a + p.qty * p.price, 0);
+  const pks = purchases.reduce((a, p) => a + p.qty, 0);
+  document.getElementById('hc-inv').textContent = '$' + tot.toFixed(0);
+  document.getElementById('hc-packs').textContent = pks + ' sobres';
+
+  // Repetidas
+  const dupU = Object.keys(dupes).filter(k => dupes[k] > 0).length;
+  const dupT = Object.values(dupes).reduce((a, c) => a + c, 0);
+  document.getElementById('hc-rep').textContent = dupT;
+  document.getElementById('hc-rep-u').textContent = dupU + ' distintas';
+
+  // Flags
+  const comp = Object.keys(DB.teams).filter(c => getTeamHave(c) === DB.teams[c].stickers.length).length;
+  document.getElementById('hc-flags').textContent = comp + ' / ' + Object.keys(DB.teams).length;
+
+  // Top teams
+  const scores = Object.entries(DB.teams).map(([c, t]) => {
+    const h = getTeamHave(c);
+    const d = t.stickers.reduce((a, s) => a + (dupes[s.id] || 0), 0);
+    return { c, name: t.name, h, total: t.stickers.length, score: h + d };
+  }).sort((a, b) => b.score - a.score).slice(0, 5);
+  document.getElementById('hc-top').innerHTML = scores.map(s => {
+    const file = FLAG_MAP[s.c];
+    const img = file
+      ? '<img src="' + BASE + file + '.svg" width="22" height="15" style="object-fit:cover;border-radius:2px;flex-shrink:0" alt="' + s.c + '" loading="lazy">'
+      : '<span style="font-size:15px">🏆</span>';
+    return '<div class="top-team-row">' + img +
+      '<span style="flex:1;font-size:12px;font-weight:500;margin-left:6px">' + s.name + '</span>' +
+      '<div class="top-bar-mini"><div class="top-bar-mini-fill" style="width:' + (s.h / s.total * 100).toFixed(0) + '%"></div></div>' +
+      '<span class="top-cnt">' + s.h + '/' + s.total + '</span></div>';
+  }).join('');
+
+  // Recent
+  const w = document.getElementById('hc-recent');
+  if (!recentIds.length) {
+    w.innerHTML = '<span style="color:var(--muted);font-size:11px">Aún no has añadido estampas</span>';
+  } else {
+    w.innerHTML = recentIds.slice(0, 8).map(id => {
+      let n = '';
+      for (const t of Object.values(DB.teams)) {
+        const s = t.stickers.find(s => s.id === id);
+        if (s) { n = s.name; break; }
+      }
+      return '<div class="recent-chip"><b>' + id + '</b> ' + n + '</div>';
+    }).join('');
+  }
+}
+
+function renderBanderas() {
+  const list = document.getElementById('flags-list');
+  list.innerHTML = '';
+  const secs = [{ lbl: 'Introducción', teams: ['FWC'] }].concat(
+    Object.entries(DB.groups).map(([g, ts]) => ({ lbl: 'Grupo ' + g, teams: ts }))
+  );
+  secs.forEach(function(sec) {
+    const div = document.createElement('div');
+    div.innerHTML = '<div class="flags-grp-lbl">' + sec.lbl + '</div><div class="flags-grid">' +
+      sec.teams.map(function(code) {
+        const t = DB.teams[code];
+        const done = getTeamHave(code) === t.stickers.length;
+        const file = FLAG_MAP[code];
+        const img = file
+          ? '<img src="' + BASE + file + '.svg" alt="' + code + '" loading="lazy">'
+          : '<div class="flag-tile-trophy">🏆</div>';
+        return '<div class="flag-tile ' + (done ? 'unlocked' : 'locked') + '" onclick="goScreen(\'album\')">' +
+          img + '<div class="flag-tile-lbl">' + t.name + '</div><div class="flag-tile-check">✅</div></div>';
+      }).join('') + '</div>';
+    list.appendChild(div);
+  });
+}
+
+function addRecent(id) {
+  recentIds = recentIds.filter(r => r !== id);
+  recentIds.unshift(id);
+  if (recentIds.length > 12) recentIds = recentIds.slice(0, 12);
+  localStorage.setItem('panini26_recent', JSON.stringify(recentIds));
+}
+
 
 const DB = {
   groups: {
@@ -470,36 +702,48 @@ const DB = {
 };
 
 
+// ─── STATE ──────────────────────────────────────────────────
 const TOTAL = 980;
-const TEAM_ORDER = ['FWC', ...Object.values(DB.groups).flat()];
-
+// ─── SUPABASE CONFIG ─────────────────────────────────────────
 const SB_URL = 'https://vmowvyfxbuwigzolojyp.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtb3d2eWZ4YnV3aWd6b2xvanlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NzkzNzEsImV4cCI6MjA5MzM1NTM3MX0.7XNT1GGqtnAzU__rGvEXeuiCzPDF5nmiP-laT8h8hk0';
 
-let state = {}, dupes = {}, purchases = [], recentIds = [];
-let activeModal = null, holdTimer = null, syncTimer = null, syncPending = false;
+let state = {};
+let dupes = {};
+let purchases = [];
+let activeModal = null;
+let holdTimer = null;
+let syncTimer = null;
+let syncPending = false;
 
-function setSyncStatus(s) {
-  const map = {ok:'☁️ Sync',saving:'⏫ Guardando…',loading:'⏬ Cargando…',error:'⚠️ Sin conexión',offline:'💾 Local'};
-  const col = {ok:'var(--green)',saving:'var(--accent)',loading:'var(--accent2)',error:'var(--red)',offline:'var(--muted)'};
-  ['sync-status','sync-home'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.innerHTML = '<span style="color:' + (col[s]||col.offline) + ';font-size:10px">' + (map[s]||s) + '</span>';
+function setSyncStatus(status) {
+  const map = {
+    ok:      { icon: '☁️', text: 'Sincronizado',  color: 'var(--green)' },
+    saving:  { icon: '⏫', text: 'Guardando…',    color: 'var(--accent)' },
+    loading: { icon: '⏬', text: 'Cargando…',     color: 'var(--accent2)' },
+    error:   { icon: '⚠️', text: 'Sin conexión',  color: 'var(--red)' },
+    offline: { icon: '💾', text: 'Local',          color: 'var(--muted)' },
+  };
+  const s = map[status] || map.offline;
+  const html = `<span style="color:${s.color};font-size:11px">${s.icon} ${s.text}</span>`;
+  ['tb-sync', 'home-sync'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
   });
 }
 
 async function sbFetch(method, body) {
-  const res = await fetch(SB_URL + '/rest/v1/panini_state?id=eq.main', {
-    method: method,
+  const res = await fetch(`${SB_URL}/rest/v1/panini_state?id=eq.main`, {
+    method,
     headers: {
       'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
+      'Authorization': `Bearer ${SB_KEY}`,
       'Content-Type': 'application/json',
       'Prefer': method === 'PATCH' ? 'return=minimal' : 'return=representation'
     },
     body: body ? JSON.stringify(body) : undefined
   });
-  if (!res.ok) throw new Error('HTTP ' + res.status);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return method === 'PATCH' ? null : res.json();
 }
 
@@ -513,7 +757,7 @@ async function loadState() {
   setSyncStatus('loading');
   try {
     const rows = await sbFetch('GET');
-    if (rows && rows.length) {
+    if (rows && rows.length > 0) {
       const row = rows[0];
       state     = row.state     || {};
       dupes     = row.dupes     || {};
@@ -522,7 +766,9 @@ async function loadState() {
       saveLocal();
     }
     setSyncStatus('ok');
-  } catch(e) { setSyncStatus('offline'); }
+  } catch(e) {
+    setSyncStatus('offline');
+  }
 }
 
 function saveLocal() {
@@ -534,8 +780,8 @@ function saveLocal() {
 
 function saveState() {
   saveLocal();
-  setSyncStatus('saving');
   syncPending = true;
+  setSyncStatus('saving');
   clearTimeout(syncTimer);
   syncTimer = setTimeout(pushToCloud, 1500);
 }
@@ -543,7 +789,7 @@ function saveState() {
 async function pushToCloud() {
   if (!syncPending) return;
   try {
-    await sbFetch('PATCH', {state:state, dupes:dupes, purchases:purchases, recent:recentIds, updated_at:new Date().toISOString()});
+    await sbFetch('PATCH', { state, dupes, purchases, recent: recentIds, updated_at: new Date().toISOString() });
     syncPending = false;
     setSyncStatus('ok');
   } catch(e) {
@@ -552,446 +798,584 @@ async function pushToCloud() {
   }
 }
 
-// ─── GETTERS ─────────────────────────────────────────────────
-function getHave() {
-  return Object.values(state).filter(function(v){ return v==='have'||v==='trade'; }).length;
+function getHaveCount() {
+  return Object.values(state).filter(v => v === 'have' || v === 'trade').length;
+}
+function getTeamGroup(code) {
+  for (const [g, teams] of Object.entries(DB.groups)) {
+    if (teams.includes(code)) return g;
+  }
+  return '—';
 }
 function getTeamHave(code) {
-  return DB.teams[code].stickers.filter(function(s){ return state[s.id]==='have'||state[s.id]==='trade'; }).length;
-}
-function getDupTotal() {
-  return Object.values(dupes).reduce(function(a,c){ return a+c; }, 0);
-}
-function getDupUnique() {
-  return Object.keys(dupes).filter(function(k){ return dupes[k]>0; }).length;
+  const team = DB.teams[code];
+  return team.stickers.filter(s => state[s.id] === 'have' || state[s.id] === 'trade').length;
 }
 
-// ─── NAVIGATION ──────────────────────────────────────────────
-var currentScreen = 'home';
-function goScreen(name) {
-  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
-  document.getElementById('s-' + name).classList.add('active');
-  var tb  = document.getElementById('top-bar');
-  var nav = document.getElementById('bottom-nav');
-  if (name === 'home') {
-    tb.classList.remove('visible');
-    nav.classList.add('hidden');
-  } else {
-    tb.classList.add('visible');
-    nav.classList.remove('hidden');
-    document.querySelectorAll('.nav-item').forEach(function(b){ b.classList.remove('active'); });
-    var nb = document.getElementById('nav-' + name);
-    if (nb) nb.classList.add('active');
+function updateGlobal() {
+  const have = getHaveCount();
+  const pct = ((have / TOTAL) * 100).toFixed(1);
+  updateHome();
+}
+
+let currentView = 'album';
+function switchView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  const btn = document.querySelector('.nav-btn[data-view="' + name + '"]');
+  if (btn) btn.classList.add('active');
+  currentView = name;
+  if (name === 'faltantes') renderMissingNew();
+  if (name === 'repetidas') renderDupes();
+  if (name === 'inversion') { renderInvestment(); calcProb(); }
+  if (name === 'banderas') renderBanderas();
+  if (name === 'album') renderAlbum();
+}
+
+let activeGroup = 'all';
+function selectGroup(g, el) {
+  activeGroup = g;
+  document.querySelectorAll('.group-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderAlbum();
+}
+
+// ─── TEAM ORDER for detail navigation ────────────────────────
+function getTeamOrder() {
+  const order = ['FWC'];
+  for (const g of 'ABCDEFGHIJKL') {
+    (DB.groups[g] || []).forEach(c => order.push(c));
   }
-  currentScreen = name;
-  if (name === 'faltantes')  renderMissing();
-  if (name === 'repetidas')  renderDupes();
-  if (name === 'inversion')  { renderInvestment(); calcProb(); }
-  if (name === 'banderas')   renderBanderas();
-  if (name === 'album')      renderAlbum();
+  return order;
 }
 
-// ─── UPDATE ALL ──────────────────────────────────────────────
-function updateAll() {
-  var have = getHave();
-  var pct  = (have / TOTAL * 100).toFixed(1);
-  var miss = TOTAL - have;
-  document.getElementById('tb-pct').textContent  = pct + '%';
-  document.getElementById('tb-bar').style.width  = pct + '%';
-  document.getElementById('tb-have').textContent = have + ' pegadas';
-  document.getElementById('tb-miss').textContent = miss + ' faltantes';
-  var circ = 377;
-  document.getElementById('ring-fill').style.strokeDashoffset = circ - (circ * have / TOTAL);
-  document.getElementById('ring-pct').textContent = pct + '%';
-  document.getElementById('hc-have').textContent  = have;
-  document.getElementById('hc-miss').textContent  = miss;
-  document.getElementById('hc-dup').textContent   = getDupTotal();
-  document.getElementById('hc-falt').textContent  = miss;
-  document.getElementById('hc-album').textContent = have + ' / ' + TOTAL;
-  var tot = purchases.reduce(function(a,p){ return a+p.qty*p.price; }, 0);
-  var pks = purchases.reduce(function(a,p){ return a+p.qty; }, 0);
-  document.getElementById('hc-inv').textContent   = '$' + tot.toFixed(0);
-  document.getElementById('hc-packs').textContent = pks + ' sobres';
-  document.getElementById('hc-rep').textContent   = getDupTotal();
-  document.getElementById('hc-rep-u').textContent = getDupUnique() + ' distintas';
-  var comp = Object.keys(DB.teams).filter(function(c){ return getTeamHave(c) === DB.teams[c].stickers.length; }).length;
-  document.getElementById('hc-flags').textContent = comp + ' / ' + Object.keys(DB.teams).length;
-  renderHomeTop();
-  renderHomeRecent();
-}
-
-function renderHomeTop() {
-  var scores = Object.entries(DB.teams).map(function(entry) {
-    var c = entry[0], t = entry[1];
-    var h = getTeamHave(c);
-    var d = t.stickers.reduce(function(a,s){ return a+(dupes[s.id]||0); }, 0);
-    return {c:c, name:t.name, h:h, total:t.stickers.length, score:h+d};
-  }).sort(function(a,b){ return b.score-a.score; }).slice(0,5);
-  document.getElementById('hc-top').innerHTML = scores.map(function(s) {
-    return '<div class="top-team-row">' + flagHTML(s.c,22,15) +
-      '<span style="flex:1;font-size:12px;font-weight:500;margin-left:6px">' + s.name + '</span>' +
-      '<div class="top-bar-mini"><div class="top-bar-mini-fill" style="width:' + (s.h/s.total*100).toFixed(0) + '%"></div></div>' +
-      '<span class="top-cnt">' + s.h + '/' + s.total + '</span></div>';
-  }).join('');
-}
-
-function renderHomeRecent() {
-  var w = document.getElementById('hc-recent');
-  if (!recentIds.length) {
-    w.innerHTML = '<span style="color:var(--muted);font-size:11px">Aún no has añadido estampas</span>';
-    return;
-  }
-  w.innerHTML = recentIds.slice(0,8).map(function(id) {
-    var n = '';
-    var entries = Object.entries(DB.teams);
-    for (var i=0; i<entries.length; i++) {
-      var t = entries[i][1];
-      var s = t.stickers.find(function(s){ return s.id===id; });
-      if (s) { n = s.name; break; }
-    }
-    return '<div class="recent-chip"><b>' + id + '</b> ' + n + '</div>';
-  }).join('');
-}
-
-// ─── ALBUM ───────────────────────────────────────────────────
-function renderAlbum() {
-  var list = document.getElementById('album-list');
+// ─── RENDER ALBUM (country list) ─────────────────────────────
+function renderAlbum(query = '') {
+  const list = document.getElementById('album-list');
   list.innerHTML = '';
-  var q = document.getElementById('album-q').value.toLowerCase();
-  var secs = [{lbl:'Introducción',teams:['FWC']}].concat(
-    Object.entries(DB.groups).map(function(e){ return {lbl:'Grupo '+e[0], teams:e[1]}; })
-  );
-  secs.forEach(function(sec) {
-    var div = document.createElement('div');
-    div.className = 'grp-section';
-    div.innerHTML = '<div class="grp-lbl">' + sec.lbl + '</div>';
-    var added = 0;
-    sec.teams.forEach(function(code) {
-      var t = DB.teams[code];
-      if (!t) return;
-      var matchTeam = !q || t.name.toLowerCase().indexOf(q) >= 0 ||
-        t.stickers.some(function(s){ return s.name.toLowerCase().indexOf(q)>=0 || s.id.toLowerCase().indexOf(q)>=0; });
-      if (!matchTeam) return;
-      var h = getTeamHave(code), tot = t.stickers.length, done = h===tot;
-      var row = document.createElement('div');
-      row.className = 'country-row' + (done ? ' complete' : '');
-      row.onclick = (function(c){ return function(){ openDetail(c); }; })(code);
-      row.innerHTML = flagHTML(code,30,20) +
-        '<span class="cname">' + t.name + '</span>' +
-        '<div class="cprog-wrap"><div class="cprog-fill' + (done?' done':'') + '" style="width:' + (h/tot*100).toFixed(0) + '%"></div></div>' +
-        '<span class="ccnt' + (done?' done':'') + '">' + h + '/' + tot + '</span>';
-      div.appendChild(row);
-      added++;
+  const q = (query || (document.getElementById('search-input') ? document.getElementById('search-input').value : '')).toLowerCase();
+
+  const sections = [{ label: 'FIFA WC / Intro', teams: ['FWC'] }];
+  for (const g of 'ABCDEFGHIJKL') {
+    sections.push({ label: 'Grupo ' + g, teams: DB.groups[g] || [] });
+  }
+
+  sections.forEach(({ label, teams }) => {
+    const filtered = teams.filter(code => {
+      const team = DB.teams[code];
+      if (!team) return false;
+      return !q || team.name.toLowerCase().includes(q) ||
+        team.stickers.some(s => s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q));
     });
-    if (added) list.appendChild(div);
+    if (!filtered.length) return;
+
+    // FWC special: compact single row pill
+    if (filtered.length === 1 && filtered[0] === 'FWC') {
+      const team = DB.teams['FWC'];
+      const have = getTeamHave('FWC'), total = team.stickers.length, done = have === total;
+      const pill = document.createElement('div');
+      pill.style.cssText = `display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid ${done ? 'var(--green)' : 'var(--border)'};border-radius:12px;padding:12px 16px;margin-bottom:12px;cursor:pointer;gap:12px;`;
+      pill.onclick = () => openAlbumDetail('FWC');
+      pill.innerHTML = `
+        <span style="font-size:22px;">🏆</span>
+        <span style="flex:1;font-weight:600;font-size:13px;">FIFA WC / Intro</span>
+        <div style="width:80px;background:var(--border);height:3px;border-radius:2px;">
+          <div style="width:${(have/total*100).toFixed(0)}%;height:100%;background:${done ? 'var(--green)' : 'var(--accent2)'};border-radius:2px;"></div>
+        </div>
+        <span style="font-size:11px;color:${done ? 'var(--green)' : 'var(--muted)'};font-weight:700;">${have}/${total}</span>`;
+      list.appendChild(pill);
+      return;
+    }
+
+    // One capsule per section containing all teams in that group
+    const capsule = document.createElement('div');
+    capsule.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:12px 12px 10px;margin-bottom:12px;';
+
+    // Section label centered at top
+    capsule.innerHTML = `<div style="text-align:center;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">${label}</div>`;
+
+    // Grid of flags — always 4 columns
+    const grid = document.createElement('div');
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(4,1fr);gap:8px;';
+
+    filtered.forEach(code => {
+      const team = DB.teams[code];
+      const have = getTeamHave(code), total = team.stickers.length, done = have === total;
+      const file = FLAG_MAP[code];
+
+      const cell = document.createElement('div');
+      cell.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;';
+      cell.onclick = () => openAlbumDetail(code);
+
+      // Flag image — fixed height, not full-width giant
+      const flagWrap = document.createElement('div');
+      flagWrap.style.cssText = `width:100%;height:52px;border-radius:8px;overflow:hidden;border:1.5px solid ${done ? 'var(--green)' : 'var(--border)'};position:relative;flex-shrink:0;`;
+      if (file) {
+        flagWrap.innerHTML = `<img src="${BASE}${file}.svg" style="width:100%;height:100%;object-fit:cover;display:block;" alt="${code}" loading="lazy">`;
+      } else {
+        flagWrap.style.cssText += 'display:flex;align-items:center;justify-content:center;background:var(--surface2);font-size:22px;';
+        flagWrap.innerHTML = '🏆';
+      }
+      if (done) {
+        const dot = document.createElement('div');
+        dot.style.cssText = 'position:absolute;top:3px;right:3px;background:var(--green);border-radius:50%;width:8px;height:8px;';
+        flagWrap.appendChild(dot);
+      }
+
+      // Country code label
+      const lbl = document.createElement('div');
+      lbl.style.cssText = `font-size:9px;font-weight:700;letter-spacing:.5px;color:${done ? 'var(--green)' : 'var(--muted)'};`;
+      lbl.textContent = code === 'FWC' ? 'INTRO' : code;
+
+      cell.appendChild(flagWrap);
+      cell.appendChild(lbl);
+      grid.appendChild(cell);
+    });
+
+    capsule.appendChild(grid);
+    list.appendChild(capsule);
   });
 }
 
 function filterAlbum() { renderAlbum(); }
 
-// ─── COUNTRY DETAIL ──────────────────────────────────────────
-var detailCode = null;
+// ─── ALBUM DETAIL ─────────────────────────────────────────────
+let detailCode = null;
 
-function openDetail(code) {
+// Build a 2D structure: array of groups, each group is array of team codes
+// This lets us navigate left/right within a group, up/down by position across groups
+function getNavGrid() {
+  const grid = [];
+  grid.push(['FWC']); // row 0: intro
+  for (const g of 'ABCDEFGHIJKL') {
+    grid.push(DB.groups[g] || []);
+  }
+  return grid;
+}
+
+function getGridPos(code) {
+  const grid = getNavGrid();
+  for (let row = 0; row < grid.length; row++) {
+    const col = grid[row].indexOf(code);
+    if (col !== -1) return { row, col };
+  }
+  return { row: 0, col: 0 };
+}
+
+function openAlbumDetail(code) {
   detailCode = code;
-  renderDetail();
-  document.getElementById('country-detail').classList.add('open');
+  renderAlbumDetail();
+  const panel = document.getElementById('album-detail-panel');
+  panel.style.display = 'block';
+  panel.scrollTop = 0;
+  initSwipe(panel);
 }
 
-function closeDetail() {
-  document.getElementById('country-detail').classList.remove('open');
+function closeAlbumDetail() {
+  document.getElementById('album-detail-panel').style.display = 'none';
+  renderAlbum();
 }
 
-function navDetail(dir) {
-  var idx = TEAM_ORDER.indexOf(detailCode);
-  detailCode = TEAM_ORDER[(idx + dir + TEAM_ORDER.length) % TEAM_ORDER.length];
-  renderDetail();
+// dir: -1 = left (prev in group), +1 = right (next in group)
+function navigateDetail(dir) {
+  const grid = getNavGrid();
+  const { row, col } = getGridPos(detailCode);
+  const groupRow = grid[row];
+  const newCol = (col + dir + groupRow.length) % groupRow.length;
+  detailCode = groupRow[newCol];
+  renderAlbumDetail();
+  document.getElementById('album-detail-panel').scrollTop = 0;
 }
 
-function renderDetail() {
-  var t   = DB.teams[detailCode];
-  var h   = getTeamHave(detailCode);
-  document.getElementById('det-flag').innerHTML  = flagHTML(detailCode,38,26);
-  document.getElementById('det-name').textContent  = t.name;
-  document.getElementById('det-count').textContent = h + '/' + t.stickers.length + ' estampas';
-  document.getElementById('det-grid').innerHTML = t.stickers.map(function(s) {
-    var st  = state[s.id] || 'none';
-    var dup = dupes[s.id] || 0;
-    var num = s.id.split('-')[1] || '0';
-    return '<div class="sticker ' + st + '" id="sticker-' + s.id + '"' +
-      ' ontouchstart="startHold(\'' + s.id + '\',event)" ontouchend="endHold()" ontouchmove="endHold()"' +
-      ' onclick="quickToggle(\'' + s.id + '\')" oncontextmenu="openModal(\'' + s.id + '\');return false;">' +
-      '<span class="sticker-id">' + s.id + '</span>' +
-      '<span class="sticker-num">' + num + '</span>' +
-      '<span class="sticker-name">' + s.name + '</span>' +
-      (st==='trade' ? '<span class="sticker-badge">&#128260;</span>' : '') +
-      (dup>0 ? '<span class="sticker-dupes">x' + (dup+1) + '</span>' : '') +
-      '</div>';
+// dirV: -1 = up (prev group, same position), +1 = down (next group, same position)
+function navigateDetailVertical(dirV) {
+  const grid = getNavGrid();
+  const { row, col } = getGridPos(detailCode);
+  const newRow = (row + dirV + grid.length) % grid.length;
+  const newCol = Math.min(col, grid[newRow].length - 1);
+  detailCode = grid[newRow][newCol];
+  renderAlbumDetail();
+  document.getElementById('album-detail-panel').scrollTop = 0;
+}
+
+// Touch swipe handler — attached to the detail panel
+function initSwipe(el) {
+  let sx = 0, sy = 0, startTarget = null;
+  el.addEventListener('touchstart', e => {
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    startTarget = e.target;
+  }, { passive: true });
+  el.addEventListener('touchend', e => {
+    // Don't hijack taps/swipes that originate on sticker cells
+    if (startTarget && startTarget.closest('#detail-sticker-grid')) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    const adx = Math.abs(dx), ady = Math.abs(dy);
+    if (adx < 50 && ady < 50) return; // too short
+    if (adx > ady) {
+      // Horizontal → change country within group
+      if (dx < 0) navigateDetail(1);
+      else navigateDetail(-1);
+    } else {
+      // Vertical → change group, keep slot position
+      // Only fire if user isn't deeply scrolled into stickers
+      if (el.scrollTop < 80) {
+        if (dy < 0) navigateDetailVertical(1);
+        else navigateDetailVertical(-1);
+      }
+    }
+  }, { passive: true });
+}
+
+function renderAlbumDetail() {
+  const team = DB.teams[detailCode];
+  const have = getTeamHave(detailCode);
+  const file = FLAG_MAP[detailCode];
+  const flagImg = file
+    ? `<img src="${BASE}${file}.svg" width="38" height="26" style="object-fit:cover;border-radius:4px;" alt="${detailCode}" loading="lazy">`
+    : `<span style="font-size:26px;">🏆</span>`;
+  document.getElementById('detail-flag-wrap').innerHTML = flagImg;
+  document.getElementById('detail-country-name').textContent = team.name;
+  // Find group
+  let groupLabel = 'Introducción';
+  for (const [g, teams] of Object.entries(DB.groups)) {
+    if (teams.includes(detailCode)) { groupLabel = 'Grupo ' + g; break; }
+  }
+  document.getElementById('detail-country-count').textContent = `${have}/${team.stickers.length} estampas · ${groupLabel}`;
+
+  document.getElementById('detail-sticker-grid').innerHTML = team.stickers.map(s => {
+    const st = state[s.id] || 'none';
+    const dup = dupes[s.id] || 0;
+    const num = s.id.split('-')[1] || '0';
+    const bg = st === 'have' ? '#0f2d1a' : st === 'trade' ? '#1e0a33' : 'var(--surface2)';
+    const border = st === 'have' ? 'var(--green)' : st === 'trade' ? 'var(--trade)' : 'var(--border)';
+    const numColor = st === 'have' ? '#86efac' : st === 'trade' ? '#d8b4fe' : 'var(--text)';
+    return `<div id="sticker-${s.id}" style="background:${bg};border:1.5px solid ${border};border-radius:10px;padding:8px 4px 6px;text-align:center;cursor:pointer;position:relative;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;-webkit-tap-highlight-color:transparent;"
+      ontouchstart="startHold('${s.id}',event)" ontouchend="endHold()" ontouchmove="endHold()"
+      onclick="quickToggle('${s.id}')" oncontextmenu="openModal('${s.id}');return false;">
+      <span style="font-size:8px;color:var(--muted);font-weight:700;">${s.id}</span>
+      <span style="font-family:'Bebas Neue';font-size:22px;line-height:1;color:${numColor};">${num}</span>
+      <span style="font-size:8px;color:var(--muted);line-height:1.2;">${s.name}</span>
+      ${st === 'trade' ? '<span style="font-size:10px;position:absolute;top:3px;right:4px;">🔄</span>' : ''}
+      ${dup > 0 ? `<span style="font-size:9px;font-weight:700;color:var(--accent);position:absolute;bottom:2px;right:4px;">×${dup+1}</span>` : ''}
+    </div>`;
   }).join('');
 }
 
 function refreshSticker(id) {
-  var el = document.getElementById('sticker-' + id);
-  if (!el) return;
-  var st  = state[id] || 'none';
-  var dup = dupes[id] || 0;
-  el.className = 'sticker ' + st;
-  var badge = el.querySelector('.sticker-badge');
-  if (badge) badge.remove();
-  var dupEl = el.querySelector('.sticker-dupes');
-  if (dupEl) dupEl.remove();
-  if (st === 'trade') {
-    var b = document.createElement('span');
-    b.className   = 'sticker-badge';
-    b.textContent = '🔄';
-    el.appendChild(b);
+  // Update in detail panel if open
+  const el = document.getElementById('sticker-' + id);
+  if (el && detailCode) {
+    const s = DB.teams[detailCode]?.stickers.find(s => s.id === id);
+    if (s) {
+      const st = state[id] || 'none';
+      const dup = dupes[id] || 0;
+      const num = id.split('-')[1] || '0';
+      const bg = st === 'have' ? '#0f2d1a' : st === 'trade' ? '#1e0a33' : 'var(--surface2)';
+      const border = st === 'have' ? 'var(--green)' : st === 'trade' ? 'var(--trade)' : 'var(--border)';
+      const numColor = st === 'have' ? '#86efac' : st === 'trade' ? '#d8b4fe' : 'var(--text)';
+      el.style.background = bg;
+      el.style.borderColor = border;
+      el.querySelector('span:nth-child(2)').style.color = numColor;
+      // rebuild badges
+      const badges = el.querySelectorAll('span:nth-child(4), span:nth-child(5)');
+      badges.forEach(b => b.remove());
+      if (st === 'trade') { const b = document.createElement('span'); b.style.cssText = 'font-size:10px;position:absolute;top:3px;right:4px;'; b.textContent = '🔄'; el.appendChild(b); }
+      if (dup > 0) { const d = document.createElement('span'); d.style.cssText = 'font-size:9px;font-weight:700;color:var(--accent);position:absolute;bottom:2px;right:4px;'; d.textContent = `×${dup+1}`; el.appendChild(d); }
+      // Update header count
+      const have = getTeamHave(detailCode);
+      document.getElementById('detail-country-count').textContent = `${have}/${DB.teams[detailCode].stickers.length} estampas`;
+    }
   }
-  if (dup > 0) {
-    var d = document.createElement('span');
-    d.className   = 'sticker-dupes';
-    d.textContent = 'x' + (dup+1);
-    el.appendChild(d);
-  }
-  if (detailCode) {
-    var hh = getTeamHave(detailCode);
-    document.getElementById('det-count').textContent = hh + '/' + DB.teams[detailCode].stickers.length + ' estampas';
-  }
+  // Also refresh old team-card style if it exists (for album list)
+  const oldEl = document.querySelector(`#sticker-${id}[class]`);
+  // nothing to do for list view
 }
 
-// ─── STICKER INTERACTION ─────────────────────────────────────
-function addRecent(id) {
-  recentIds = recentIds.filter(function(r){ return r!==id; });
-  recentIds.unshift(id);
-  if (recentIds.length > 12) recentIds = recentIds.slice(0,12);
+// ─── FALTANTES (new design) ───────────────────────────────────
+function renderMissingNew() {
+  const q = ((document.getElementById('missing-search') ? document.getElementById('missing-search').value : '') || '').toLowerCase();
+  const list = document.getElementById('missing-list');
+  list.innerHTML = '';
+  let any = false;
+
+  const sections = [{ label: 'Introducción', teams: ['FWC'] }];
+  for (const g of 'ABCDEFGHIJKL') sections.push({ label: 'Grupo ' + g, teams: DB.groups[g] || [] });
+
+  sections.forEach(({ label, teams }) => {
+    let secHtml = '';
+    teams.forEach(code => {
+      const team = DB.teams[code];
+      const missing = team.stickers.filter(s =>
+        (!state[s.id] || state[s.id] === 'none') &&
+        (!q || s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) || team.name.toLowerCase().includes(q))
+      );
+      if (!missing.length) return;
+      any = true;
+      const file = FLAG_MAP[code];
+      const flagImg = file
+        ? `<img src="${BASE}${file}.svg" width="28" height="18" style="object-fit:cover;border-radius:3px;flex-shrink:0;" alt="${code}" loading="lazy">`
+        : `<span style="font-size:18px;">🏆</span>`;
+
+      secHtml += `<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          ${flagImg}
+          <span style="font-weight:600;font-size:13px;flex:1;">${team.name}</span>
+          <span style="font-size:11px;color:var(--muted);">${missing.length} faltantes</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+          ${missing.map(s => {
+            const num = s.id.split('-')[1] || '0';
+            return `<div onclick="markMissingNew('${s.id}',this)" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 4px;text-align:center;cursor:pointer;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
+              <span style="font-size:8px;color:var(--muted);font-weight:700;">${s.id}</span>
+              <span style="font-family:'Bebas Neue';font-size:18px;color:var(--text);line-height:1;">${num}</span>
+              <span style="font-size:8px;color:var(--muted);line-height:1.1;">${s.name}</span>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    });
+    if (secHtml) {
+      const sec = document.createElement('div');
+      sec.innerHTML = `<div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-left:2px;">${label}</div>` + secHtml;
+      list.appendChild(sec);
+    }
+  });
+  if (!any) list.innerHTML = '<div class="empty"><div class="empty-icon">🎉</div><div class="empty-text">¡Álbum completo!</div></div>';
 }
 
-function quickToggle(id) {
-  if (holdTimer === true) return;
-  var cur = state[id] || 'none';
-  if (cur === 'none')  { state[id] = 'have'; addRecent(id); }
-  else if (cur === 'have')  { dupes[id] = (dupes[id]||0) + 1; }
-  else if (cur === 'trade') { state[id] = 'none'; dupes[id] = 0; }
-  saveState(); refreshSticker(id); updateAll();
+function markMissingNew(id, el) {
+  state[id] = 'have';
+  addRecent(id);
+  saveState();
+  el.style.opacity = '0.3';
+  el.style.pointerEvents = 'none';
+  el.querySelector('span:nth-child(2)').textContent = '✓';
+  updateGlobal();
 }
 
-function startHold(id, e) {
-  holdTimer = null;
-  var t = setTimeout(function() { holdTimer = true; openModal(id); }, 500);
-  holdTimer = t;
-}
-function endHold() {
-  if (typeof holdTimer === 'number') { clearTimeout(holdTimer); holdTimer = null; }
-}
-
-// ─── MODAL ───────────────────────────────────────────────────
 function openModal(id) {
   activeModal = id;
-  var entries = Object.entries(DB.teams);
-  for (var i=0; i<entries.length; i++) {
-    var code = entries[i][0], t = entries[i][1];
-    var s = t.stickers.find(function(s){ return s.id===id; });
+  for (const [code, team] of Object.entries(DB.teams)) {
+    const s = team.stickers.find(s => s.id === id);
     if (s) {
       document.getElementById('modal-title').textContent = s.name;
-      document.getElementById('modal-sub').textContent   = t.name + ' · ' + id;
+      document.getElementById('modal-sub').textContent = `${team.flag} ${team.name} · ${id}`;
       break;
     }
   }
-  var cur = state[id] || 'none';
-  ['none','have','trade'].forEach(function(o){
-    document.getElementById('opt-'+o).classList.toggle('selected', cur===o);
-  });
+  const cur = state[id] || 'none';
+  document.getElementById('opt-none').classList.toggle('selected', cur === 'none');
+  document.getElementById('opt-have').classList.toggle('selected', cur === 'have');
+  document.getElementById('opt-trade').classList.toggle('selected', cur === 'trade');
   document.getElementById('modal').classList.add('open');
 }
-
 function closeModal(e) {
   if (e && e.target !== document.getElementById('modal')) return;
   document.getElementById('modal').classList.remove('open');
   activeModal = null;
 }
-
 function setSticker(status) {
   if (!activeModal) return;
-  var prev = state[activeModal] || 'none';
   state[activeModal] = status;
   if (status === 'none') dupes[activeModal] = 0;
-  if (status !== 'none' && prev === 'none') addRecent(activeModal);
-  saveState(); refreshSticker(activeModal); updateAll();
+  if (status !== 'none') addRecent(activeModal);
+  saveState();
+  refreshSticker(activeModal);
+  updateGlobal();
   document.getElementById('modal').classList.remove('open');
   activeModal = null;
 }
 
-// ─── FALTANTES ───────────────────────────────────────────────
-function renderMissing() {
-  var q    = (document.getElementById('miss-q').value || '').toLowerCase();
-  var list = document.getElementById('miss-list');
+let missingGroup = 'all';
+function filterMissing(g, el) {
+  missingGroup = g;
+  document.querySelectorAll('#missing-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderMissing(g);
+}
+function renderMissing(g) {
+  const list = document.getElementById('missing-list');
   list.innerHTML = '';
-  var any  = false;
-  var secs = [{lbl:'Introducción',teams:['FWC']}].concat(
-    Object.entries(DB.groups).map(function(e){ return {lbl:'Grupo '+e[0], teams:e[1]}; })
-  );
-  secs.forEach(function(sec) {
-    var html = '';
-    sec.teams.forEach(function(code) {
-      var t    = DB.teams[code];
-      var miss = t.stickers.filter(function(s) {
-        var missing = !state[s.id] || state[s.id]==='none';
-        var match   = !q || s.name.toLowerCase().indexOf(q)>=0 || s.id.toLowerCase().indexOf(q)>=0 || t.name.toLowerCase().indexOf(q)>=0;
-        return missing && match;
-      });
-      if (!miss.length) return;
-      any  = true;
-      html += '<div class="miss-country-card">' +
-        '<div class="miss-country-hdr">' + flagHTML(code,28,18) +
-        '<span style="font-weight:600;font-size:13px;flex:1;margin-left:6px">' + t.name + '</span>' +
-        '<span style="font-size:11px;color:var(--muted)">' + miss.length + ' faltantes</span></div>' +
-        '<div class="miss-stickers">' +
-        miss.map(function(s) {
-          var num = s.id.split('-')[1] || '0';
-          return '<div class="miss-chip" onclick="markMissing(\'' + s.id + '\',this)">' +
-            '<span class="miss-chip-id">' + s.id + '</span>' +
-            '<span class="miss-chip-num">' + num + '</span>' +
-            '<span class="miss-chip-name">' + s.name + '</span></div>';
-        }).join('') + '</div></div>';
-    });
-    if (html) {
-      var div = document.createElement('div');
-      div.innerHTML = '<div class="grp-lbl">' + sec.lbl + '</div>' + html;
-      list.appendChild(div);
-    }
-  });
-  if (!any) list.innerHTML = '<div class="empty"><div class="empty-icon">&#127881;</div><div>¡Álbum completo!</div></div>';
-}
-
-function markMissing(id, el) {
-  state[id] = 'have'; addRecent(id); saveState(); updateAll();
-  el.style.opacity = '.3'; el.style.pointerEvents = 'none';
-  el.querySelector('.miss-chip-num').textContent = '✓';
-}
-
-// ─── REPETIDAS ───────────────────────────────────────────────
-function renderDupes() {
-  document.getElementById('dup-total').textContent  = getDupTotal();
-  document.getElementById('dup-unique').textContent = getDupUnique();
-  var list    = document.getElementById('dupes-list');
-  var entries = Object.entries(dupes).filter(function(e){ return e[1]>0; });
-  if (!entries.length) {
-    list.innerHTML = '<div class="empty"><div class="empty-icon">&#128203;</div><div>No hay repetidas aún</div></div>';
-    return;
+  let teamOrder = ['FWC'];
+  if (g === 'all') {
+    for (const gr of 'ABCDEFGHIJKL') teamOrder = teamOrder.concat(DB.groups[gr] || []);
+  } else {
+    teamOrder = teamOrder.concat(DB.groups[g] || []);
   }
-  list.innerHTML = entries.map(function(entry) {
-    var id = entry[0], count = entry[1];
-    var name='', tname='', code='';
-    var teams = Object.entries(DB.teams);
-    for (var i=0; i<teams.length; i++) {
-      var s = teams[i][1].stickers.find(function(s){ return s.id===id; });
-      if (s) { name=s.name; tname=teams[i][1].name; code=teams[i][0]; break; }
-    }
-    return '<div class="dupe-row">' + flagHTML(code,24,16) +
-      '<div class="dupe-info" style="margin-left:8px">' +
-      '<div class="dupe-id">' + id + ' · ' + tname + '</div>' +
-      '<div class="dupe-name">' + name + '</div></div>' +
-      '<div class="dupe-ctrl">' +
-      '<button class="dupe-btn" onclick="changeDupe(\'' + id + '\',-1)">&#8722;</button>' +
-      '<span class="dupe-count">' + (count+1) + '</span>' +
-      '<button class="dupe-btn" onclick="changeDupe(\'' + id + '\',1)">+</button></div></div>';
-  }).join('');
-}
-
-function changeDupe(id, d) {
-  dupes[id] = Math.max(0, (dupes[id]||0) + d);
-  if (!dupes[id]) delete dupes[id];
-  saveState(); renderDupes(); refreshSticker(id); updateAll();
-}
-
-// ─── INVERSIÓN ───────────────────────────────────────────────
-function renderInvestment() {
-  var tot  = purchases.reduce(function(a,p){ return a+p.qty*p.price; }, 0);
-  var pks  = purchases.reduce(function(a,p){ return a+p.qty; }, 0);
-  var have = getHave();
-  document.getElementById('inv-total').textContent = '$' + tot.toFixed(0);
-  document.getElementById('inv-per').textContent   = '$' + (have>0?(tot/have).toFixed(2):0);
-  document.getElementById('inv-packs').textContent = pks;
-  var avg = pks>0 ? tot/pks : 15;
-  document.getElementById('inv-proj').textContent  = '$' + ((TOTAL-have)/7*avg).toFixed(0);
-  var pl = document.getElementById('purchase-list');
-  if (!purchases.length) {
-    pl.innerHTML = '<div class="empty"><div class="empty-icon">&#128176;</div><div>Sin compras registradas</div></div>';
-    return;
+  let totalMissing = 0;
+  for (const code of teamOrder) {
+    const team = DB.teams[code];
+    const missing = team.stickers.filter(s => !state[s.id] || state[s.id] === 'none');
+    if (!missing.length) continue;
+    totalMissing += missing.length;
+    const section = document.createElement('div');
+    section.innerHTML = `<div class="section-label" style="display:flex;align-items:center;gap:6px">${flagHTML(code)} ${team.name} — ${missing.length} faltantes</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+      ${missing.map(s => `
+        <div onclick="quickToggleMissing('${s.id}', this)" style="background:var(--surface);border:1.5px solid var(--border);border-radius:7px;padding:6px 10px;cursor:pointer;font-size:12px;transition:all 0.15s">
+          <span style="color:var(--muted);font-size:10px">${s.id}</span>
+          <span style="display:block;font-size:11px">${s.name}</span>
+        </div>`).join('')}
+    </div>`;
+    list.appendChild(section);
   }
-  pl.innerHTML = purchases.slice().reverse().map(function(p, i) {
-    var idx = purchases.length - 1 - i;
-    return '<div class="purchase-item"><div><div style="font-weight:600">' + p.qty + ' sobres × $' + p.price + '</div>' +
-      '<div class="purchase-date">' + p.date + ' · $' + (p.qty*p.price).toFixed(0) + '</div></div>' +
-      '<button class="purchase-del" onclick="delPurchase(' + idx + ')">&#128465;</button></div>';
-  }).join('');
+  if (!totalMissing) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">🎉</div><div class="empty-text">¡Álbum completo!</div></div>';
+  }
 }
-
-function addPurchase() {
-  var qty   = parseInt(document.getElementById('inv-qty').value);
-  var price = parseFloat(document.getElementById('inv-price').value);
-  if (!qty || !price || qty<1 || price<0) return;
-  purchases.push({qty:qty, price:price, date:new Date().toLocaleDateString('es-MX')});
+function quickToggleMissing(id, el) {
+  state[id] = 'have';
+  addRecent(id);
   saveState();
-  document.getElementById('inv-qty').value   = '';
-  document.getElementById('inv-price').value = '';
-  renderInvestment(); updateAll();
+  el.style.opacity = '0.3';
+  el.style.textDecoration = 'line-through';
+  updateGlobal();
+  refreshSticker(id);
 }
 
-function delPurchase(idx) {
-  purchases.splice(idx, 1);
-  saveState(); renderInvestment(); updateAll();
-}
-
-// ─── PROBABILIDAD ────────────────────────────────────────────
-function calcProb() {
-  var packs = parseInt(document.getElementById('prob-slider').value);
-  document.getElementById('slider-val').textContent = packs + ' sobre' + (packs!==1?'s':'');
-  var have = getHave(), miss = TOTAL-have, tot = packs*7;
-  var expNew = 0, tmp = have;
-  for (var i=0; i<tot; i++) { var p=(TOTAL-tmp)/TOTAL; expNew+=p; tmp+=p; }
-  expNew = Math.min(expNew, miss);
-  document.getElementById('prob-new').textContent   = Math.round(expNew);
-  document.getElementById('prob-total').textContent = tot;
-  document.getElementById('prob-pct').textContent   = ((miss/TOTAL)*100).toFixed(1) + '%';
-  document.getElementById('prob-dupes').textContent = Math.round(tot-expNew);
-  var fin = '&#8734;';
-  if (miss>0) {
-    var e=0; for (var j=0; j<miss; j++) e+=TOTAL/(miss-j);
-    fin = Math.ceil(e/7).toLocaleString();
-  } else if (have===TOTAL) fin='0';
-  document.getElementById('prob-finish').textContent = fin;
-}
-
-// ─── BANDERAS ────────────────────────────────────────────────
-function renderBanderas() {
-  var list = document.getElementById('flags-list');
+function renderDupes() {
+  const list = document.getElementById('dupes-list');
   list.innerHTML = '';
-  var secs = [{lbl:'Introducción',teams:['FWC']}].concat(
-    Object.entries(DB.groups).map(function(e){ return {lbl:'Grupo '+e[0], teams:e[1]}; })
-  );
-  secs.forEach(function(sec) {
-    var div = document.createElement('div');
-    div.innerHTML = '<div class="flags-grp-lbl">' + sec.lbl + '</div><div class="flags-grid">' +
-      sec.teams.map(function(code) {
-        var t    = DB.teams[code];
-        var done = getTeamHave(code) === t.stickers.length;
-        var file = FLAG_MAP[code];
-        var img  = file
-          ? '<img src="' + BASE + file + '.svg" alt="' + code + '" loading="lazy">'
-          : '<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:24px">&#127942;</div>';
-        return '<div class="flag-tile ' + (done?'unlocked':'locked') + '" onclick="goScreen('album')">' +
-          img + '<div class="flag-tile-lbl">' + t.name + '</div>' +
-          '<div class="flag-tile-check">&#9989;</div></div>';
-      }).join('') + '</div>';
-    list.appendChild(div);
+  const entries = Object.entries(dupes).filter(([,c]) => c > 0);
+  document.getElementById('dupe-total').textContent = entries.reduce((a,[,c]) => a + c, 0);
+  document.getElementById('dupe-unique').textContent = entries.length;
+  if (!entries.length) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">No hay repetidas aún</div></div>';
+    return;
+  }
+  for (const [id, count] of entries) {
+    let name = id, teamName = '', teamCode = '';
+    for (const [code, team] of Object.entries(DB.teams)) {
+      const s = team.stickers.find(s => s.id === id);
+      if (s) { name = s.name; teamName = team.name; teamCode = code; break; }
+    }
+    const row = document.createElement('div');
+    row.className = 'dupe-row';
+    row.innerHTML = `
+      <div class="dupe-info" style="display:flex;align-items:center;gap:8px">
+        ${flagHTML(teamCode)}
+        <div>
+          <div class="dupe-id">${id} · ${teamName}</div>
+          <div class="dupe-name">${name}</div>
+        </div>
+      </div>
+      <div class="dupe-ctrl">
+        <button class="dupe-btn" onclick="changeDupe('${id}', -1)">−</button>
+        <span class="dupe-count">${count + 1}</span>
+        <button class="dupe-btn" onclick="changeDupe('${id}', 1)">+</button>
+      </div>`;
+    list.appendChild(row);
+  }
+}
+function changeDupe(id, delta) {
+  dupes[id] = Math.max(0, (dupes[id] || 0) + delta);
+  if (dupes[id] === 0) delete dupes[id];
+  saveState();
+  renderDupes();
+  refreshSticker(id);
+}
+
+function renderInvestment() {
+  const total = purchases.reduce((a, p) => a + p.qty * p.price, 0);
+  const packs = purchases.reduce((a, p) => a + p.qty, 0);
+  const have = getHaveCount();
+  const perSticker = have > 0 ? (total / have).toFixed(2) : 0;
+  const missing = TOTAL - have;
+  const avgPricePerPack = packs > 0 ? total / packs : 15;
+  const projected = missing > 0 ? ((missing / 7) * avgPricePerPack).toFixed(0) : 0;
+  document.getElementById('invest-total').textContent = '$' + total.toFixed(0);
+  document.getElementById('invest-per').textContent = '$' + perSticker;
+  document.getElementById('invest-packs').textContent = packs;
+  document.getElementById('invest-projected').textContent = '$' + projected;
+  const pList = document.getElementById('purchase-list');
+  pList.innerHTML = '';
+  if (!purchases.length) {
+    pList.innerHTML = '<div class="empty"><div class="empty-icon">💰</div><div class="empty-text">Sin compras registradas</div></div>';
+    return;
+  }
+  purchases.slice().reverse().forEach((p, i) => {
+    const idx = purchases.length - 1 - i;
+    const item = document.createElement('div');
+    item.className = 'purchase-item';
+    item.innerHTML = `
+      <div>
+        <div style="font-weight:600">${p.qty} sobres × $${p.price}</div>
+        <div class="purchase-date">${p.date} · Total: $${(p.qty * p.price).toFixed(0)}</div>
+      </div>
+      <button class="purchase-del" onclick="deletePurchase(${idx})">🗑</button>`;
+    pList.appendChild(item);
   });
 }
+function addPurchase() {
+  const qty = parseInt(document.getElementById('inv-qty').value);
+  const price = parseFloat(document.getElementById('inv-price').value);
+  if (!qty || !price || qty < 1 || price < 0) return;
+  purchases.push({ qty, price, date: new Date().toLocaleDateString('es-MX') });
+  saveState();
+  document.getElementById('inv-qty').value = '';
+  document.getElementById('inv-price').value = '';
+  renderInvestment();
+  updateGlobal();
+}
+function deletePurchase(idx) {
+  purchases.splice(idx, 1);
+  saveState();
+  renderInvestment();
+  updateGlobal();
+}
 
-// ─── INIT ────────────────────────────────────────────────────
+function calcProb() {
+  const packs = parseInt(document.getElementById('prob-slider').value);
+  document.getElementById('slider-val').textContent = packs + ' sobre' + (packs !== 1 ? 's' : '');
+  const have = getHaveCount();
+  const missing = TOTAL - have;
+  const total = packs * 7;
+  let expectedNew = 0, tempHave = have;
+  for (let i = 0; i < total; i++) {
+    const pNew = (TOTAL - tempHave) / TOTAL;
+    expectedNew += pNew;
+    tempHave += pNew;
+  }
+  expectedNew = Math.min(expectedNew, missing);
+  const expectedDupes = total - expectedNew;
+  let packsToFinish = '∞';
+  if (missing > 0 && have < TOTAL) {
+    let est = 0;
+    for (let i = 0; i < missing; i++) est += TOTAL / (missing - i);
+    packsToFinish = Math.ceil(est / 7);
+  } else if (have === TOTAL) {
+    packsToFinish = '0';
+  }
+  const pctMissing = missing > 0 ? ((missing / TOTAL) * 100).toFixed(1) : '0';
+  document.getElementById('prob-stickers').textContent = total;
+  document.getElementById('prob-new').textContent = Math.round(expectedNew);
+  document.getElementById('prob-pct-miss').textContent = pctMissing + '%';
+  document.getElementById('prob-expected-dupes').textContent = Math.round(expectedDupes);
+  document.getElementById('prob-to-finish').textContent = typeof packsToFinish === 'number' ? packsToFinish.toLocaleString() : packsToFinish;
+}
+
+function buildGroupTabs() {
+  const wrap = document.getElementById('group-tabs');
+  for (const g of 'ABCDEFGHIJKL') {
+    const btn = document.createElement('button');
+    btn.className = 'group-tab';
+    btn.textContent = 'Gr. ' + g;
+    btn.onclick = function() { selectGroup(g, this); };
+    wrap.appendChild(btn);
+  }
+}
+
 async function init() {
-  updateAll();
+  renderAlbum();
+  updateGlobal();
+  calcProb();
   await loadState();
-  updateAll();
+  renderAlbum();
+  updateGlobal();
+  calcProb();
 }
 init();
 </script>
