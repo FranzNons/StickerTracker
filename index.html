@@ -333,8 +333,8 @@
 <div class="screen" id="s-views">
 
   <!-- VIEW: ÁLBUM -->
-  <div class="view active" id="view-album" style="padding:0;position:relative;">
-    <div id="album-country-list-wrap">
+  <div class="view active" id="view-album" style="padding:0;position:relative;height:100%;">
+    <div id="album-country-list-wrap" style="height:100%;overflow-y:auto;padding-bottom:calc(var(--nav-h) + 8px);">
       <div style="padding:12px 16px 8px;position:sticky;top:0;z-index:5;background:var(--bg);">
         <div style="position:relative;">
           <span style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);">🔍</span>
@@ -344,7 +344,7 @@
       </div>
       <div id="album-list" style="padding:0 16px 16px;"></div>
     </div>
-    <div id="album-detail-panel" style="display:none;position:absolute;inset:0;background:var(--bg);z-index:10;overflow-y:auto;">
+    <div id="album-detail-panel" style="display:none;position:absolute;inset:0;inset-block-end:0;background:var(--bg);z-index:10;overflow-y:auto;padding-bottom:calc(var(--nav-h) + 8px);">
       <!-- Nav bar — sticky, minimal -->
       <div style="position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;">
         <button onclick="closeAlbumDetail()" style="background:var(--surface2);border:none;border-radius:8px;color:var(--text);font-size:20px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">‹</button>
@@ -359,7 +359,7 @@
         </div>
       </div>
       <!-- Capsule card -->
-      <div style="margin:0 16px calc(var(--nav-h) + 16px);background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;" id="detail-capsule">
+      <div style="margin:0 12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;" id="detail-capsule">
         <!-- Capsule header -->
         <div style="display:flex;align-items:center;gap:10px;padding:14px 16px 12px;border-bottom:1px solid var(--border);">
           <div id="detail-flag-wrap" style="flex-shrink:0;"></div>
@@ -753,18 +753,21 @@ function setSyncStatus(status) {
 }
 
 async function sbFetch(method, body) {
-  const res = await fetch(`${SB_URL}/rest/v1/panini_state?id=eq.main`, {
+  const res = await fetch(`${SB_URL}/rest/v1/panini_state`, {
     method,
     headers: {
       'apikey': SB_KEY,
       'Authorization': `Bearer ${SB_KEY}`,
       'Content-Type': 'application/json',
-      'Prefer': method === 'PATCH' ? 'return=minimal' : 'return=representation'
+      'Prefer': method === 'POST' ? 'resolution=merge-duplicates,return=minimal' : 'return=representation'
     },
     body: body ? JSON.stringify(body) : undefined
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return method === 'PATCH' ? null : res.json();
+  if (!res.ok) {
+    const txt = await res.text().catch(() => '');
+    throw new Error(`HTTP ${res.status}: ${txt}`);
+  }
+  return method === 'POST' ? null : res.json();
 }
 
 async function loadState() {
@@ -776,7 +779,9 @@ async function loadState() {
   } catch(e) {}
   setSyncStatus('loading');
   try {
-    const rows = await sbFetch('GET');
+    const rows = await fetch(`${SB_URL}/rest/v1/panini_state?id=eq.main`, {
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+    }).then(r => r.json());
     if (rows && rows.length > 0) {
       const row = rows[0];
       state     = row.state     || {};
@@ -809,10 +814,19 @@ function saveState() {
 async function pushToCloud() {
   if (!syncPending) return;
   try {
-    await sbFetch('PATCH', { state, dupes, purchases, recent: recentIds, updated_at: new Date().toISOString() });
+    // POST with upsert — creates the row if it doesn't exist, updates if it does
+    await sbFetch('POST', {
+      id: 'main',
+      state,
+      dupes,
+      purchases,
+      recent: recentIds,
+      updated_at: new Date().toISOString()
+    });
     syncPending = false;
     setSyncStatus('ok');
   } catch(e) {
+    console.error('Supabase sync error:', e.message);
     setSyncStatus('error');
     syncTimer = setTimeout(pushToCloud, 10000);
   }
