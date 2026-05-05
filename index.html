@@ -787,7 +787,7 @@ async function loadState() {
       state     = row.state     || {};
       dupes     = row.dupes     || {};
       purchases = row.purchases || [];
-      recentIds = row.recent    || [];
+      // recentIds lives only in localStorage — not synced to avoid schema issues
       saveLocal();
     }
     setSyncStatus('ok');
@@ -814,13 +814,11 @@ function saveState() {
 async function pushToCloud() {
   if (!syncPending) return;
   try {
-    // POST with upsert — creates the row if it doesn't exist, updates if it does
     await sbFetch('POST', {
       id: 'main',
       state,
       dupes,
       purchases,
-      recent: recentIds,
       updated_at: new Date().toISOString()
     });
     syncPending = false;
