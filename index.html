@@ -806,7 +806,9 @@ async function loadState() {
       state         = row.state     || {};
       dupes         = row.dupes     || {};
       purchases     = row.purchases || [];
-      countryColors = row.colors    || {};
+      countryColors = (row.colors && Object.keys(row.colors).length > 0)
+        ? row.colors
+        : countryColors; // keep localStorage version if Supabase has nothing
       saveLocal();
     }
     setSyncStatus('ok');
@@ -1107,6 +1109,8 @@ function getColors(code) {
 
 function saveColors() {
   localStorage.setItem('panini26_colors', JSON.stringify(countryColors));
+  // Trigger cloud sync so colors persist across devices and refreshes
+  saveState();
 }
 
 function applyCountryColors(code) {
