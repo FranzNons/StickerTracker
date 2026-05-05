@@ -5,21 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Álbum Panini Mundial 2026</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
   :root {
-    --bg: #0a0f1e;
-    --surface: #111827;
-    --surface2: #1a2236;
-    --border: #1e2d45;
-    --accent: #e8b84b;
-    --accent2: #3b82f6;
-    --red: #ef4444;
-    --green: #22c55e;
-    --text: #e2e8f0;
-    --muted: #64748b;
-    --trade: #a855f7;
-    --nav-h: 64px;
+    /* Canvas */
+    --bg:           #f5f5f7;   /* canvas-parchment */
+    --surface:      #ffffff;   /* canvas */
+    --surface2:     #fafafc;   /* surface-pearl */
+    --border:       #e0e0e0;   /* hairline */
+    --border-soft:  #f0f0f0;   /* divider-soft */
+    /* Ink */
+    --text:         #1d1d1f;   /* ink */
+    --muted:        #6e6e73;   /* ink-muted-48 adapted */
+    --muted-strong: #333333;   /* ink-muted-80 */
+    /* Interactive */
+    --accent:       #0066cc;   /* Action Blue */
+    --accent-dark:  #2997ff;   /* Sky Link Blue (for dark surfaces) */
+    --accent2:      #0066cc;
+    /* Semantic */
+    --red:          #ff3b30;
+    --green:        #34c759;
+    --trade:        #af52de;
+    /* Dark tile surfaces */
+    --tile-1:       #272729;
+    --tile-2:       #2a2a2c;
+    /* Nav */
+    --nav-h:        64px;
+    --nav-bg:       #000000;   /* global-nav always black */
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -31,23 +43,25 @@
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
-    background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;
+    background: var(--bg); color: var(--text); font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif; font-size: 17px; font-weight: 400; line-height: 1.47; letter-spacing: -0.374px; -webkit-font-smoothing: antialiased;
   }
 
   /* ── TOP BAR (hidden on home) ── */
   .top-bar {
-    background: linear-gradient(135deg, #0d1b2e 0%, #1a2d4a 100%);
-    border-bottom: 2px solid var(--accent);
+    background: rgba(245,245,247,0.88);
+    border-bottom: 1px solid var(--border-soft);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
     padding: 10px 16px 8px;
     flex-shrink: 0; display: none;
   }
   .top-bar.visible { display: block; }
   .tb-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .tb-title { font-family: 'Bebas Neue'; font-size: 18px; color: var(--accent); letter-spacing: 1px; }
-  .tb-pct { font-family: 'Bebas Neue'; font-size: 22px; color: var(--accent); }
-  .tb-sub { font-size: 10px; color: var(--muted); }
-  .tb-prog-wrap { background: var(--border); border-radius: 3px; height: 5px; }
-  .tb-prog-bar { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 3px; transition: width .4s; }
+  .tb-title { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.374px; }
+  .tb-pct { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; font-size: 22px; font-weight: 600; color: var(--accent); letter-spacing: -0.4px; }
+  .tb-sub { font-size: 11px; color: var(--muted); letter-spacing: -0.1px; }
+  .tb-prog-wrap { background: var(--border); border-radius: 3px; height: 4px; }
+  .tb-prog-bar { height: 100%; background: var(--accent); border-radius: 3px; transition: width .4s; }
   .tb-prog-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-top: 4px; }
 
   /* ── SCROLL AREA ── */
@@ -59,42 +73,42 @@
 
   /* ── BOTTOM NAV ── */
   .bottom-nav {
-    height: var(--nav-h); background: #0d1526; border-top: 1px solid var(--border);
+    height: var(--nav-h); background: var(--nav-bg); border-top: 1px solid rgba(255,255,255,0.08);
     display: flex; align-items: center; justify-content: space-around;
     flex-shrink: 0; z-index: 50;
   }
   .bottom-nav.hidden { display: none; }
   .nav-item {
     flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
-    cursor: pointer; padding: 8px 4px; border: none; background: none; color: var(--muted);
+    cursor: pointer; padding: 8px 4px; border: none; background: none; color: rgba(255,255,255,0.5);
     font-family: inherit; font-size: 9px; font-weight: 600; letter-spacing: .5px;
     text-transform: uppercase; transition: color .2s;
   }
-  .nav-item.active { color: var(--accent); }
+  .nav-item.active { color: #2997ff; }
   .nav-item-icon { font-size: 20px; line-height: 1; }
   .nav-center {
-    width: 52px; height: 52px; border-radius: 50%; background: var(--accent);
+    width: 52px; height: 52px; border-radius: 50%; background: var(--accent2);
     display: flex; align-items: center; justify-content: center; cursor: pointer;
-    border: none; box-shadow: 0 0 20px rgba(232,184,75,.3); flex-shrink: 0;
+    border: none; box-shadow: 0 2px 12px rgba(0,102,204,.45); flex-shrink: 0;
     transition: transform .15s; margin-bottom: 10px;
   }
   .nav-center:active { transform: scale(.94); }
 
   /* ── HOME ── */
   .home-logo { text-align: center; padding: 28px 20px 16px; }
-  .home-logo-title { font-family: 'Bebas Neue'; font-size: 32px; letter-spacing: 3px; color: var(--accent); line-height: 1; }
-  .home-logo-sub { font-size: 10px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; margin-top: 2px; }
+  .home-logo-title { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; font-size: 34px; font-weight: 600; color: var(--text); line-height: 1.07; letter-spacing: -0.374px; }
+  .home-logo-sub { font-size: 17px; color: var(--muted); letter-spacing: 0; text-transform: none; margin-top: 4px; font-weight: 400; }
   .home-ring-wrap { display: flex; flex-direction: column; align-items: center; padding: 0 20px 20px; }
   .ring-outer { position: relative; width: 140px; height: 140px; }
   .ring-svg { transform: rotate(-90deg); }
-  .ring-bg { fill: none; stroke: var(--border); stroke-width: 10; }
-  .ring-fill { fill: none; stroke: url(#rg); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset .8s ease; }
+  .ring-bg { fill: none; stroke: var(--border-soft); stroke-width: 8; }
+  .ring-fill { fill: none; stroke: var(--accent); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset .8s ease; }
   .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .ring-pct { font-family: 'Bebas Neue'; font-size: 36px; color: var(--accent); line-height: 1; }
+  .ring-pct { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; font-size: 34px; font-weight: 600; color: var(--accent); line-height: 1; letter-spacing: -0.374px; }
   .ring-lbl { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
   .home-counts { display: flex; gap: 24px; margin-top: 12px; }
   .h-count { text-align: center; }
-  .h-count-val { font-family: 'Bebas Neue'; font-size: 22px; line-height: 1; }
+  .h-count-val { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; font-size: 22px; font-weight: 600; line-height: 1; letter-spacing: -0.3px; }
   .h-count-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
   .home-cards { padding: 0 16px 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .hcard {
@@ -104,9 +118,9 @@
   .hcard:active { transform: scale(.97); }
   .hcard.full { grid-column: 1 / -1; }
   .hcard-ico { font-size: 20px; margin-bottom: 8px; }
-  .hcard-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px; }
-  .hcard-val { font-family: 'Bebas Neue'; font-size: 26px; color: var(--text); line-height: 1; }
-  .hcard-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .hcard-lbl { font-size: 11px; text-transform: none; letter-spacing: -0.1px; color: var(--muted); margin-bottom: 4px; font-weight: 400; }
+  .hcard-val { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; font-size: 24px; font-weight: 600; color: var(--text); line-height: 1; letter-spacing: -0.3px; }
+  .hcard-sub { font-size: 12px; color: var(--muted); margin-top: 3px; letter-spacing: -0.1px; }
   .recent-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
   .recent-chip { background: var(--surface2); border-radius: 6px; padding: 3px 7px; font-size: 10px; color: var(--muted); }
   .recent-chip b { color: var(--text); }
@@ -118,8 +132,10 @@
 
   /* ── EXISTING STYLES (kept exactly) ── */
   .header {
-    background: linear-gradient(135deg, #0d1b2e 0%, #1a2d4a 100%);
-    border-bottom: 2px solid var(--accent);
+    background: rgba(245,245,247,0.88);
+    border-bottom: 1px solid var(--border-soft);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
     padding: 16px;
     position: sticky; top: 0; z-index: 100;
   }
@@ -138,8 +154,8 @@
   .view.active { display: block; }
   .section-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; margin-top: 16px; }
   .section-label:first-child { margin-top: 0; }
-  .team-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; transition: border-color 0.2s; }
-  .team-card.complete { border-color: var(--green); }
+  .team-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; overflow: hidden; transition: border-color 0.2s; }
+  .team-card.complete { border-color: var(--green); background: rgba(52,199,89,0.04); }
   .team-header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; user-select: none; }
   .team-flag { width: 32px; height: 22px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
   .team-flag-emoji { font-size: 22px; line-height: 1; }
@@ -152,65 +168,65 @@
   .team-mini-fill.full { background: var(--green); }
   .sticker-grid { display: none; padding: 10px 14px 14px; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 6px; }
   .sticker-grid.open { display: grid; }
-  .sticker { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 7px; padding: 7px 5px; text-align: center; cursor: pointer; transition: all 0.15s; position: relative; min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; -webkit-tap-highlight-color: transparent; }
+  .sticker { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 7px 5px; text-align: center; cursor: pointer; transition: all 0.15s; position: relative; min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; -webkit-tap-highlight-color: transparent; }
   .sticker.have { background: #0f2d1a; border-color: var(--green); }
   .sticker.trade { background: #1e0a33; border-color: var(--trade); }
   .sticker-id { font-size: 9px; color: var(--muted); font-weight: 600; letter-spacing: 0.3px; }
   .sticker-name { font-size: 9px; color: var(--text); line-height: 1.2; word-break: break-word; }
-  .sticker.have .sticker-name { color: #86efac; }
-  .sticker.trade .sticker-name { color: #d8b4fe; }
+  .sticker.have .sticker-name { color: var(--green); }
+  .sticker.trade .sticker-name { color: var(--trade); }
   .sticker-badge { font-size: 10px; position: absolute; top: 3px; right: 4px; }
   .sticker-dupes { font-size: 9px; font-weight: 700; color: var(--accent); position: absolute; bottom: 3px; right: 5px; }
   .hint { text-align: center; font-size: 11px; color: var(--muted); padding: 8px; margin-bottom: 8px; }
   .search-wrap { position: relative; margin-bottom: 14px; }
-  .search-input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px 10px 36px; color: var(--text); font-family: inherit; font-size: 14px; outline: none; }
+  .search-input { width: 100%; background: rgba(120,120,128,0.12); border: none; border-radius: 10px; padding: 10px 14px 10px 36px; color: var(--text); font-family: inherit; font-size: 14px; outline: none; }
   .search-input:focus { border-color: var(--accent2); }
   .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; }
   .filters { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
   .filter-btn { padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); background: none; color: var(--muted); font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
   .filter-btn.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
-  .invest-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .invest-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 12px; }
   .invest-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 4px; }
   .invest-amount { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--accent); letter-spacing: 1px; }
   .invest-sub { font-size: 12px; color: var(--muted); }
   .input-row { display: flex; gap: 8px; margin-top: 12px; align-items: flex-end; }
   .input-group { flex: 1; }
   .input-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; display: block; }
-  .input-field { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text); font-family: inherit; font-size: 14px; outline: none; }
+  .input-field { width: 100%; background: rgba(120,120,128,0.12); border: none; border-radius: 10px; padding: 9px 12px; color: var(--text); font-family: inherit; font-size: 14px; outline: none; }
   .input-field:focus { border-color: var(--accent2); }
-  .btn-add { background: var(--accent); border: none; border-radius: 8px; padding: 9px 18px; color: #000; font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+  .btn-add { background: var(--accent); border: none; border-radius: 11px; padding: 9px 18px; color: #fff; font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
   .purchase-list { margin-top: 12px; }
   .purchase-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
   .purchase-item:last-child { border-bottom: none; }
   .purchase-date { color: var(--muted); font-size: 11px; }
   .purchase-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 2px 6px; }
-  .prob-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .prob-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 12px; }
   .prob-slider-wrap { margin: 16px 0; }
   .prob-slider { width: 100%; accent-color: var(--accent); height: 4px; cursor: pointer; }
   .prob-result { background: var(--surface2); border-radius: 10px; padding: 16px; text-align: center; margin-top: 12px; }
-  .prob-number { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--accent); line-height: 1; }
+  .prob-number { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; font-size: 48px; font-weight: 600; color: var(--accent); line-height: 1; letter-spacing: -0.5px; }
   .prob-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
   .prob-breakdown { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .prob-stat { background: var(--surface2); border-radius: 8px; padding: 10px; text-align: center; }
   .prob-stat-val { font-weight: 700; font-size: 16px; color: var(--text); }
   .prob-stat-lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
   .dupes-list { }
-  .dupe-row { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; }
+  .dupe-row { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
   .dupe-info { flex: 1; }
   .dupe-id { font-size: 11px; color: var(--muted); }
   .dupe-name { font-size: 13px; font-weight: 500; }
   .dupe-ctrl { display: flex; align-items: center; gap: 8px; }
-  .dupe-count { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--accent); min-width: 24px; text-align: center; }
+  .dupe-count { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; font-size: 22px; font-weight: 600; color: var(--accent); min-width: 24px; text-align: center; letter-spacing: -0.3px; }
   .dupe-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 16px; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
   .modal-overlay.open { display: flex; }
-  .modal { background: var(--surface); border-radius: 16px; padding: 20px; width: 100%; max-width: 360px; border: 1px solid var(--accent); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
-  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--accent); margin-bottom: 4px; }
+  .modal { background: var(--surface); border-radius: 20px; padding: 20px; width: 100%; max-width: 360px; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+  .modal-title { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 4px; letter-spacing: -0.3px; }
   .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
   .modal-options { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
   .modal-opt { border-radius: 10px; border: 2px solid var(--border); padding: 14px 8px; text-align: center; cursor: pointer; transition: all 0.15s; background: var(--surface2); }
   .modal-opt:hover { border-color: var(--accent2); }
-  .modal-opt.selected { border-color: var(--accent); background: #1a1400; }
+  .modal-opt.selected { border-color: var(--accent); background: rgba(0,102,204,0.08); }
   .modal-opt-icon { font-size: 22px; margin-bottom: 4px; }
   .modal-opt-label { font-size: 11px; font-weight: 600; color: var(--text); }
   .modal-opt-desc { font-size: 10px; color: var(--muted); margin-top: 2px; }
@@ -218,8 +234,8 @@
   .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
   .stat-card.accent { border-color: var(--accent); }
-  .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--accent); line-height: 1; }
-  .stat-lbl { font-size: 10px; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-val { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; font-size: 28px; font-weight: 600; color: var(--accent); line-height: 1; letter-spacing: -0.374px; }
+  .stat-lbl { font-size: 12px; color: var(--muted); margin-top: 3px; letter-spacing: -0.1px; }
   .group-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
   .group-tab { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); background: none; color: var(--muted); font-family: inherit; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.15px; }
   .group-tab.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
@@ -255,7 +271,7 @@
   <div class="tb-row">
     <div style="display:flex;align-items:center;gap:10px;">
       <button onclick="goScreen('home')" style="background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;flex-shrink:0;" title="Inicio">
-        <span style="font-size:20px;">⭐</span>
+        <span style="font-size:13px;font-weight:600;color:var(--accent);letter-spacing:-0.2px;">Inicio</span>
       </button>
       <div><div class="tb-title">Álbum Panini 2026</div><div class="tb-sub">FIFA World Cup · 48 Selecciones</div></div>
     </div>
@@ -348,20 +364,23 @@
       <!-- Nav bar — sticky, minimal -->
       <div style="position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;">
         <button onclick="closeAlbumDetail()" style="background:var(--surface2);border:none;border-radius:8px;color:var(--text);font-size:20px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">‹</button>
-        <div style="font-size:10px;color:var(--muted);">Desliza para navegar</div>
-        <div style="display:grid;grid-template-columns:repeat(3,30px);grid-template-rows:repeat(2,26px);gap:3px;">
-          <div></div>
-          <button onclick="navigateDetailVertical(-1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▲</button>
-          <div></div>
-          <button onclick="navigateDetail(-1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">◀</button>
-          <button onclick="navigateDetailVertical(1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▼</button>
-          <button onclick="navigateDetail(1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▶</button>
+        <div style="font-size:11px;color:var(--muted);">Desliza para navegar</div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button onclick="openColorEditor()" title="Personalizar colores" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:15px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;">🎨</button>
+          <div style="display:grid;grid-template-columns:repeat(3,30px);grid-template-rows:repeat(2,26px);gap:3px;">
+            <div></div>
+            <button onclick="navigateDetailVertical(-1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▲</button>
+            <div></div>
+            <button onclick="navigateDetail(-1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">◀</button>
+            <button onclick="navigateDetailVertical(1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▼</button>
+            <button onclick="navigateDetail(1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▶</button>
+          </div>
         </div>
       </div>
       <!-- Capsule card -->
-      <div style="margin:0 12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;" id="detail-capsule">
+      <div style="margin:0 12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;" id="detail-capsule">
         <!-- Capsule header -->
-        <div style="display:flex;align-items:center;gap:10px;padding:14px 16px 12px;border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:10px;padding:14px 16px 12px;border-bottom:1px solid var(--border);" id="detail-capsule-header">
           <div id="detail-flag-wrap" style="flex-shrink:0;"></div>
           <div style="flex:1;">
             <div id="detail-country-name" style="font-family:'Bebas Neue';font-size:22px;letter-spacing:1px;line-height:1;text-transform:uppercase;"></div>
@@ -398,7 +417,7 @@
 
   <!-- VIEW: INVERSIÓN + PROBABILIDAD -->
   <div class="view" id="view-inversion">
-    <p style="font-family:'Bebas Neue';font-size:16px;color:var(--accent);letter-spacing:1px;margin-bottom:12px;">Inversión</p>
+    <p style="font-family:-apple-system,'SF Pro Display',system-ui,sans-serif;font-size:22px;font-weight:600;color:var(--text);letter-spacing:-0.3px;margin-bottom:12px;">Inversión</p>
     <div class="stats-grid">
       <div class="stat-card accent"><div class="stat-val" id="invest-total">$0</div><div class="stat-lbl">Total invertido</div></div>
       <div class="stat-card"><div class="stat-val" id="invest-per">$0</div><div class="stat-lbl">Por estampa</div></div>
@@ -416,7 +435,7 @@
     <div class="section-label">Historial de compras</div>
     <div id="purchase-list"></div>
     <div style="height:1px;background:var(--border);margin:20px 0 16px;"></div>
-    <p style="font-family:'Bebas Neue';font-size:16px;color:var(--accent);letter-spacing:1px;margin-bottom:12px;">Probabilidad</p>
+    <p style="font-family:-apple-system,'SF Pro Display',system-ui,sans-serif;font-size:22px;font-weight:600;color:var(--text);letter-spacing:-0.3px;margin-bottom:12px;">Probabilidad</p>
     <div class="prob-card">
       <div style="font-size:13px;font-weight:600;margin-bottom:4px">¿Cuántos sobres quiero comprar?</div>
       <div style="font-size:11px;color:var(--muted);margin-bottom:12px">7 estampas por sobre</div>
@@ -784,10 +803,10 @@ async function loadState() {
     }).then(r => r.json());
     if (rows && rows.length > 0) {
       const row = rows[0];
-      state     = row.state     || {};
-      dupes     = row.dupes     || {};
-      purchases = row.purchases || [];
-      // recentIds lives only in localStorage — not synced to avoid schema issues
+      state         = row.state     || {};
+      dupes         = row.dupes     || {};
+      purchases     = row.purchases || [];
+      countryColors = row.colors    || {};
       saveLocal();
     }
     setSyncStatus('ok');
@@ -800,7 +819,7 @@ function saveLocal() {
   localStorage.setItem('panini26_state',     JSON.stringify(state));
   localStorage.setItem('panini26_dupes',     JSON.stringify(dupes));
   localStorage.setItem('panini26_purchases', JSON.stringify(purchases));
-  localStorage.setItem('panini26_recent',    JSON.stringify(recentIds));
+  localStorage.setItem('panini26_colors',    JSON.stringify(countryColors));
 }
 
 function saveState() {
@@ -819,6 +838,7 @@ async function pushToCloud() {
       state,
       dupes,
       purchases,
+      colors: countryColors,
       updated_at: new Date().toISOString()
     });
     syncPending = false;
@@ -1005,6 +1025,7 @@ function openAlbumDetail(code) {
 }
 
 function closeAlbumDetail() {
+  if (detailCode) resetCountryColors(detailCode);
   document.getElementById('album-detail-panel').style.display = 'none';
   renderAlbum();
 }
@@ -1064,16 +1085,201 @@ function initSwipe(el) {
   el.addEventListener('touchend', el._swipeEnd, { passive: true });
 }
 
+// ─── COUNTRY COLORS ──────────────────────────────────────────
+let countryColors = {};
+try { countryColors = JSON.parse(localStorage.getItem('panini26_colors') || '{}'); } catch(e) {}
+const COLOR_DEFAULTS = {
+  headerText:  '#1d1d1f',
+  headerBg:    '#ffffff',
+  capsuleBg:   '#fafafc',
+  stickerBg:   '#f5f5f7',
+  sticker1Bg:  '#eef2ff',
+  panelBg:     '#f5f5f7',
+  topBarBg:    'rgba(245,245,247,0.88)',
+  topBarText:  '#1d1d1f',
+  navBg:       '#000000',
+  navAccent:   '#2997ff',
+};
+
+function getColors(code) {
+  return Object.assign({}, COLOR_DEFAULTS, countryColors[code] || {});
+}
+
+function saveColors() {
+  localStorage.setItem('panini26_colors', JSON.stringify(countryColors));
+}
+
+function applyCountryColors(code) {
+  const c = getColors(code);
+  const capsule = document.getElementById('detail-capsule');
+  const panel   = document.getElementById('album-detail-panel');
+  const header  = document.getElementById('detail-capsule-header');
+  const topBar  = document.getElementById('top-bar');
+  const bottomNav = document.getElementById('bottom-nav');
+
+  if (capsule) capsule.style.background = c.capsuleBg;
+  if (panel)   panel.style.background   = c.panelBg;
+  if (header) {
+    header.style.background = c.headerBg;
+    header.style.borderBottomColor = 'rgba(0,0,0,0.06)';
+  }
+  const nameEl  = document.getElementById('detail-country-name');
+  const countEl = document.getElementById('detail-country-count');
+  if (nameEl)  nameEl.style.color  = c.headerText;
+  if (countEl) countEl.style.color = c.headerText;
+
+  // Top bar
+  if (topBar) {
+    topBar.style.background = c.topBarBg;
+    topBar.querySelectorAll('*').forEach(el => {
+      if (el.classList.contains('tb-title') || el.id === 'tb-pct') el.style.color = c.topBarText;
+      if (el.id === 'tb-have' || el.id === 'tb-miss') el.style.color = c.topBarText + '99';
+    });
+  }
+
+  // Bottom nav
+  if (bottomNav) {
+    bottomNav.style.background = c.navBg;
+    bottomNav.querySelectorAll('.nav-item').forEach(b => {
+      b.style.color = b.classList.contains('active') ? c.navAccent : c.navBg === '#000000' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)';
+    });
+    const center = bottomNav.querySelector('.nav-center');
+    if (center) center.style.background = c.navAccent;
+  }
+}
+
+function resetCountryColors(code) {
+  // Reset top bar and bottom nav to defaults
+  const topBar = document.getElementById('top-bar');
+  const bottomNav = document.getElementById('bottom-nav');
+  if (topBar) {
+    topBar.style.background = '';
+    topBar.querySelectorAll('.tb-title, #tb-pct, #tb-have, #tb-miss').forEach(el => el.style.color = '');
+  }
+  if (bottomNav) {
+    bottomNav.style.background = '';
+    bottomNav.querySelectorAll('.nav-item').forEach(b => b.style.color = '');
+    const center = bottomNav.querySelector('.nav-center');
+    if (center) center.style.background = '';
+  }
+}
+
+function openColorEditor() {
+  const c = getColors(detailCode);
+  const team = DB.teams[detailCode];
+  document.getElementById('color-editor-title').textContent = team.name;
+
+  const groups = [
+    {
+      title: 'Cápsula de estampas',
+      fields: [
+        { key: 'panelBg',    label: 'Fondo de sección' },
+        { key: 'headerBg',   label: 'Fondo del cabezal' },
+        { key: 'headerText', label: 'Tipografía del cabezal' },
+        { key: 'capsuleBg',  label: 'Cuerpo de la cápsula' },
+        { key: 'stickerBg',  label: 'Estampas 2–20' },
+        { key: 'sticker1Bg', label: 'Estampa 1 (escudo)' },
+      ]
+    },
+    {
+      title: 'Barra superior',
+      fields: [
+        { key: 'topBarBg',   label: 'Fondo barra superior' },
+        { key: 'topBarText', label: 'Texto barra superior' },
+      ]
+    },
+    {
+      title: 'Menú inferior',
+      fields: [
+        { key: 'navBg',      label: 'Fondo menú inferior' },
+        { key: 'navAccent',  label: 'Color activo / botón central' },
+      ]
+    },
+  ];
+
+  document.getElementById('color-editor-body').innerHTML = groups.map(g => `
+    <div style="margin-top:16px;">
+      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;padding:0 0 6px;border-bottom:1px solid var(--border-soft);">${g.title}</div>
+      ${g.fields.map(f => {
+        const val = c[f.key];
+        // For rgba values, show a solid preview approximation
+        const colorVal = val.startsWith('rgba') ? '#f5f5f7' : val;
+        return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-soft);">
+          <input type="color" value="${colorVal}" id="ce-${f.key}"
+            oninput="previewColor('${f.key}',this.value)"
+            style="width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:none;flex-shrink:0;">
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:500;color:var(--text);">${f.label}</div>
+            <input type="text" value="${val}" id="ce-hex-${f.key}" maxlength="25"
+              oninput="onHexInput('${f.key}',this)"
+              style="font-size:11px;color:var(--muted);background:none;border:none;outline:none;width:100%;font-family:monospace;margin-top:2px;">
+          </div>
+          <button onclick="resetColor('${f.key}')"
+            style="background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;padding:5px 10px;cursor:pointer;white-space:nowrap;">Reset</button>
+        </div>`;
+      }).join('')}
+    </div>`).join('');
+
+  document.getElementById('color-editor-overlay').style.display = 'flex';
+}
+
+function onHexInput(key, input) {
+  const val = input.value;
+  if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+    document.getElementById('ce-' + key).value = val;
+    previewColor(key, val);
+  }
+}
+
+function previewColor(key, val) {
+  if (!countryColors[detailCode]) countryColors[detailCode] = {};
+  countryColors[detailCode][key] = val;
+  // sync hex input
+  const hexInput = document.getElementById('ce-hex-' + key);
+  if (hexInput) hexInput.value = val;
+  applyCountryColors(detailCode);
+  // re-render stickers if bg keys changed
+  if (key === 'stickerBg' || key === 'sticker1Bg') renderAlbumDetail();
+}
+
+function resetColor(key) {
+  if (countryColors[detailCode]) delete countryColors[detailCode][key];
+  const def = COLOR_DEFAULTS[key];
+  document.getElementById('ce-' + key).value = def;
+  document.getElementById('ce-hex-' + key).value = def;
+  previewColor(key, def);
+}
+
+function resetAllColors() {
+  if (countryColors[detailCode]) delete countryColors[detailCode];
+  saveColors();
+  resetCountryColors(detailCode);
+  openColorEditor();
+  applyCountryColors(detailCode);
+  renderAlbumDetail();
+}
+
+function saveColorEditor() {
+  saveColors();
+  document.getElementById('color-editor-overlay').style.display = 'none';
+}
+
+function closeColorEditor() {
+  // Revert unsaved changes
+  saveColors(); // actually save on close too — simpler UX
+  document.getElementById('color-editor-overlay').style.display = 'none';
+}
+
 function renderAlbumDetail() {
   const team = DB.teams[detailCode];
   const have = getTeamHave(detailCode);
+  const c    = getColors(detailCode);
   const file = FLAG_MAP[detailCode];
   const flagImg = file
     ? `<img src="${BASE}${file}.svg" width="38" height="26" style="object-fit:cover;border-radius:4px;" alt="${detailCode}" loading="lazy">`
     : `<span style="font-size:26px;">🏆</span>`;
   document.getElementById('detail-flag-wrap').innerHTML = flagImg;
   document.getElementById('detail-country-name').textContent = team.name;
-  // Find group
   let groupLabel = 'Introducción';
   for (const [g, teams] of Object.entries(DB.groups)) {
     if (teams.includes(detailCode)) { groupLabel = 'Gr. ' + g; break; }
@@ -1081,22 +1287,28 @@ function renderAlbumDetail() {
   document.getElementById('detail-country-count').textContent = `${have}/${team.stickers.length} · ${groupLabel}`;
 
   document.getElementById('detail-sticker-grid').innerHTML = team.stickers.map(s => {
-    const st = state[s.id] || 'none';
+    const st  = state[s.id] || 'none';
     const dup = dupes[s.id] || 0;
     const num = s.id.split('-')[1] || '0';
-    const bg = st === 'have' ? '#0f2d1a' : st === 'trade' ? '#1e0a33' : 'var(--surface2)';
-    const border = st === 'have' ? 'var(--green)' : st === 'trade' ? 'var(--trade)' : 'var(--border)';
-    const numColor = st === 'have' ? '#86efac' : st === 'trade' ? '#d8b4fe' : 'var(--text)';
+    const isShield = num === '1';
+    // Base bg from color settings, overridden by state
+    const baseBg = isShield ? c.sticker1Bg : c.stickerBg;
+    const bg      = st === 'have' ? '#0a2e1a' : st === 'trade' ? '#1e0a33' : baseBg;
+    const border  = st === 'have' ? 'var(--green)' : st === 'trade' ? 'var(--trade)' : 'rgba(255,255,255,0.1)';
+    const numColor= st === 'have' ? '#30d158' : st === 'trade' ? '#bf5af2' : 'var(--text)';
     return `<div id="sticker-${s.id}" style="background:${bg};border:1.5px solid ${border};border-radius:10px;padding:8px 4px 6px;text-align:center;cursor:pointer;position:relative;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;-webkit-tap-highlight-color:transparent;"
       ontouchstart="startHold('${s.id}',event)" ontouchend="endHold()" ontouchmove="endHold()"
       onclick="quickToggle('${s.id}')" oncontextmenu="openModal('${s.id}');return false;">
-      <span style="font-size:8px;color:var(--muted);font-weight:700;">${s.id}</span>
+      <span style="font-size:8px;color:rgba(255,255,255,0.4);font-weight:600;letter-spacing:.3px;">${s.id}</span>
       <span style="font-family:'Bebas Neue';font-size:22px;line-height:1;color:${numColor};">${num}</span>
-      <span style="font-size:8px;color:var(--muted);line-height:1.2;">${s.name}</span>
+      <span style="font-size:8px;color:rgba(255,255,255,0.5);line-height:1.2;">${s.name}</span>
       ${st === 'trade' ? '<span style="font-size:10px;position:absolute;top:3px;right:4px;">🔄</span>' : ''}
       ${dup > 0 ? `<span style="font-size:9px;font-weight:700;color:var(--accent);position:absolute;bottom:2px;right:4px;">×${dup+1}</span>` : ''}
     </div>`;
   }).join('');
+
+  // Apply colors to panel/capsule/header
+  applyCountryColors(detailCode);
 }
 
 function refreshSticker(id) {
@@ -1458,5 +1670,30 @@ async function init() {
 }
 init();
 </script>
+<!-- COLOR EDITOR MODAL -->
+<div id="color-editor-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:300;align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeColorEditor();">
+  <div style="background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:88vh;overflow-y:auto;padding:0 0 env(safe-area-inset-bottom,16px);">
+    <!-- Handle -->
+    <div style="text-align:center;padding:12px 0 0;position:sticky;top:0;background:var(--surface);z-index:2;">
+      <div style="width:36px;height:4px;background:var(--border);border-radius:2px;display:inline-block;"></div>
+      <!-- Title row -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px 12px;border-bottom:1px solid var(--border-soft);">
+        <div>
+          <div style="font-size:11px;color:var(--muted);letter-spacing:-0.1px;margin-bottom:1px;">Personalizar colores</div>
+          <div id="color-editor-title" style="font-family:-apple-system,'SF Pro Display',system-ui,sans-serif;font-size:20px;font-weight:600;color:var(--text);letter-spacing:-0.3px;"></div>
+        </div>
+        <button onclick="closeColorEditor()" style="background:rgba(120,120,128,0.16);border:none;border-radius:50%;width:30px;height:30px;color:var(--muted-strong);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:600;">✕</button>
+      </div>
+    </div>
+    <!-- Fields -->
+    <div id="color-editor-body" style="padding:0 20px;"></div>
+    <!-- Actions -->
+    <div style="padding:16px 20px 0;display:flex;gap:10px;">
+      <button onclick="resetAllColors()" style="flex:1;padding:13px;background:rgba(120,120,128,0.12);border:none;border-radius:12px;color:var(--muted-strong);font-size:15px;cursor:pointer;font-weight:400;">Restaurar todo</button>
+      <button onclick="saveColorEditor()" style="flex:1;padding:13px;background:var(--accent);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;">Guardar</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
