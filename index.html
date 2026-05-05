@@ -579,17 +579,19 @@ function updateHome() {
   const scores = Object.entries(DB.teams).map(([c, t]) => {
     const h = getTeamHave(c);
     const d = t.stickers.reduce((a, s) => a + (dupes[s.id] || 0), 0);
-    return { c, name: t.name, h, total: t.stickers.length, score: h + d };
+    return { c, name: t.name, h, total: t.stickers.length, dupes: d, score: h + d };
   }).sort((a, b) => b.score - a.score).slice(0, 5);
   document.getElementById('hc-top').innerHTML = scores.map(s => {
     const file = FLAG_MAP[s.c];
     const img = file
       ? '<img src="' + BASE + file + '.svg" width="22" height="15" style="object-fit:cover;border-radius:2px;flex-shrink:0" alt="' + s.c + '" loading="lazy">'
       : '<span style="font-size:15px">🏆</span>';
+    const label = s.dupes > 0
+      ? s.h + '/20 <span style="color:var(--accent);font-size:9px">+' + s.dupes + 'r</span>'
+      : s.h + '/20';
     return '<div class="top-team-row">' + img +
       '<span style="flex:1;font-size:12px;font-weight:500;margin-left:6px">' + s.name + '</span>' +
-      '<div class="top-bar-mini"><div class="top-bar-mini-fill" style="width:' + (s.h / s.total * 100).toFixed(0) + '%"></div></div>' +
-      '<span class="top-cnt">' + s.h + '/' + s.total + '</span></div>';
+      '<span class="top-cnt" style="font-weight:700;color:var(--text)">' + s.score + ' estampas</span></div>';
   }).join('');
 
   // Recent
