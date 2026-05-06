@@ -1201,16 +1201,19 @@ function initSwipe(el) {
 let countryColors = {};
 try { countryColors = JSON.parse(localStorage.getItem('panini26_colors') || '{}'); } catch(e) {}
 const COLOR_DEFAULTS = {
-  headerText:  '#1d1d1f',
-  headerBg:    '#ffffff',
-  capsuleBg:   '#fafafc',
-  stickerBg:   '#f5f5f7',
-  sticker1Bg:  '#eef2ff',
-  panelBg:     '#f5f5f7',
-  topBarBg:    'rgba(245,245,247,0.88)',
-  topBarText:  '#1d1d1f',
-  navBg:       '#000000',
-  navAccent:   '#2997ff',
+  headerText:    '#1d1d1f',
+  headerBg:      '#ffffff',
+  capsuleBg:     '#fafafc',
+  stickerBg:     '#f5f5f7',
+  sticker1Bg:    '#eef2ff',
+  panelBg:       '#f5f5f7',
+  topBarBg:      'rgba(245,245,247,0.88)',
+  topBarText:    '#1d1d1f',
+  navBg:         '#000000',
+  navAccent:     '#2997ff',
+  haveBg:        '#0a2e1a',
+  haveBorder:    '#30d158',
+  haveNumColor:  '#30d158',
 };
 
 function getColors(code) {
@@ -1292,7 +1295,10 @@ function openColorEditor() {
         { key: 'headerText', label: 'Tipografía del cabezal' },
         { key: 'capsuleBg',  label: 'Cuerpo de la cápsula' },
         { key: 'stickerBg',  label: 'Estampas 2–20' },
-        { key: 'sticker1Bg', label: 'Estampa 1 (escudo)' },
+        { key: 'sticker1Bg',   label: 'Estampa 1 (escudo)' },
+        { key: 'haveBg',       label: 'Estampa marcada — fondo' },
+        { key: 'haveBorder',   label: 'Estampa marcada — borde' },
+        { key: 'haveNumColor', label: 'Estampa marcada — número' },
       ]
     },
     {
@@ -1353,7 +1359,7 @@ function previewColor(key, val) {
   if (hexInput) hexInput.value = val;
   applyCountryColors(detailCode);
   // re-render stickers if bg keys changed
-  if (key === 'stickerBg' || key === 'sticker1Bg') renderAlbumDetail();
+  if (['stickerBg','sticker1Bg','haveBg','haveBorder','haveNumColor'].includes(key)) renderAlbumDetail();
 }
 
 function resetColor(key) {
@@ -1407,9 +1413,9 @@ function renderAlbumDetail() {
     const isShield = num === '1';
     // Base bg from color settings, overridden by state
     const baseBg = isShield ? c.sticker1Bg : c.stickerBg;
-    const bg      = st === 'have' ? '#0a2e1a' : st === 'trade' ? '#1e0a33' : baseBg;
-    const border  = st === 'have' ? 'var(--green)' : st === 'trade' ? 'var(--trade)' : 'rgba(255,255,255,0.1)';
-    const numColor= st === 'have' ? '#30d158' : st === 'trade' ? '#bf5af2' : 'var(--text)';
+    const bg      = st === 'have' ? c.haveBg : st === 'trade' ? '#1e0a33' : baseBg;
+    const border  = st === 'have' ? c.haveBorder : st === 'trade' ? 'var(--trade)' : 'rgba(255,255,255,0.1)';
+    const numColor= st === 'have' ? c.haveNumColor : st === 'trade' ? '#bf5af2' : 'var(--text)';
     return `<div id="sticker-${s.id}" style="background:${bg};border:1.5px solid ${border};border-radius:10px;padding:8px 4px 6px;text-align:center;cursor:pointer;position:relative;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;-webkit-tap-highlight-color:transparent;"
       ontouchstart="startHold('${s.id}',event)" ontouchend="endHold()" ontouchmove="endHold()"
       onclick="quickToggle('${s.id}')" oncontextmenu="openModal('${s.id}');return false;">
@@ -1430,9 +1436,10 @@ function refreshSticker(id) {
   if (!el) return;
   const st = state[id] || 'none';
   const dup = dupes[id] || 0;
-  const bg = st === 'have' ? '#0f2d1a' : st === 'trade' ? '#1e0a33' : 'var(--surface2)';
-  const border = st === 'have' ? 'var(--green)' : st === 'trade' ? 'var(--trade)' : 'var(--border)';
-  const numColor = st === 'have' ? '#86efac' : st === 'trade' ? '#d8b4fe' : 'var(--text)';
+  const c2 = detailCode ? getColors(detailCode) : COLOR_DEFAULTS;
+  const bg = st === 'have' ? c2.haveBg : st === 'trade' ? '#1e0a33' : 'var(--surface2)';
+  const border = st === 'have' ? c2.haveBorder : st === 'trade' ? 'var(--trade)' : 'var(--border)';
+  const numColor = st === 'have' ? c2.haveNumColor : st === 'trade' ? '#d8b4fe' : 'var(--text)';
   el.style.background = bg;
   el.style.borderColor = border;
   // Update number color (2nd span)
