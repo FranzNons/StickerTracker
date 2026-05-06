@@ -1145,11 +1145,11 @@ function renderAlbum(query = '') {
 
       // Flag image — fixed height, not full-width giant
       const flagWrap = document.createElement('div');
-      flagWrap.style.cssText = `width:100%;height:52px;border-radius:8px;overflow:hidden;border:1.5px solid ${done ? 'var(--green)' : 'var(--border)'};position:relative;flex-shrink:0;`;
+      flagWrap.style.cssText = 'width:100%;height:52px;border-radius:8px;overflow:hidden;border:1.5px solid ' + (done ? 'var(--green)' : 'var(--border)') + ';position:relative;flex-shrink:0;background:#f0f0f0;display:flex;align-items:center;justify-content:center;';
       if (file) {
-        flagWrap.innerHTML = `<img src="${BASE}${file}.svg" style="width:100%;height:100%;object-fit:cover;display:block;" alt="${code}" loading="lazy">`;
+        flagWrap.innerHTML = '<img src="' + BASE + file + '.svg" style="width:90%;height:90%;object-fit:contain;display:block;" alt="' + code + '" loading="lazy">';
       } else {
-        flagWrap.style.cssText += 'display:flex;align-items:center;justify-content:center;background:var(--surface2);font-size:22px;';
+        flagWrap.style.cssText += 'font-size:22px;background:var(--surface2);';
         flagWrap.innerHTML = '🏆';
       }
       if (done) {
