@@ -657,7 +657,10 @@
 <nav class="bottom-nav hidden" id="bottom-nav">
   <button class="nav-item" id="nav-inversion" onclick="goScreen('inversion')"><span class="nav-item-icon">💰</span>Inversión</button>
   <button class="nav-item" id="nav-faltantes" onclick="goScreen('faltantes')"><span class="nav-item-icon">🔍</span>Faltantes</button>
-  <button class="nav-center" onclick="goScreen('album')"><img src="assets/Emblema.png" style="width:36px;height:36px;object-fit:contain;"></button>
+  <button class="nav-center" onclick="goScreen('album')" style="background:transparent;box-shadow:none;">
+  <img src="assets/Emblema.png" style="width:52px;height:52px;object-fit:contain;" 
+    onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:22px;\'>⚽</span>';this.parentElement.style.background='var(--accent2)';this.parentElement.style.boxShadow='0 2px 12px rgba(0,102,204,.45)';">
+</button>
   <button class="nav-item" id="nav-repetidas" onclick="goScreen('repetidas')"><span class="nav-item-icon">🔄</span>Repetidas</button>
   <button class="nav-item" id="nav-banderas" onclick="goScreen('banderas')"><span class="nav-item-icon">🏳️</span>Banderas</button>
 </nav>
