@@ -657,9 +657,8 @@
 <nav class="bottom-nav hidden" id="bottom-nav">
   <button class="nav-item" id="nav-inversion" onclick="goScreen('inversion')"><span class="nav-item-icon">💰</span>Inversión</button>
   <button class="nav-item" id="nav-faltantes" onclick="goScreen('faltantes')"><span class="nav-item-icon">🔍</span>Faltantes</button>
-  <button class="nav-center" onclick="goScreen('album')" style="background:transparent;box-shadow:none;">
-  <img src="assets/Emblema.png" style="width:52px;height:52px;object-fit:contain;" 
-    onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:22px;\'>⚽</span>';this.parentElement.style.background='var(--accent2)';this.parentElement.style.boxShadow='0 2px 12px rgba(0,102,204,.45)';">
+  <button class="nav-center" onclick="goScreen('album')" id="nav-center-btn" style="background:transparent;box-shadow:none;overflow:hidden;">
+  <img src="assets/Emblema.png" id="nav-emblema" style="width:52px;height:52px;object-fit:contain;" onerror="navLogoFallback();">
 </button>
   <button class="nav-item" id="nav-repetidas" onclick="goScreen('repetidas')"><span class="nav-item-icon">🔄</span>Repetidas</button>
   <button class="nav-item" id="nav-banderas" onclick="goScreen('banderas')"><span class="nav-item-icon">🏳️</span>Banderas</button>
@@ -1955,10 +1954,8 @@ const FONT_DEFAULTS = {
 
 let fontChoices = {};
 try { fontChoices = JSON.parse(localStorage.getItem('panini26_fonts') || '{}'); } catch(e) {}
-let activeFont = 'custom'; // kept for compat
-let activeFontRole = 'display'; // which role is being edited in the picker
-
-let activeFont = localStorage.getItem('panini26_font') || 'fwc26';
+let activeFont = 'custom';
+let activeFontRole = 'display';
 
 function getFont(role) {
   return fontChoices[role] || FONT_DEFAULTS[role];
@@ -2044,6 +2041,17 @@ function renderFontSelector() {
   var resetBtn = '<button onclick="resetFonts()" style="width:100%;padding:11px;background:rgba(120,120,128,0.10);border:none;border-radius:11px;font-family:var(--f-body);font-size:14px;color:var(--muted);cursor:pointer;margin-top:4px;">Restaurar tipografías por defecto</button>';
 
   list.innerHTML = tabs + groups + resetBtn;
+}
+
+function navLogoFallback() {
+  var btn = document.getElementById('nav-center-btn');
+  var img = document.getElementById('nav-emblema');
+  if (img) img.style.display = 'none';
+  if (btn) {
+    btn.style.background = 'var(--accent2)';
+    btn.style.boxShadow = '0 2px 12px rgba(0,102,204,.45)';
+    btn.innerHTML = '<span style="font-size:22px;">⚽</span>';
+  }
 }
 
 async function init() {
