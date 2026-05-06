@@ -2002,35 +2002,45 @@ function resetFonts() {
 function renderFontSelector() {
   const list = document.getElementById('font-options-list');
   const currentFont = getFont(activeFontRole);
-  const currentRole = FONT_ROLES.find(r => r.id === activeFontRole);
+  const currentRole = FONT_ROLES.find(function(r){ return r.id === activeFontRole; });
 
-  list.innerHTML = `
-    <!-- Role tabs -->
-    <div style="display:flex;gap:6px;margin-bottom:14px;">
-      ${FONT_ROLES.map(r => `
-        <button onclick="setFontRole('${r.id}')" style="flex:1;padding:8px 4px;border-radius:10px;border:1.5px solid ${activeFontRole===r.id ? 'var(--accent)' : 'var(--border)'};background:${activeFontRole===r.id ? 'rgba(0,102,204,0.08)' : 'transparent'};cursor:pointer;font-family:var(--f-body);font-size:10px;color:${activeFontRole===r.id ? 'var(--accent)' : 'var(--muted)'};font-weight:${activeFontRole===r.id ? '600' : '400'};">
-          ${r.label}
-        </button>`).join('')}
-    </div>
-    <div style="font-family:var(--f-body);font-size:11px;color:var(--muted);margin-bottom:10px;">${currentRole.desc}</div>
+  // Role tabs
+  var tabs = '<div style="display:flex;gap:6px;margin-bottom:14px;">';
+  FONT_ROLES.forEach(function(r) {
+    var active = activeFontRole === r.id;
+    tabs += '<button onclick="setFontRole(\'' + r.id + '\')" style="flex:1;padding:8px 4px;border-radius:10px;border:1.5px solid ' +
+      (active ? 'var(--accent)' : 'var(--border)') + ';background:' +
+      (active ? 'rgba(0,102,204,0.08)' : 'transparent') +
+      ';cursor:pointer;font-family:var(--f-body);font-size:10px;color:' +
+      (active ? 'var(--accent)' : 'var(--muted)') + ';font-weight:' +
+      (active ? '600' : '400') + ';">' + r.label + '</button>';
+  });
+  tabs += '</div>';
+  tabs += '<div style="font-family:var(--f-body);font-size:11px;color:var(--muted);margin-bottom:10px;">' + currentRole.desc + '</div>';
 
-    <!-- Width groups -->
-    ${FWC26_WIDTHS.map(width => `
-      <div style="margin-bottom:14px;">
-        <div style="font-family:var(--f-body);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px;">${width}</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-          ${FWC26_WEIGHTS.map(weight => {
-            const fname = 'FWC26-' + width + weight;
-            const active = currentFont === fname;
-            return `<button onclick="pickFont('${fname}')" style="padding:6px 10px;border-radius:8px;border:1.5px solid ${active ? 'var(--accent)' : 'var(--border)'};background:${active ? 'rgba(0,102,204,0.08)' : 'transparent'};cursor:pointer;font-family:'${fname}',system-ui;font-size:13px;color:${active ? 'var(--accent)' : 'var(--text)'};">${weight}</button>`;
-          }).join('')}
-        </div>
-        <div style="font-family:'FWC26-${width}Regular',system-ui;font-size:18px;color:var(--text);margin-top:6px;letter-spacing:0.3px;">Aa Bb 0 1 2 3</div>
-      </div>`).join('')}
+  // Width groups
+  var groups = '';
+  FWC26_WIDTHS.forEach(function(width) {
+    groups += '<div style="margin-bottom:14px;">';
+    groups += '<div style="font-family:var(--f-body);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px;">' + width + '</div>';
+    groups += '<div style="display:flex;flex-wrap:wrap;gap:6px;">';
+    FWC26_WEIGHTS.forEach(function(weight) {
+      var fname = 'FWC26-' + width + weight;
+      var active = currentFont === fname;
+      groups += '<button onclick="pickFont(\'' + fname + '\')" style="padding:6px 10px;border-radius:8px;border:1.5px solid ' +
+        (active ? 'var(--accent)' : 'var(--border)') + ';background:' +
+        (active ? 'rgba(0,102,204,0.08)' : 'transparent') +
+        ';cursor:pointer;font-family:\'' + fname + '\',system-ui;font-size:13px;color:' +
+        (active ? 'var(--accent)' : 'var(--text)') + ';">' + weight + '</button>';
+    });
+    groups += '</div>';
+    groups += '<div style="font-family:\'FWC26-' + width + 'Regular\',system-ui;font-size:18px;color:var(--text);margin-top:6px;letter-spacing:0.3px;">Aa Bb 0 1 2 3</div>';
+    groups += '</div>';
+  });
 
-    <!-- Reset -->
-    <button onclick="resetFonts()" style="width:100%;padding:11px;background:rgba(120,120,128,0.10);border:none;border-radius:11px;font-family:var(--f-body);font-size:14px;color:var(--muted);cursor:pointer;margin-top:4px;">Restaurar tipografías por defecto</button>
-  `;
+  var resetBtn = '<button onclick="resetFonts()" style="width:100%;padding:11px;background:rgba(120,120,128,0.10);border:none;border-radius:11px;font-family:var(--f-body);font-size:14px;color:var(--muted);cursor:pointer;margin-top:4px;">Restaurar tipografías por defecto</button>';
+
+  list.innerHTML = tabs + groups + resetBtn;
 }
 
 async function init() {
